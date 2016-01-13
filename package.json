@@ -19,7 +19,6 @@
     "url": "https://github.com/GitCats/Biteme/issues"
   },
   "dependencies": {
-    "babel-preset-react": "^6.3.13",
     "babelify": "^7.2.0",
     "body-parser": "^1.14.2",
     "browserify": "^13.0.0",
@@ -54,7 +53,5 @@
     "reactify": "^1.1.1",
     "underscore": "^1.8.3"
   },
-  "devDependencies": {
-    "babel-cli": "^6.4.0"
-  }
+  "devDependencies": {}
 }
