@@ -1,0 +1,31 @@
+{
+  "name": "BiteMe",
+  "version": "1.0.0",
+  "description": "Flash deals from restaurants to patrons",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GitCats/Biteme"
+  },
+  "author": "Salman Oskooi <soskooi@gmail.com>, Kayla Handy <>, Kayla Matteo <>, Garrett Brustkern <>",
+  "license": "CC-BY-4.0",
+  "homepage": "https://github.com/GitCats/Biteme#readme",
+  "bugs": {
+    "url": "https://github.com/GitCats/Biteme/issues"
+  },
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "body-parser": "^1.14.2",
+    "browserify": "^13.0.0",
+    "express": "^4.13.3",
+    "nodemon": "^1.8.1",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6"
+  }
+}
