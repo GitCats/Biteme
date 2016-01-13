@@ -13,7 +13,7 @@ TO PULL DOWN UPDATES FROM ORIGIN MASTER BRANCH:
 **** Use "git pull origin master" after staging and committing your own changes on your branch.  
 * Be sure to resolve any resulting conflicts on your local branch.  
 * DO NOT REBASE ONTO MASTER in order to preserve commit history.  
-* Push local commits up to your branch's remote regularly so that teammates can view and reference your progress on the GitHub client.  
+* Push local commits up to your branch's remote regularly so that teammates can view and reference your progress.  
 
 
 TO UPDATE THE ORIGIN MASTER BRANCH:
