@@ -94,10 +94,11 @@ function isLoggedIn(req, res, next) {
 **************************/
 
 var app = express()
-var routes = express.Router()
+// var routes = express.Router()
+module.exports.app = app;
 
 //redo once we have some public stuffs
-routes.get('/app-bundle.js',
+app.get('/app-bundle.js',
   // Tell browserify to use reactify as it's JSX compiler
   browserify('./client/app.js', {
     transform: [require('reactify')]
@@ -162,7 +163,7 @@ routes.get('/logout', function(req, res) {
 **************************/
 
 var assetFolder = Path.resolve(__dirname, '../client/public')
-routes.use(express.static(assetFolder))
+app.use(express.static(assetFolder))
 
 // if (process.env.NODE_ENV !== 'test') {
   app.use(require('body-parser').json())
@@ -170,7 +171,7 @@ routes.use(express.static(assetFolder))
     extended: true
   }));
 
-  routes.get('/*', function(req, res) {
+  app.get('/*', function(req, res) {
     res.sendFile(assetFolder + '/main.html')
   })
 
@@ -200,7 +201,10 @@ routes.use(express.static(assetFolder))
   app.use(flash());
 
 
-  app.use('/', routes)
+  // app.use('/', routes)
+
+  var dealRouter = require('./controllers/deals.js')
+  app.use('/', dealRouter);
 
 
   // Start the server!
@@ -209,6 +213,6 @@ routes.use(express.static(assetFolder))
   console.log("Listening on port", port)
 // } else {
 
-  module.exports = routes
-// }
+//   module.exports = app;
+// // }
 
