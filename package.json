@@ -36,7 +36,7 @@
     "nodemon": "^1.8.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "pg": "4.4.3",
+    "pg": "^4.4.3",
     "react": "^0.14.6",
     "react-addons": "^0.9.0",
     "react-addons-clone-with-props": "^0.14.6",
