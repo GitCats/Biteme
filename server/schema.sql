@@ -33,6 +33,7 @@ CREATE TABLE restaurants (
   password varchar(30),
   name varchar(100),
   description varchar(3000),
+  url varchar(50),
   PRIMARY KEY (restaurant_id)
 );
 
@@ -47,8 +48,7 @@ CREATE TABLE deals (
   deal_id SERIAL,
   restaurant_id INTEGER,
   description varchar(5000),
-  time_created TIMESTAMP,
-  time_until_expir INTEGER,
+  expiration INTEGER,
   PRIMARY KEY (deal_id)
 );
 
@@ -125,7 +125,7 @@ insert into cuisines (cuisine_id, cuisine_type) values (6, 'american');
 
 insert into cuisines (cuisine_id, cuisine_type) values (7, 'bbq');
 
-insert into cuisines (cuisine_id, cuisine_type) values (8, 'breakfast');
+insert into cuisines (cuisine_id, cuisine_type) values (8, 'diner');
 
 insert into cuisines (cuisine_id, cuisine_type) values (9, 'chinese');
 
@@ -144,12 +144,28 @@ insert into cuisines (cuisine_id, cuisine_type) values (15, 'indian');
 insert into cuisines (cuisine_id, cuisine_type) values (16, 'other');
 
 
-insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description) values (1, 7, 'franklin.jpg', 'franklin', 'abc', 'Franklin Barbecue', 'World Famous Barbecue');
+insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (1, 1, 'chuys.jpg', 'chuys', 'abc', 'Chuys Tex-Mex', 'Tex Mex institution', 'www.chuys.com');
+insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (2, 7, 'franklin.jpg', 'franklin', 'abc', 'Franklin Barbecue', 'World Famous Barbecue', 'www.franklinbarbecue.com');
+insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (3, 5, 'hopdoddy.jpg', 'hopdoddy', 'abc', 'Hopdoddy', 'Gourmet burger spot', 'www.hopdoddy.com');
+insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (4, 8, '24diner.jpg', 'twentyfourdiner', 'abc', '24 Diner', 'Diner open 24 hours', 'www.24diner.com');
 
-insert into deals (deal_id, restaurant_id, description, time_until_expir) values (1, 1, '50% off brisket', 5);
+insert into deals (deal_id, restaurant_id, description, expiration) values (1, 2, '50% off brisket', 1700);
+insert into deals (deal_id, restaurant_id, description, expiration) values (2, 3, '30% off your entire check', 2200);
+insert into deals (deal_id, restaurant_id, description, expiration) values (3, 1, 'Free Queso with any purchase', 2400);
+insert into deals (deal_id, restaurant_id, description, expiration) values (4, 4, '50% off omelettes', 1200);
 
-insert into users (user_id, phone, email, username, password) values (1, 5551234567, 'person@gmail.com', 'person', 'abc');
+insert into users (user_id, phone, email, username, password) values (1, 5551234567, 'person@gmail.com', 'person person', 'abc');
+insert into users (user_id, phone, email, username, password) values (2, 5122143432, 'kaylamatteo@gmail.com', 'Kayla M', 'abc');
+insert into users (user_id, phone, email, username, password) values (3, 5551234568, 'johnsmith@gmail.com', 'John Smith', 'abc');
+insert into users (user_id, phone, email, username, password) values (4, 5551234569, 'janedoe@gmail.com', 'Jane Doe', 'abc');
 
 insert into res_prefs (id, user_id, restaurant_id) values (1, 1, 1);
+insert into res_prefs (id, user_id, restaurant_id) values (2, 1, 2);
+insert into res_prefs (id, user_id, restaurant_id) values (3, 1, 3);
+insert into res_prefs (id, user_id, restaurant_id) values (4, 4, 1);
 
-insert into cuisine_prefs (id, user_id, cuisine_id) values (1, 1, 13);
+insert into cuisine_prefs (id, user_id, cuisine_id) values (1, 2, 13);
+insert into cuisine_prefs (id, user_id, cuisine_id) values (2, 4, 7);
+insert into cuisine_prefs (id, user_id, cuisine_id) values (3, 4, 6);
+insert into cuisine_prefs (id, user_id, cuisine_id) values (4, 3, 1);
+
