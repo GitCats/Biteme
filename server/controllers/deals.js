@@ -1,5 +1,5 @@
 var express = require('express')
-var Deal = require('../models/deal.js');
+var Deal = require('../models/deal');
 
 var router = express.Router();
 module.exports = router;
@@ -7,7 +7,7 @@ module.exports = router;
 router.get('/', function (req, res) {
 	Deal.all()
 		.then(function(result){
-			console.log('it ran');
+			console.log('it ran')
 			res.send(result);
 		})
 })
