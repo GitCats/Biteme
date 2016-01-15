@@ -1,4 +1,5 @@
 // var Bootstrap = require('react-bootstrap');
+var $ = require('jquery');
 
 var data = [
   {id: 1, title: '50% Off at Eureka', description: 'Come in by 6 for free food', expiration: '6pm', logo: 'http://eurekarestaurantgroup.com/images/Eureka_Logo.jpg'},
@@ -36,6 +37,7 @@ var DealBox = React.createClass({
       dataType: 'json',
       cache: false,
       success: function(data) {
+        console.log(data)
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -68,15 +70,19 @@ var DealBox = React.createClass({
   getInitialState: function() {
     return {data: []};
   },
-  // componentDidMount: function() {
-  //   this.loadCommentsFromServer();
-  //   setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-  // },
+  componentDidMount: function() {
+    this.loadDealsFromServer();
+    // component.setState(data)
+
+
+    // this.loadCommentsFromServer();
+    // setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  },
   render: function() {
     return (
       <div className="dealBox">
         <h1>Deals</h1>
-        <DealList data={data} />
+        <DealList data={this.state.data} />
       </div>
     );
   }
@@ -110,7 +116,7 @@ var DealsView = React.createClass({
 
 
 ReactDOM.render(
-  <DealBox data={data} />,
+  <DealBox url='/api/getDeals' />,
   document.getElementById('app')
 );
 
