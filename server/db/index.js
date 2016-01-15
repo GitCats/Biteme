@@ -9,5 +9,5 @@ var knex = require('knex')({
     ssl: true
   }
 });
-
+console.log("Connected to Postgres");
 module.exports = knex;
