@@ -99,7 +99,18 @@ var DealList = React.createClass({
 });
 
 
+var DealsView = React.createClass({
+  //getInitialState: ...
+  //componentDidMount: ...
+  render: function() {
+    console.log("Replace me.")
+  }
+})
+
+
+
 ReactDOM.render(
   <DealBox data={data} />,
   document.getElementById('app')
 );
+
