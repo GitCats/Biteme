@@ -7,17 +7,14 @@ var Link = require('react-router').Link
 var $ = require('jquery');
 
 var Main = require('./views/main.jsx');
+var Auth = require('./views/auth.jsx');
 
 
 ReactDOM.render((
   <Router>
     <Route path="/" component={Main}> //Change these routes and related components 
-      <IndexRoute component={Landing} />
-      <Route path="signin" component={SignIn} />
-      <Route path="signup" component={SignUp} />
-      <Route path="profile" component={Profile} />
-      <Route path="all" component={AllUsers} />
-      <Route path="messenger" component={Messenger} />
+      <Route path="auth" component={Auth} />
+
     </Route>
   </Router>
 ),
