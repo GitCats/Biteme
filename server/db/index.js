@@ -1,18 +1,13 @@
 var knex = require('knex')({
   client: 'postgresql',
   connection: {
-    host     : '127.0.0.1',
-    user     : 'kaylamatteo',
-    password : '',
-    database : 'blueplate'
+    host     : 'ec2-54-197-224-155.compute-1.amazonaws.com',
+    user     : 'afoezekohcntbe',
+    password : '7WY6zAYHlWlYWozkCrSnpqJa06',
+    port: 5432,
+    database : 'df5rer6m8ffk07',
+    ssl: true
   }
 });
-
-// var knex = require('knex')({
-//   client: 'postgresql',
-//   connection: {
-//     filename: "../schema.sql"
-//   }
-// });
 
 module.exports = knex;
