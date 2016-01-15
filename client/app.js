@@ -6,19 +6,18 @@ var IndexRoute = require('react-router').IndexRoute
 var Link = require('react-router').Link
 var $ = require('jquery');
 
-var main = require('./views/main.jsx');
+var Main = require('./views/main.jsx');
 
 
 ReactDOM.render((
   <Router>
-    <Route path="/" component={App}> //Change these routes and related components 
+    <Route path="/" component={Main}> //Change these routes and related components 
       <IndexRoute component={Landing} />
       <Route path="signin" component={SignIn} />
       <Route path="signup" component={SignUp} />
       <Route path="profile" component={Profile} />
       <Route path="all" component={AllUsers} />
       <Route path="messenger" component={Messenger} />
-      <Route path="main" component={main} />
     </Route>
   </Router>
 ),

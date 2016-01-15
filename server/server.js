@@ -7,7 +7,7 @@ var dealsRouter = require('./controllers/deals.js');
 var app = express()
 var routes = express.Router()
 
-var assetFolder = Path.resolve(__dirname, '../client/public')
+var assetFolder = Path.resolve(__dirname, '../')
 routes.use(express.static(assetFolder))
 
 // if (process.env.NODE_ENV !== 'test') {
@@ -31,7 +31,7 @@ browserify('./client/app.js', {
 }))
 
 routes.get('/*', function(req, res) {
-  res.sendFile(assetFolder + '/main.html')
+  res.sendFile(assetFolder + '/client/public/main.html')
 })
 
 // Start the server!
