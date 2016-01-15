@@ -73,6 +73,13 @@ body {
 	background-color: #f9f9f9;
 }
 
+.bluePlateLogo {
+  width: 250px;
+  margin: 0 auto;
+  position: relative;
+  display: block;
+}
+
 /*** MAIN PAGE - ALL DEALS ***/
 
 .dealList {
@@ -96,14 +103,14 @@ body {
 }
 
 .dealLogo {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 250px;
+  max-height: 200px;
 }
 
 .dealInfoDiv {
 	width: 50%;
 	/*float: right;*/
-	padding: 10px 10px 10px 50px;
+	padding: 10px 10px 10px 100px;
 	/*position: relative;*/
 	/*display: inline-block;*/
 } 
