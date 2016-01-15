@@ -8,6 +8,23 @@ var $ = require('jquery');
 
 var main = require('./views/main.jsx');
 
+
+ReactDOM.render((
+  <Router>
+    <Route path="/" component={App}> //Change these routes and related components 
+      <IndexRoute component={Landing} />
+      <Route path="signin" component={SignIn} />
+      <Route path="signup" component={SignUp} />
+      <Route path="profile" component={Profile} />
+      <Route path="all" component={AllUsers} />
+      <Route path="messenger" component={Messenger} />
+      <Route path="main" component={main} />
+    </Route>
+  </Router>
+),
+
+document.getElementById('app'));
+
 /* UNCHANGED FROM DIANDRA'S SPRINT - FOR USE AS TEMPLATE
 
 // ----------------REACT VIEWS----------------
@@ -64,20 +81,5 @@ var App = React.createClass({
 
 */
 
-ReactDOM.render((
-  <Router>
-    <Route path="/" component={App}>
-      <IndexRoute component={Landing} />
-      <Route path="signin" component={SignIn} />
-      <Route path="signup" component={SignUp} />
-      <Route path="profile" component={Profile} />
-      <Route path="all" component={AllUsers} />
-      <Route path="messenger" component={Messenger} />
-      <Route path="main" component={main} />
-    </Route>
-  </Router>
-),
-
-document.getElementById('app'));
 
 
