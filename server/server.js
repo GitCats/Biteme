@@ -3,6 +3,7 @@ var express = require('express')
 var Path = require('path')
 var morgan = require('morgan');
 var dealsRouter = require('./controllers/deals.js');
+var authRouter = require('./controllers/userauths.js')
 
 var app = express()
 var routes = express.Router()
@@ -21,6 +22,7 @@ app.use(require('body-parser').urlencoded({
 app.use(morgan('dev'));
 
 app.use('/api/getDeals', dealsRouter);
+app.use('/api/login', authRouter);
 app.use('/', routes)
 
 //Get browserify file:
