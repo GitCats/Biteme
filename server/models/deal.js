@@ -6,7 +6,7 @@ Deal.all = function() {
 	// return db('deals').select('*').limit(250)
   return db('deals')
     .join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
-    .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration')
+    .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id')
 };
 
 Deal.create = function(attrs) {

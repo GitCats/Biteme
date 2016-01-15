@@ -144,10 +144,10 @@ insert into cuisines (cuisine_id, cuisine_type) values (15, 'indian');
 insert into cuisines (cuisine_id, cuisine_type) values (16, 'other');
 
 
-insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (1, 1, 'chuys.jpg', 'chuys', 'abc', 'Chuys Tex-Mex', 'Tex Mex institution', 'www.chuys.com');
-insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (2, 7, 'franklin.jpg', 'franklin', 'abc', 'Franklin Barbecue', 'World Famous Barbecue', 'www.franklinbarbecue.com');
-insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (3, 5, 'hopdoddy.jpg', 'hopdoddy', 'abc', 'Hopdoddy', 'Gourmet burger spot', 'www.hopdoddy.com');
-insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (4, 8, '24diner.jpg', 'twentyfourdiner', 'abc', '24 Diner', 'Diner open 24 hours', 'www.24diner.com');
+insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (1, 1, 'http://nrn.com/site-files/nrn.com/files/imagecache/medium_img/uploads/2015/03/chuyslogopromojpgcropdisplay.jpg', 'chuys', 'abc', 'Chuys Tex-Mex', 'Tex Mex institution', 'www.chuys.com');
+insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (2, 7, 'http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg', 'franklin', 'abc', 'Franklin Barbecue', 'World Famous Barbecue', 'www.franklinbarbecue.com');
+insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (3, 5, 'http://static1.squarespace.com/static/5015a3ffe4b006ef411b533c/t/5302ce98e4b0484cf7575f99/1352923095057/hopdoddy_colorSM.jpg?format=500w', 'hopdoddy', 'abc', 'Hopdoddy', 'Gourmet burger spot', 'www.hopdoddy.com');
+insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (4, 8, 'http://www.hollyanissa.com/wp-content/uploads/2012/02/1-24Diner1.jpg', 'twentyfourdiner', 'abc', '24 Diner', 'Diner open 24 hours', 'www.24diner.com');
 
 insert into deals (deal_id, restaurant_id, description) values (1, 2, '50% off brisket');
 insert into deals (deal_id, restaurant_id, description) values (2, 3, '30% off your entire check');

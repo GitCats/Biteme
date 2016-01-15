@@ -1,18 +1,15 @@
 var express = require('express')
-var Auth = require('../models/userauth');
+var Auth = require('../models/userauth.js');
 
 var router = express.Router();
 module.exports = router;
 
-router.post('/login', function (req, res) {
+router.post('/', function (req, res) {
+	console.log('body', req.body)
 	Auth.signin(req.body).then(function (data) {
-		if(req.body.password === data.password){
+		console.log('data password', data.password)
+		if(req.body.password === data[0].password){
 		res.sendStatus(201)
+		}
 	})
 })
-
-	.then(function (data) {
-		if(attemptedPassword === data.password){
-			res.status(200);
-		}
-	}
