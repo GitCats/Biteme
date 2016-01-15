@@ -39,6 +39,7 @@ h1 {
   font-weight: bold;
   margin: 0 0 15px;
   padding: 0;
+  text-align: center;
 }
 
 h2 {
@@ -88,10 +89,15 @@ body {
 	display: flex;
 }
 
-.dealLogoDiv img {
+.dealLogoDiv {
 	width: 175px;
 	height: 125px;
 	margin: 12px;
+}
+
+.dealLogo {
+  max-width: 50px;
+  max-height: 50px;
 }
 
 .dealInfoDiv {
