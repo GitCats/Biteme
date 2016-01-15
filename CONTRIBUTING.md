@@ -1,7 +1,7 @@
 Each contributing member of this repo will have their own branch designated by their name, as follows:
 
 &nbsp;&nbsp;kaylam<br/>
-&nbsp;&nbsp;kjhandy<br/>
+&nbsp;&nbsp;kayla<br/>
 &nbsp;&nbsp;garrett<br/>
 &nbsp;&nbsp;salman<br/>
 
