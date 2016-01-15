@@ -48,7 +48,7 @@ CREATE TABLE deals (
   deal_id SERIAL,
   restaurant_id INTEGER,
   description varchar(5000),
-  expiration INTEGER,
+  expiration varchar(100),
   PRIMARY KEY (deal_id)
 );
 
@@ -149,10 +149,10 @@ insert into restaurants (restaurant_id, cuisine_id, image_name, username, passwo
 insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (3, 5, 'hopdoddy.jpg', 'hopdoddy', 'abc', 'Hopdoddy', 'Gourmet burger spot', 'www.hopdoddy.com');
 insert into restaurants (restaurant_id, cuisine_id, image_name, username, password, name, description, url) values (4, 8, '24diner.jpg', 'twentyfourdiner', 'abc', '24 Diner', 'Diner open 24 hours', 'www.24diner.com');
 
-insert into deals (deal_id, restaurant_id, description, expiration) values (1, 2, '50% off brisket', 1700);
-insert into deals (deal_id, restaurant_id, description, expiration) values (2, 3, '30% off your entire check', 2200);
-insert into deals (deal_id, restaurant_id, description, expiration) values (3, 1, 'Free Queso with any purchase', 2400);
-insert into deals (deal_id, restaurant_id, description, expiration) values (4, 4, '50% off omelettes', 1200);
+insert into deals (deal_id, restaurant_id, description) values (1, 2, '50% off brisket');
+insert into deals (deal_id, restaurant_id, description) values (2, 3, '30% off your entire check');
+insert into deals (deal_id, restaurant_id, description) values (3, 1, 'Free Queso with any purchase');
+insert into deals (deal_id, restaurant_id, description) values (4, 4, '50% off omelettes');
 
 insert into users (user_id, phone, email, username, password) values (1, 5551234567, 'person@gmail.com', 'person person', 'abc');
 insert into users (user_id, phone, email, username, password) values (2, 5122143432, 'kaylamatteo@gmail.com', 'Kayla M', 'abc');
