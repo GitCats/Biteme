@@ -7,11 +7,11 @@
 
 -- ---
 -- Table 'cuisines'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS cuisines;
-		
+
 CREATE TABLE cuisines (
   cuisine_id SERIAL,
   cuisine_type varchar(300),
@@ -20,11 +20,11 @@ CREATE TABLE cuisines (
 
 -- ---
 -- Table 'restaurants'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS restaurants;
-		
+
 CREATE TABLE restaurants (
   restaurant_id SERIAL,
   cuisine_id INTEGER,
@@ -39,26 +39,27 @@ CREATE TABLE restaurants (
 
 -- ---
 -- Table 'deals'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS deals;
-		
+
 CREATE TABLE deals (
   deal_id SERIAL,
   restaurant_id INTEGER,
   description varchar(5000),
   expiration varchar(100),
+  createdtime timestamp NOT NULL default now(),
   PRIMARY KEY (deal_id)
 );
 
 -- ---
 -- Table 'users'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS users;
-		
+
 CREATE TABLE users (
   user_id SERIAL,
   phone varchar(20),
@@ -70,11 +71,11 @@ CREATE TABLE users (
 
 -- ---
 -- Table 'restaurant_prefs'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS res_prefs;
-		
+
 CREATE TABLE res_prefs (
   id SERIAL,
   user_id INTEGER,
@@ -84,11 +85,11 @@ CREATE TABLE res_prefs (
 
 -- ---
 -- Table 'cuisine_prefs'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS cuisine_prefs;
-		
+
 CREATE TABLE cuisine_prefs (
   id SERIAL,
   user_id INTEGER,
@@ -97,7 +98,7 @@ CREATE TABLE cuisine_prefs (
 );
 
 -- ---
--- Foreign Keys 
+-- Foreign Keys
 -- ---
 
 ALTER TABLE restaurants ADD FOREIGN KEY (cuisine_id) REFERENCES cuisines (cuisine_id);
