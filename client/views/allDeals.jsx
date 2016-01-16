@@ -6,13 +6,33 @@ var Router = require('react-router').Router;
 var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
 var Link = require('react-router').Link
+var Modal = require('react-modal');
+var SingleDeal = require('./singleDeal.jsx');
+var Mod = require('./modal.jsx');
 
 var Deal = React.createClass({
+  // getInitialState: function() {
+  //   return { modalIsOpen: false };
+  // },
+
+  // openModal: function() {
+  //   this.setState({ modalIsOpen: true});
+  //   console.log(this.props)
+  // },
+
+  // closeModal: function() {
+  //   this.setState({ modalIsOpen: false});
+  // },
+
+  openSingleDealView: function() {
+    SingleDeal.openModal()
+  },
+
   render: function() {
     return (
       <div className="deal col-md-6 col-sm-12">
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className='dealLogo' />
+          <img src={this.props.image_name} className='dealLogo' onClick={this.openSingleDealView} />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
