@@ -26,10 +26,10 @@ router.post('/', function (req, res){
 	Auth.signup(req.body)
 	.then(function(data){
 		for(var key in obj){
-		if(req.body.username !== req.body.value)
-		{
-			Auth.add(req.body)
-			res.sendStatus(201);
+			if(req.body.username !== req.body.value) {
+				Auth.add(req.body)
+				res.sendStatus(201);
+			}
 		}
-	}
+	})	
 })
