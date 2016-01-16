@@ -11,7 +11,3 @@ Deal.all = function() {
     .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id')
 };
 
-//this function will insert a new deal to the database
-Deal.create = function(attrs) {
-	return db('deals').insert(attrs)
-}
