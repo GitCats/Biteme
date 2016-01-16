@@ -9,3 +9,4 @@ console.log('signin func running')
 	.where('username', attemptedUsername)
 	.select('username', 'password')
 };
+

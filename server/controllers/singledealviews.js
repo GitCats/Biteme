@@ -5,7 +5,7 @@ var router = express.Router();
 module.exports = router;
 
 //POST
-//this should take whichever deal is selected, and use the deal id to send back more information about that specific deal
+//this should take whichever deal is selected and use the deal id to send back more information about that specific deal
 router.get('/', function (req, res) {
 	singledealview.view(req.body)
 	.then(function (result) {
