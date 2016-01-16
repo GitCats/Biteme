@@ -1,23 +1,25 @@
+var $ = require('jquery');
+var Modal = require('react-modal');
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Router = require('react-router').Router
-var Route = require('react-router').Route
-var IndexRoute = require('react-router').IndexRoute 
+var Router = require('react-router').Router;
+var Route = require('react-router').Route;
+var IndexRoute = require('react-router').IndexRoute;
 var Link = require('react-router').Link
-var $ = require('jquery');
 
-var Main = require('./views/main.jsx');
+//require all of the module exports here
+// var Main = require('./views/main.jsx');
+var App = require('./views/main.jsx');
+var AllDeals = require('./views/allDeals.jsx');
 
+//top level route will always be in view -- acts as a shell so needs a 
+//this.props.children where the other views will be switched in and out
+//indexroute is the default view - what you'd see if you just went to that URL
 
 ReactDOM.render((
   <Router>
-    <Route path="/" component={Main}> //Change these routes and related components 
-      <IndexRoute component={Landing} />
-      <Route path="signin" component={SignIn} />
-      <Route path="signup" component={SignUp} />
-      <Route path="profile" component={Profile} />
-      <Route path="all" component={AllUsers} />
-      <Route path="messenger" component={Messenger} />
+    <Route path="/" component={App}> //Will always be in view
+      <IndexRoute component={AllDeals} /> //the default view that can be switch out
     </Route>
   </Router>
 ),
