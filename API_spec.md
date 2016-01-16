@@ -1,3 +1,9 @@
+-=-Interacting with online Postgresql db-=-
+Ensure that the heroku cli toolbelt is installed on your computer 
+https://toolbelt.heroku.com/
+
+heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
+
 GET/api/getDeals => gets all deals from database
 
 POST/api/getDeals => creates a deal from req.body and sends a 201
