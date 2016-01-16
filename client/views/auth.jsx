@@ -28,7 +28,7 @@ const customStyles = {
 };
  
  
-var App = React.createClass({
+var Auth = React.createClass({
  
   getInitialState: function() {
     return { modalIsOpen: false };
@@ -68,9 +68,9 @@ var App = React.createClass({
 });
  
 ReactDOM.render(
-  <DealBox data={data} />, 
+  <Auth/>, 
   appElement
   );
 
-
 //Outermost element, set as module.exports
+module.exports = Auth;

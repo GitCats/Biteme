@@ -1,5 +1,6 @@
 // var Bootstrap = require('react-bootstrap');
 var $ = require('jquery');
+var Auth = require('./auth.jsx')
 
 var Deal = React.createClass({
   render: function() {
@@ -76,6 +77,7 @@ var DealBox = React.createClass({
     return (
       <div className="dealBox">
         <h1>Deals</h1>
+        <Auth />
         <DealList data={this.state.data} />
       </div>
     );
@@ -114,3 +116,4 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
+module.exports = {Main};
