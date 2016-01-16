@@ -10,3 +10,9 @@ console.log('signin func running')
 	.select('username', 'password')
 };
 
+Auth.signup = function(reqBody){
+	var newUsername = reqBody.username;
+	var newPassword = reqBody.password;
+	//if the database doesnt have a username that matches the new username
+	//add a new user (name and password) to the users table
+}
