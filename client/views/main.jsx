@@ -1,25 +1,19 @@
 // var Bootstrap = require('react-bootstrap');
 var $ = require('jquery');
 
-var data = [
-  {id: 1, title: '50% Off at Eureka', description: 'Come in by 6 for free food', expiration: '6pm', logo: 'http://eurekarestaurantgroup.com/images/Eureka_Logo.jpg'},
-  {id: 2, title: 'Free Tacos at Slake', description: 'All tacos free until noon', expiration: '12pm', logo: 'http://slakecafe.com/wp-content/uploads/2014/03/cropped-Signage1.jpg'},
-  {id: 3, title: 'BOGO Burgers at Burger Bar', description: 'Buy one get one until 2pm', expiration: '2pm', logo: 'http://foodiecards.com/wp-content/uploads/2014/10/BurgerBar419_Logo.jpg'}
-]
-
 var Deal = React.createClass({
   render: function() {
     return (
       <div className="deal col-md-6 col-sm-12">
         <div className="dealLogoDiv">
-          <img src={this.props.logo} className='dealLogo' />
+          <img src={this.props.image_name} className='dealLogo' />
         </div>
         <div className="dealInfoDiv">
-          <h3 className="dealTitle">
-            {this.props.title}
-          </h3>
-          <div className="dealDescription">
+          <h3 className="dealDescription">
             {this.props.description}
+          </h3>
+          <div className="restaurantName">
+            {this.props.name}
           </div> 
           <div className="dealExpiration">
             {this.props.expiration}
@@ -92,7 +86,7 @@ var DealList = React.createClass({
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
-        <Deal title={deal.title} description={deal.description} expiration={deal.expiration} logo={deal.logo} key={deal.id}>
+        <Deal description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.id}>
         </Deal>
       );
     });
