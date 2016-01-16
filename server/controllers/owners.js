@@ -1,24 +1,25 @@
 var express = require('express')
-var Deal = require('../models/deal');
+var Deal = require('../models/owner');
 
 var router = express.Router();
 module.exports = router;
 
-//GET ALL DEALS
+//GET ALL PREVIOUS DEALS
 //this will grab all of the deals from the database which haven't yet expired
 //and send them along with a 200 response
 router.get('/', function (req, res) {
-	Deal.all()
+	Owner.prevDeals()
 		.then(function(result){
 			res.send(result);
 			res.sendStatus(200);
 		})
 })
 
-//POST A NEW DEAL
-//this will take user inputed information and use it to add a new deal to the database
+//POST OWNER LOG IN
+//this will take the inputed username and password and compare the username to the database
+//if found, it will compare the passwords and if they match it will send a 200 response
 router.post('/', function (req, res) {
-	Deal.create(req.body).then(function () {
+	Owner.signin(req.body).then(function () {
 		res.sendStatus(201)
 	})
 })

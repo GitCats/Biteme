@@ -1,4 +1,5 @@
 HEROKU
+-=-Interacting with online Postgresql db-=-
 Enter this in your terminal to access the db directly:
 heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 
