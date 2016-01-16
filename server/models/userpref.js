@@ -4,12 +4,22 @@ var UserPref = module.exports
 
 //this function grabs all the user prefs from the database
 //it should return all columns and a boolean value if user selects or not
-UserPref.all = function() {
+UserPref.allRes = function() {
 var userId = req.body.user_id;
-  return db('res_prefs', 'cuisine_prefs')
-  	.join('res_prefs.restaurant_id', '.restaurant_id', '=', 'restaurants.restaurant_id')
-    .select('res_prefs.restaurant_id', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id')
-    .where('user_id', userId)
+  return db('res_prefs')
+  	.join('restaurants', 'res_prefs.restaurant_id', '=', 'restaurants.restaurant_id')
+     .join('users', 'res_prefs.user_id', '=', 'users.user_id')
+    	.select('restaurant.name')
+    	.where('user_id', userId)
+};
+
+UserPref.allCuis = function() {
+var userId = req.body.user_id;
+  return db('cuisine_prefs')
+  	.join('cuisines', 'cuisine_prefs.cuisine_id', '=', 'cuisines.cuisine_id')
+     .join('users', 'cuisine_prefs.user_id', '=', 'users.user_id')
+    	.select('cuisine_type')
+    	.where('user_id', userId)
 };
 
 //this function will replace all of the values in the restaurant prefs table
@@ -21,27 +31,3 @@ UserPref.updateRes = function(attrs) {
 UserPref.updateCuis = function(attrs) {
 	return db('deals').insert(attrs)
 }
-
-
-// DROP TABLE IF EXISTS res_prefs;
-		
-// CREATE TABLE res_prefs (
-//   id SERIAL,
-//   user_id INTEGER,
-//   restaurant_id INTEGER,
-//   PRIMARY KEY (id)
-// );
-
-// -- ---
-// -- Table 'cuisine_prefs'
-// -- 
-// -- ---
-
-// DROP TABLE IF EXISTS cuisine_prefs;
-		
-// CREATE TABLE cuisine_prefs (
-//   id SERIAL,
-//   user_id INTEGER,
-//   cuisine_id INTEGER,
-//   PRIMARY KEY (id)
-// );
