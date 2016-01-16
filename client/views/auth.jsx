@@ -66,11 +66,7 @@ var Auth = React.createClass({
     );
   }
 });
- 
-ReactDOM.render(
-  <Auth/>, 
-  appElement
-  );
+
 
 //Outermost element, set as module.exports
 module.exports = Auth;
