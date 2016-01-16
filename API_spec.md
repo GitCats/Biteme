@@ -19,3 +19,6 @@ body: {
 	"username": "person person",
 	"password": "abc"
 	}
+
+
+When creating deal, 'date' column will have to be in format '1162016' for jan 16, 2016
