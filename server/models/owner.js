@@ -1,14 +1,14 @@
 var db = require('../db/index.js');
 
-var Deal = module.exports
+var Owner = module.exports
 
-Deal.all = function() {
+Owner.all = function() {
 	// return db('deals').select('*').limit(250)
   return db('deals')
     .join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
     .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id')
 };
 
-Deal.create = function(attrs) {
+Owner.create = function(attrs) {
 	return db('deals').insert(attrs)
 }

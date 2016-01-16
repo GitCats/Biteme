@@ -1,11 +1,11 @@
 var express = require('express')
-var Deal = require('../models/owner');
+var Owner = require('../models/owner');
 
 var router = express.Router();
 module.exports = router;
 
-//GET ALL PREVIOUS DEALS
-//this will grab all of the deals from the database which haven't yet expired
+//POST ALL PREVIOUS DEALS
+//this will grab all of the deals from the database which haven't yet expired for this specific restaurant id
 //and send them along with a 200 response
 router.get('/', function (req, res) {
 	Owner.prevDeals()
@@ -20,6 +20,14 @@ router.get('/', function (req, res) {
 //if found, it will compare the passwords and if they match it will send a 200 response
 router.post('/', function (req, res) {
 	Owner.signin(req.body).then(function () {
+		res.sendStatus(201)
+	})
+})
+
+//POST A NEW DEAL
+//this will take user inputed information and use it to add a new deal to the database
+router.post('/', function (req, res) {
+	Owner.create(req.body).then(function () {
 		res.sendStatus(201)
 	})
 })
