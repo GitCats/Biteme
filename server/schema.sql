@@ -153,7 +153,6 @@ insert into deals (deal_id, restaurant_id, description) values (1, 2, '50% off b
 insert into deals (deal_id, restaurant_id, description) values (2, 3, '30% off your entire check');
 insert into deals (deal_id, restaurant_id, description) values (3, 1, 'Free Queso with any purchase');
 insert into deals (deal_id, restaurant_id, description) values (4, 4, '50% off omelettes');
-
 insert into users (user_id, phone, email, username, password) values (1, 5551234567, 'person@gmail.com', 'person person', 'abc');
 insert into users (user_id, phone, email, username, password) values (2, 5122143432, 'kaylamatteo@gmail.com', 'Kayla M', 'abc');
 insert into users (user_id, phone, email, username, password) values (3, 5551234568, 'johnsmith@gmail.com', 'John Smith', 'abc');
