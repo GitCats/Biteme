@@ -10,6 +10,35 @@ var Modal = require('react-modal');
 var SingleDeal = require('./singleDeal.jsx');
 var Mod = require('./modal.jsx');
 
+
+var ExampleGoogleMap = React.createClass({  
+    getDefaultProps: function () {
+        return {
+            initialZoom: 8,
+            mapCenterLat: 43.6425569,
+            mapCenterLng: -79.4073126,
+        };
+    },
+    componentDidMount: function (rootNode) {
+        var mapOptions = {
+            center: this.mapCenterLatLng(),
+            zoom: this.props.initialZoom
+        },
+        map = new google.maps.Map(this.getDOMNode(), mapOptions);
+        var marker = new google.maps.Marker({position: this.mapCenterLatLng(), title: 'Hi', map: map});
+        this.setState({map: map});
+    },
+    mapCenterLatLng: function () {
+        var props = this.props;
+        return new google.maps.LatLng(props.mapCenterLat, props.mapCenterLng);
+    },
+    render: function () {
+        return (
+          <div className='map-gic'></div>
+        );
+    }
+});
+
 var Deal = React.createClass({
   getInitialState: function() {
     return { modalIsOpen: false };
@@ -27,6 +56,7 @@ var Deal = React.createClass({
   render: function() {
     return (
       <a onClick={this.openModal}>
+      <div><ExampleGoogleMap /></div>
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
           <img src={this.props.image_name} className='dealLogo' />
