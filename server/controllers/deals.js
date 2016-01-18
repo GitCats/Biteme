@@ -10,8 +10,7 @@ module.exports = router;
 router.get('/', function (req, res) {
 	Deal.all()
 		.then(function(result){
-			res.send(result);
-			res.sendStatus(200);
+			res.status(200).send(result);
 		})
 })
 
