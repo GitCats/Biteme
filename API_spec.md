@@ -28,3 +28,5 @@ POST/api/owner/ =>	this will grab all of the deals from the database which haven
 POST/api/owner/login => this will take the inputed username and password and compare the username to the database if found, it will compare the passwords and if they match it will send a 200 response
 
 POST/api/owner/create => this will take user inputed information and use it to add a new deal to the database
+
+POST/api/view => this takes whichever deal is selected and use the deal id to send back more information about that specific deal
