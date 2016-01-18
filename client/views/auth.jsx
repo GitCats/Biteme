@@ -108,7 +108,7 @@ var UserLogin = React.createClass({
     }
     var loginRequest = { email: email, password: password };
     $.ajax({
-      url: 'api/login/login',
+      url: 'api/login/signin',
       dataType: 'json',
       type: 'POST',
       data: loginRequest,

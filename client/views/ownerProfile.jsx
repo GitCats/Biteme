@@ -17,9 +17,9 @@ var Link = require('react-router').Link
 var OwnerProfile = React.createClass({
   render: function() {
     return (
-      <div className="ownerProfile">
+      <h1 className="ownerProfile">
         Fill out this page.
-      </div>
+      </h1>
     );
   }
 });
