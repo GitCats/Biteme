@@ -12,8 +12,7 @@ router.post('/', function (req, res) {
 	console.log('request body:', req.body)
 	Owner.prevDeals(req.body.restaurant_id)
 		.then(function(result){
-			res.send(result);
-			res.sendStatus(200);
+			res.status(200).send(result);
 		})
 })
 
@@ -22,11 +21,11 @@ router.post('/', function (req, res) {
 //and compare the username to the database
 //if found, it will compare the passwords and 
 //if they match it will send a 200 response
-router.post('/', function (req, res) {
+router.post('/login', function (req, res) {
 	Owner.signin(req.body)
-	.then(function () {
-	if(req.body.password === password){
-	res.sendStatus(201)
+	.then(function (data) {
+	if(req.body.password === data[0].password){
+	res.sendStatus(200);
 }
 	})
 })
@@ -34,8 +33,8 @@ router.post('/', function (req, res) {
 //POST A NEW DEAL
 //this will take user inputed information and use 
 //it to add a new deal to the database
-router.post('/', function (req, res) {
-	Owner.create(req.body).then(function () {
-		res.sendStatus(201)
+router.post('/create', function (req, res) {
+	Owner.create(req.body).then(function() {
+		res.sendStatus(201);
 	})
 })

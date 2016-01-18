@@ -16,15 +16,14 @@ Owner.prevDeals = function(restaurantId) {
 //if it is, it will check password for a match
 //if they both match it will send a 200 (okay) response
 Owner.signin = function(body){
-	var attemptName = body.username;
-	var attemptPass = body.password;
 	return db('restaurants')
+	.where('username', body.username)
 	.select('password')
-	.where('username' === body.username)
 }
 
 
 //inserts a new deal into the database
-Owner.create = function(attrs) {
-	return db('deals').insert(attrs)
+Owner.create = function(body) {
+	return db('deals')
+	.insert({restaurant_id: body.restaurant_id, description: body.description, expiration: body.expiration, month: body.month, day: body.day, year: body.year})
 }
