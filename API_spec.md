@@ -14,7 +14,7 @@ body: {
   	expiration: INTEGER (ex: 1700, 24 hr time) 
 	}
 
-POST/api/login/signin => selects email where they match and then runs a function to check password against database. if they match it sends a 201.
+POST/api/login/signin => selects email where they match and then runs a function to check password against database. if they match it sends a 200.
 
 body: {
 	"email": "person@gmail.com", 

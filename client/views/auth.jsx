@@ -40,6 +40,14 @@ var UserSignup = React.createClass({
     this.setState({modalIsOpen: false});
   },
 
+  handleEmailChange: function(e) {
+    this.setState({email: e.target.value});
+  },
+
+  handlePasswordChange: function(e) {
+    this.setState({password: e.target.value});
+  },
+
   signUp: function(e) {
     e.preventDefault();
     var email = this.state.email.trim();
@@ -51,15 +59,18 @@ var UserSignup = React.createClass({
     var signUpRequest = { email: email, password: password };
     $.ajax({
       url: 'api/login/signup',
-      dataType: 'json',
+      dataType: 'text',
       type: 'POST',
       data: signUpRequest,
       success: function(res) {
         localStorage.setItem("user", signUpRequest.email);
-      },
+        this.setState({email: '', password: ''});
+      }.bind(this),
       error: function(xhr, status, err) {
-        console.error(xhr, status, err.toString());
-      }
+        console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
+        this.setState({email: '', password: ''});
+        xhr.status === 401 ? alert("Someone already signed up with that email address.") : null;
+      }.bind(this)
     });
   },
  
@@ -73,8 +84,17 @@ var UserSignup = React.createClass({
           style={customStyles} >
           <h2>Sign Up for Notifications</h2>
           <form className='signupForm' onSubmit={this.signUp}>
-            Email: <input className='email' value={this.state.email} /><br/>
-            Password: <input className='password' value={this.state.password} type='password' /><br/><br/>
+            Email: <input 
+                    className='email' 
+                    value={this.state.email} 
+                    onChange={this.handleEmailChange}
+                    /><br/>
+            Password: <input 
+                      className='password' 
+                      value={this.state.password} 
+                      onChange={this.handlePasswordChange}
+                      type='password' 
+                      /><br/><br/>
             <input type='submit' value='Sign Up!' /><br/><br/>
             <button onClick={this.closeModal}>Close this Box</button>
           </form>
@@ -98,6 +118,14 @@ var UserLogin = React.createClass({
     this.setState({modalIsOpen: false});
   },
 
+  handleEmailChange: function(e) {
+    this.setState({email: e.target.value});
+  },
+
+  handlePasswordChange: function(e) {
+    this.setState({password: e.target.value});
+  },
+
   login: function(e) {
     e.preventDefault();
     var email = this.state.email.trim();
@@ -109,15 +137,19 @@ var UserLogin = React.createClass({
     var loginRequest = { email: email, password: password };
     $.ajax({
       url: 'api/login/signin',
-      dataType: 'json',
+      dataType: 'text',
       type: 'POST',
       data: loginRequest,
       success: function(res) {
-        localStorage.setItem("user", signUpRequest.email);
-      },
+        localStorage.setItem("user", loginRequest.email);
+        console.log("Logged in as:", localStorage.getItem("user"));
+        this.setState({email: '', password: ''});
+      }.bind(this),
       error: function(xhr, status, err) {
-        console.error(xhr, status, err.toString());
-      }
+        console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
+        this.setState({email: '', password: ''});
+        xhr.status !== 200 ? alert("Incorrect username or password.") : null;
+      }.bind(this)
     });
   },
  
@@ -131,8 +163,17 @@ var UserLogin = React.createClass({
           style={customStyles} >
           <h2>Log In to Manage Notifications</h2>
           <form className='loginForm' onSubmit={this.login}>
-            Email: <input className='email' value={this.state.email} /><br/>
-            Password: <input className='password' value={this.state.password} type='password' /><br/><br/>
+            Email: <input 
+                    className='email' 
+                    value={this.state.email} 
+                    onChange={this.handleEmailChange}
+                    /><br/>
+            Password: <input 
+                      className='password' 
+                      value={this.state.password} 
+                      type='password' 
+                      onChange={this.handlePasswordChange}
+                      /><br/><br/>
             <input type='submit' value='Log In' /><br/><br/>
             <button onClick={this.closeModal}>Close this Box</button>
           </form>
