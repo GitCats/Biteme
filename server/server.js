@@ -5,6 +5,8 @@ var morgan = require('morgan');
 var dealsRouter = require('./controllers/deals.js');
 var authRouter = require('./controllers/userauths.js')
 var viewRouter = require('./controllers/singledealviews.js')
+var userRouter = require('./controllers/userprefs.js')
+var ownerRouter = require('./controllers/owners.js')
 
 var app = express()
 var routes = express.Router()
@@ -25,6 +27,8 @@ app.use(morgan('dev'));
 app.use('/api/getDeals', dealsRouter);
 app.use('/api/login', authRouter);
 app.use('/api/view', viewRouter);
+app.use('/api/userpref', userRouter);
+app.use('/api/owner', ownerRouter);
 app.use('/', routes)
 
 //Get browserify file:

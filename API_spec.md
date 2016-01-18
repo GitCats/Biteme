@@ -14,9 +14,11 @@ body: {
   	expiration: INTEGER (ex: 1700, 24 hr time) 
 	}
 
-POST/api/login => selects username where they match and then runs a function to check password against database. if they match it sends a 201.
+POST/api/login/signin => selects email where they match and then runs a function to check password against database. if they match it sends a 201.
 
 body: {
-	"username": "person person", 
+	"email": "person@gmail.com", 
 	"password": "abc"
 	}
+
+POST/api/login/signup => when a user inputs an email, this will check against the database to see if it already exists, if it doesn't then it will create it and save the password associated with it to the users database & then send back 201 (created) response
