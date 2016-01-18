@@ -11,28 +11,25 @@ var SingleDeal = require('./singleDeal.jsx');
 var Mod = require('./modal.jsx');
 
 var Deal = React.createClass({
-  // getInitialState: function() {
-  //   return { modalIsOpen: false };
-  // },
+  getInitialState: function() {
+    return { modalIsOpen: false };
+  },
 
-  // openModal: function() {
-  //   this.setState({ modalIsOpen: true});
-  //   console.log(this.props)
-  // },
+  openModal: function() {
+    this.setState({ modalIsOpen: true});
+    console.log(this.props)
+  },
 
-  // closeModal: function() {
-  //   this.setState({ modalIsOpen: false});
-  // },
-
-  openSingleDealView: function() {
-    SingleDeal.openModal()
+  closeModal: function() {
+    this.setState({ modalIsOpen: false});
   },
 
   render: function() {
     return (
-      <div className="deal col-md-6 col-sm-12">
+      <a onClick={this.openModal}>
+      <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className='dealLogo' onClick={this.openSingleDealView} />
+          <img src={this.props.image_name} className='dealLogo' />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
@@ -45,7 +42,29 @@ var Deal = React.createClass({
             {this.props.expiration}
           </div>
         </div>  
-      </div>
+      </div> 
+
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles} >
+ 
+          <div className="singleDealLogoDiv">
+            <img src={this.props.image_name} className="singleDealLogo" />
+          </div>
+          <div className="dealInfoDiv">
+            <h3 className="dealDescription">
+              {this.props.description}
+            </h3>
+            <div className="restaurantName">
+              {this.props.name}
+            </div> 
+            <div className="dealExpiration">
+              {this.props.expiration}
+            </div>
+          </div>
+        </Modal>
+      </a>
     );
   }
 });
@@ -57,7 +76,7 @@ var AllDeals = React.createClass({
       dataType: 'json',
       cache: false,
       success: function(data) {
-        console.log(data)
+        console.log('data', data)
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -65,6 +84,7 @@ var AllDeals = React.createClass({
       }.bind(this)
     });
   },
+
   // handleCommentSubmit: function(comment) {
   //   var comments = this.state.data;
   //   Optimistically set an id on the new comment. It will be replaced by an
@@ -112,7 +132,7 @@ var DealList = React.createClass({
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
-        <Deal description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.id}>
+        <Deal description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
         </Deal>
       );
     });
@@ -123,5 +143,27 @@ var DealList = React.createClass({
     );
   }
 });
+
+const customStyles = {
+   overlay : {
+    position          : 'fixed',
+    opacity: '30%'
+  },
+  content : {
+    position                   : 'absolute',
+    top                        : '120px',
+    left                       : '120px',
+    right                      : '120px',
+    bottom                     : '120px',
+    border                     : '10px solid #3300CF',
+    background                 : '#fff',
+    overflow                   : 'auto',
+    WebkitOverflowScrolling    : 'touch',
+    borderRadius               : '4px',
+    outline                    : 'none',
+    padding                    : '50px'
+ 
+  }
+};
 
 module.exports = AllDeals;

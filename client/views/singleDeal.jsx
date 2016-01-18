@@ -4,7 +4,7 @@ var Modal = require('react-modal');
 
 var SingleDeal = React.createClass({
   getInitialState: function() {
-    return { modalIsOpen: false };
+    return { modalIsOpen: true };
   },
 
   openModal: function() {

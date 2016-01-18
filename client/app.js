@@ -10,6 +10,7 @@ var Link = require('react-router').Link
 //require all of the module exports here
 // var Main = require('./views/main.jsx');
 var App = require('./views/main.jsx');
+// var GroceryList = require('./views/modal.jsx')
 var AllDeals = require('./views/allDeals.jsx');
 var SingleDeal = require('./views/singleDeal.jsx');
 // var Mod = require('./views/modal.jsx')
