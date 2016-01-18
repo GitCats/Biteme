@@ -9,6 +9,7 @@ module.exports = router;
 //haven't yet expired for this specific restaurant id
 //and send them along with a 200 response
 router.post('/', function (req, res) {
+	console.log('request body:', req.body)
 	Owner.prevDeals(req.body.restaurant_id)
 		.then(function(result){
 			res.send(result);
