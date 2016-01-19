@@ -19,10 +19,44 @@ UserPref.allCuis = function(userId) {
 };
 
 //this function will replace all of the values in the restaurant prefs table
-UserPref.updateRes = function(attrs) {
-  return db('res_prefs').insert({user_id: attrs.user_id, restaurant_id: attrs.restaurant_id})
+UserPref.updateRes = function(obj) {
+	var ids = obj.restaurant_id;
+	console.log('ids:', ids)
+	var add = [];
+	var del = [];
+	for(var k in ids) {
+		if(ids[k] === 1){
+			console.log("ids[k]:", ids[k])
+			add.push({user_id: obj.user_id, restaurant_id: Number(k)});
+		} else {
+			del.push(Number(k))
+  		}
+	}
+	console.log("add", add);
+	console.log("del", del);
+	return db('res_prefs').insert(add)
+		.then(function() {
+			return db('res_prefs').whereIn('restaurant_id', del).andWhere('user_id', obj.user_id).del()
+		})
 }
 
 //this function will replace all of the values in the cuisine prefs table
-UserPref.updateCuis = function(attrs) {
+UserPref.updateCuis = function(obj) {
+	var ids = obj.cuisine_id;
+	var add = [];
+	var del = [];
+	for(var k in ids) {
+		if(ids[k] === 1){
+			console.log("ids[k]:", ids[k])
+			add.push({user_id: obj.user_id, cuisine_id: Number(k)});
+		} else {
+			del.push(Number(k))
+  		}
+	}
+	console.log("add", add);
+	console.log("del", del);
+	return db('cuisine_prefs').insert(add)
+		.then(function() {
+			return db('cuisine_prefs').whereIn('cuisine_id', del).andWhere('user_id', obj.user_id).del()
+		})
 }
