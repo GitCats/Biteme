@@ -19,8 +19,6 @@ router.post('/signin', function (req, res) {
 		if (!data.length) res.sendStatus(404);
 		if(req.body.password === data[0].password){
 		res.sendStatus(200)
-		} else {
-			res.sendStatus(401)
 		}
     else{
       res.status(400).send({reason: "Password incorrect"});
@@ -28,18 +26,13 @@ router.post('/signin', function (req, res) {
 	})
   .catch(function(err){
     res.status(400).send({reason: "User not found"});
-  })
-})
+  });
+});
 
 //SIGN UP (POST)
 //when a user inputs a new username, this will check against the database to see if it already exists
 //if it doesn't then it will create it and save the password associated with it to the users database
 //then send back 201 (created) response
-<<<<<<< HEAD
-router.post('/', function (req, res){
-
-})
-=======
 router.post('/signup', function (req, res){
 	Auth.signup(req.body)
 	.then(function(data){
@@ -55,4 +48,3 @@ router.post('/signup', function (req, res){
 		}
 	})
 })
->>>>>>> cbcc9f7b6ccde53acfb12a1dbc7c4a7b71743e12

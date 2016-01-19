@@ -31,12 +31,13 @@ CREATE SEQUENCE restaurant_id_seq;
 CREATE TABLE restaurants (
   restaurant_id INTEGER NOT NULL default nextval('restaurant_id_seq'),
   cuisine_id INTEGER,
-  image_name varchar(300),
+  image_name varchar(3000),
   username varchar(30),
   password varchar(30),
   name varchar(100),
   description varchar(3000),
-  url varchar(50),
+  url varchar(3000),
+  address varchar(1000),
   PRIMARY KEY (restaurant_id)
 );
 ALTER SEQUENCE restaurant_id_seq owned by restaurants.restaurant_id;
