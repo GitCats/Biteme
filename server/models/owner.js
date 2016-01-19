@@ -31,8 +31,15 @@ Owner.create = function(body) {
 //**NEED TO CHECK FOR SIGN IN**
 Owner.setup = function(body){
 	return db('restaurants')
-	.insert({cuisine_id: body.cuisine_id, image_name: body.image_name, description: body.description, url: body.url, address: body.address})
+	.where('restaurant_id', body.restaurant_id)
+	.update('cuisine_id', body.cuisine_id)
+	.update('image_name', body.image_name)
+	.update('description', body.description)
+	.update('url', body.url)
+	.update('address', body.address)
 }
+
+//figure out duplicates
 
 //insert into restaurants (cuisine_id, image_name, username, password, name, description, url, address)
 //body will be {"cuisine_id": 7, 
