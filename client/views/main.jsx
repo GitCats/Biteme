@@ -6,6 +6,7 @@
 // var Route = require('react-router').Route;
 // var IndexRoute = require('react-router').IndexRoute;
 var Link = require('react-router').Link
+var IndexLink = require('react-router').IndexLink;
 var Signup = require('./auth.jsx').signup;
 var Login = require('./auth.jsx').login;
 var OwnerSignup = require('./auth.jsx').ownerSignup;
