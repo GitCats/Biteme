@@ -20,9 +20,12 @@ router.post('/signin', function (req, res) {
 		if(req.body.password === data[0].password){
 		res.sendStatus(200)
 		} else {
-			res.sendStatus(401)
+     res.status(400).send({reason: "Password incorrect"});
 		}
 	})
+  .catch(function(err){
+    res.status(400).send({reason: "User not found"});
+  })
 })
 
 //SIGN UP (POST)
@@ -41,6 +44,6 @@ router.post('/signup', function (req, res){
 				console.log('data new user:', data)
 				res.sendStatus(201);
 			})
-		}	
-	})		
+		}
+	})
 })
