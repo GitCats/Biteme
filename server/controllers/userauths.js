@@ -25,8 +25,8 @@ router.post('/signin', function (req, res) {
 	})
   .catch(function(err){
     res.status(400).send({reason: "User not found"});
-  })
-})
+  });
+});
 
 //SIGN UP (POST)
 //when a user inputs a new username, this will check against the database to see if it already exists
