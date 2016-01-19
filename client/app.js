@@ -7,13 +7,11 @@ var Route = require('react-router').Route;
 var IndexRoute = require('react-router').IndexRoute;
 var Link = require('react-router').Link
 
-//require all of the module exports here
-// var Main = require('./views/main.jsx');
-var App = require('./views/main.jsx');
-// var GroceryList = require('./views/modal.jsx')
+// require all of the module exports here
+var Main = require('./views/main.jsx');
 var AllDeals = require('./views/allDeals.jsx');
 var SingleDeal = require('./views/singleDeal.jsx');
-// var Mod = require('./views/modal.jsx')
+
 
 //top level route will always be in view -- acts as a shell so needs a 
 //this.props.children where the other views will be switched in and out
@@ -21,7 +19,7 @@ var SingleDeal = require('./views/singleDeal.jsx');
 
 ReactDOM.render((
   <Router>
-    <Route path="/" component={App}> //Will always be in view
+    <Route path="/" component={Main}> //Will always be in view
       <IndexRoute component={AllDeals} /> //the default view that can be switch out
     </Route>
   </Router>
