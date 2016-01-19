@@ -3,6 +3,12 @@ HEROKU
 Enter this in your terminal to access the db directly:
 heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 
+POSTGRESQL
+'\dt' - will show all tables in the db
+'\q' - will escape you from the db
+'SELECT * from [TABLENAME};' - will display all of the columns and records for a table
+'SELECT * from [TABLENAME} WHERE name='jimmy johns';' -
+
 GET/api/getDeals => gets all deals from database
 
 POST/api/getDeals => creates a deal from req.body and sends a 201
