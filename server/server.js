@@ -27,7 +27,7 @@ app.use(morgan('dev'));
 app.use('/api/getDeals', dealsRouter);
 app.use('/api/login', authRouter);
 app.use('/api/view', viewRouter);
-app.use('/api/userpref', userRouter);
+app.use('/api/userprefs', userRouter);
 app.use('/api/owner', ownerRouter);
 app.use('/', routes)
 

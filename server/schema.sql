@@ -166,10 +166,10 @@ insert into deals (restaurant_id, description) values (3, '30% off your entire c
 insert into deals (restaurant_id, description) values (1, 'Free Queso with any purchase');
 insert into deals (restaurant_id, description) values (4, '50% off omelettes');
 
-insert into users (phone, email, username, password) values (5551234567, 'person@gmail.com', 'person person', 'abc');
-insert into users (phone, email, username, password) values (5122143432, 'kaylamatteo@gmail.com', 'Kayla M', 'abc');
-insert into users (phone, email, username, password) values (5551234568, 'johnsmith@gmail.com', 'John Smith', 'abc');
-insert into users (phone, email, username, password) values (5551234569, 'janedoe@gmail.com', 'Jane Doe', 'abc');
+insert into users (phone, email, password) values (5551234567, 'person@gmail.com', 'abc');
+insert into users (phone, email, password) values (5122143432, 'kaylamatteo@gmail.com', 'abc');
+insert into users (phone, email, password) values (5551234568, 'johnsmith@gmail.com', 'abc');
+insert into users (phone, email, password) values (5551234569, 'janedoe@gmail.com', 'abc');
 
 insert into res_prefs (user_id, restaurant_id) values (1, 1);
 insert into res_prefs (user_id, restaurant_id) values (1, 2);
