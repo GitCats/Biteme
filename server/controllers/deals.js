@@ -11,6 +11,6 @@ router.get('/', function (req, res) {
 	Deal.all()
 		.then(function(result){
 			res.status(200).send(result);
-		})
+		});
 })
 

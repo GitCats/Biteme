@@ -31,7 +31,7 @@ app.use('/api/userpref', userRouter);
 app.use('/api/owner', ownerRouter);
 app.use('/', routes)
 
-//redo once we have some public stuffs
+//Get browserify file:
 routes.get('/app-bundle.js',
 // Tell browserify to use reactify as it's JSX compiler
 browserify('./client/app.js', {
@@ -46,8 +46,6 @@ routes.get('/*', function(req, res) {
 var port = process.env.PORT || 4000
 app.listen(port)
 console.log("Listening on port", port)
-// } else {
 
 module.exports = routes
-// }
 
