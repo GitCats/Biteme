@@ -2,8 +2,10 @@ var db = require('../db/index.js');
 
 var singledealview = module.exports
 
-singledealview.view = function(){
+//this function will check for the deal_id that matches the deal_id of the input
+//and return more information about that specific deal
+singledealview.view = function(deal){
 	return db('deals')
-	.where('deal_id')
-	.select('description', 'restaurant_id', 'expiration')
+	.select('restaurant_id', 'description', 'expiration')
+	.where('deal_id', deal)
 };

@@ -73,7 +73,7 @@ CREATE TABLE users (
   user_id INTEGER NOT NULL default nextval('user_id_seq'),
   phone varchar(20),
   email varchar(50),
-  username varchar(30),
+  -- username varchar(30),
   password varchar(30),
   PRIMARY KEY (user_id)
 );
