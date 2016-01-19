@@ -15,9 +15,12 @@ router.post('/signin', function (req, res) {
 	Auth.signin(req.body)
 	.then(function (data) {
 		console.log('data password', data.password)
-		console.log(data);
+		console.log('data', data);
+		if (!data.length) res.sendStatus(404);
 		if(req.body.password === data[0].password){
 		res.sendStatus(200)
+		} else {
+			res.sendStatus(401)
 		}
 	})
 })

@@ -41,7 +41,7 @@ var AllDeals = React.createClass({
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error("Error:", this.props.url, status, err.toString());
       }.bind(this)
     });
   },
@@ -92,7 +92,7 @@ var DealList = React.createClass({
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
-        <Deal description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.id}>
+        <Deal description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
         </Deal>
       );
     });
