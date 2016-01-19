@@ -11,6 +11,7 @@ var Link = require('react-router').Link;
 var App = require('./views/main.jsx');
 var AllDeals = require('./views/allDeals.jsx');
 var OwnerProfile = require('./views/ownerProfile.jsx');
+// var Map = require('./views/map.jsx');
 
 //top level route will always be in view -- acts as a shell so needs a 
 //this.props.children where the other views will be switched in and out

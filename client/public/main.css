@@ -115,5 +115,9 @@ body {
 	/*display: inline-block;*/
 } 
 
+#map {
+  width: 500px;
+  height: 500px;
+}
 
 
