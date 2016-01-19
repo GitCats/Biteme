@@ -41,8 +41,7 @@ Owner.setup = function(body){
 
 //figure out duplicates
 
-//insert into restaurants (cuisine_id, image_name, username, password, name, description, url, address)
-//body will be {"cuisine_id": 7, 
+//body will be {"restaurant_id": 1, "cuisine_id": 7, 
 //"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg", 
 //"description": "World Famous Barbecue", "url": "www.franklinbarbecue.com", "address": "900 East 11th Street, Austin, TX"}
 
