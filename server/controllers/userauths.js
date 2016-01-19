@@ -19,10 +19,9 @@ router.post('/signin', function (req, res) {
 		if (!data.length) res.sendStatus(404);
 		if(req.body.password === data[0].password){
 		res.sendStatus(200)
+		} else {
+     res.status(400).send({reason: "Password incorrect"});
 		}
-    else{
-      res.status(400).send({reason: "Password incorrect"});
-    }
 	})
   .catch(function(err){
     res.status(400).send({reason: "User not found"});
