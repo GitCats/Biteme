@@ -1,5 +1,4 @@
 var $ = require('jquery');
-// var Modal = require('react-modal');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Router = require('react-router').Router;

@@ -2,7 +2,7 @@ var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('react-modal');
-  
+
 /*
 By default the modal is anchored to document.body. All of the following overrides are available.
  
@@ -144,6 +144,8 @@ var UserLogin = React.createClass({
         localStorage.setItem("user", loginRequest.email);
         console.log("Logged in as:", localStorage.getItem("user"));
         this.setState({email: '', password: ''});
+        this.closeModal();
+        window.location = '#ownerprofile';
       }.bind(this),
       error: function(xhr, status, err) {
         console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
