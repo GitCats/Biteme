@@ -23,4 +23,5 @@ Auth.create = function(body){
 	var newUser = body.email;
 	var newPass = body.password;
 	return db('users').insert({email: newUser, password: newPass});
-}	
+}
+
