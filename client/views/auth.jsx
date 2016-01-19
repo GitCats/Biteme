@@ -64,7 +64,9 @@ var UserSignup = React.createClass({
       data: signUpRequest,
       success: function(res) {
         localStorage.setItem("user", signUpRequest.email);
-        this.setState({email: '', password: ''});
+        console.log("Logged in as:", localStorage.getItem("user"));
+        this.closeModal();
+        window.location = '#ownerprofile';
       }.bind(this),
       error: function(xhr, status, err) {
         console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
@@ -143,7 +145,6 @@ var UserLogin = React.createClass({
       success: function(res) {
         localStorage.setItem("user", loginRequest.email);
         console.log("Logged in as:", localStorage.getItem("user"));
-        this.setState({email: '', password: ''});
         this.closeModal();
         window.location = '#ownerprofile';
       }.bind(this),
@@ -244,10 +245,13 @@ var OwnerLogin = React.createClass({   //Update API route when ready
       data: ownerLoginRequest,
       success: function(res) {
         localStorage.setItem("user", ownerLoginRequest.email);
-      },
+        console.log("Logged in as:", localStorage.getItem("user"));
+        this.closeModal();
+        window.location = '#ownerprofile';
+      }.bind(this),
       error: function(xhr, status, err) {
         console.error(xhr, status, err.toString());
-      }
+      }.bind(this)
     });
   },
  
