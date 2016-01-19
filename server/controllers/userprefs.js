@@ -27,7 +27,6 @@ router.post('/cuisines', function (req, res) {
 //(replaces previous data)
 //sends 201 status
 router.post('/updateRes', function(req, res){
-	
 	UserPref.updateRes(req.body)
 		.then(function(result){
 			res.sendStatus(201);
