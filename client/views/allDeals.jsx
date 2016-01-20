@@ -42,6 +42,12 @@ var Deal = React.createClass({
           <div className="dealExpiration">
             {this.props.expiration}
           </div>
+          <div className="dealUrl">
+            {this.props.url}
+          </div>
+          <div className="dealAddress">
+            {this.props.address.split(',', 1)}
+          </div>
         </div>  
       </div> 
 
@@ -62,8 +68,8 @@ var Deal = React.createClass({
             <div className="dealExpiration">
               {this.props.expiration}
             </div>
-            <Map />
-            <Yelp />
+            <Map {...this.props} />
+            <Yelp {...this.props} />
           </div>
         </Modal>
       </a>
@@ -107,14 +113,10 @@ var AllDeals = React.createClass({
 });
 
 var DealList = React.createClass({
-  handleClick: function() {
-    console.log(this.props)
-  },
-
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
-        <Deal description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
+        <Deal name={deal.name} url={deal.url} address={deal.address} description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
         </Deal>
       );
     });

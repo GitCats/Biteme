@@ -48,9 +48,12 @@ var Map = React.createClass({
 	componentDidUpdate: function() {
 
 		GMaps.geocode({
-  			address: '900 E 11th St, Austin, TX 78702',
+  			address: this.props.address,
   			callback: function(results, status) {
-    			if (status == 'OK') {
+  				if(status !== 'OK') {
+  					console.log('error with gmaps')
+  				}
+    			if (status === 'OK') {
       				var latlng = results[0].geometry.location;
     			}
 
