@@ -4,11 +4,13 @@ var Owner = module.exports
 
 //selects and returns all deals for the specified restaurant
 //only if they are not yet expired
-Owner.allDeals = function(restaurantId) {
-  return db('deals')
-    .join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
+Owner.allDeals = function(url) {
+	var id = url.substr(url.lastIndexOf("/")+1);
+	console.log('id: ', id)
+	return db('deals')
+	.join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
     .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id')
-    .where ('deals.restaurant_id', restaurantId)
+    .where('deals.restaurant_id', id)
 };
 
 //this will check to see if the username is in the restaurant table
@@ -30,7 +32,6 @@ Owner.create = function(body) {
 
 Owner.getProfile = function(url){
 	var id = url.substr(url.lastIndexOf("/")+1);
-	console.log('id: ', id)
 	return db('restaurants')
 	.where('restaurant_id', id)
 	.select('cuisine_id', 'image_name', 'description', 'url', 'address')
