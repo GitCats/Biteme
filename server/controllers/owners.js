@@ -8,7 +8,7 @@ module.exports = router;
 //this will grab all of the deals from the database which
 //haven't yet expired for this specific restaurant id
 //and send them along with a 200 response
-router.get('/*', function (req, res) {
+router.get('*', function (req, res) {
 	console.log('request body:', req.url)
 	Owner.allDeals(req.url)
 		.then(function(result){
@@ -32,8 +32,8 @@ router.post('/login', function (req, res) {
 		}
 	})
 	.catch(function(err){
-		res.status(400).send({reason: "User not found!"});
-	})
+    res.status(400).send({reason: "User not found"});
+  })
 })
 
 //POST A NEW DEAL

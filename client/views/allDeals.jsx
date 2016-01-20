@@ -9,6 +9,7 @@ var Link = require('react-router').Link
 var Modal = require('react-modal');
 // var Maps = require('google-maps')
 var Map = require('./map.jsx')
+var Yelp = require('./yelpinfo.jsx')
 
 
 var Deal = React.createClass({
@@ -18,7 +19,6 @@ var Deal = React.createClass({
 
   openModal: function() {
     this.setState({ modalIsOpen: true});
-    console.log(this.props)
   },
 
   closeModal: function() {
@@ -63,6 +63,7 @@ var Deal = React.createClass({
               {this.props.expiration}
             </div>
             <Map />
+            <Yelp />
           </div>
         </Modal>
       </a>
@@ -73,9 +74,10 @@ var Deal = React.createClass({
 var AllDeals = React.createClass({
   loadDealsFromServer: function() {
     $.ajax({
-      url: '/api/getDeals',
+      url: 'api/getDeals',
       dataType: 'json',
       cache: false,
+      type: 'GET',
       success: function(data) {
         console.log('data', data)
         this.setState({data: data});
@@ -97,9 +99,7 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-      <Link to='maps'>
         <h1>Deals</h1>
-        </Link>
         <DealList data={this.state.data} />
       </div>
     );
@@ -107,6 +107,10 @@ var AllDeals = React.createClass({
 });
 
 var DealList = React.createClass({
+  handleClick: function() {
+    console.log(this.props)
+  },
+
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
@@ -116,6 +120,7 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
+      <h1 onClick={this.handleClick}>TEST</h1>
         {dealNodes}
       </div>
     );
