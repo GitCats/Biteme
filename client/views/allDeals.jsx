@@ -9,6 +9,7 @@ var Link = require('react-router').Link
 var Modal = require('react-modal');
 // var Maps = require('google-maps')
 var Map = require('./map.jsx')
+var Yelp = require('./yelpinfo.jsx')
 
 
 var Deal = React.createClass({
@@ -62,6 +63,7 @@ var Deal = React.createClass({
               {this.props.expiration}
             </div>
             <Map />
+            <Yelp />
           </div>
         </Modal>
       </a>
@@ -105,6 +107,10 @@ var AllDeals = React.createClass({
 });
 
 var DealList = React.createClass({
+  handleClick: function() {
+    console.log(this.props)
+  },
+
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
@@ -114,6 +120,7 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
+      <h1 onClick={this.handleClick}>TEST</h1>
         {dealNodes}
       </div>
     );
