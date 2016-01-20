@@ -32,13 +32,25 @@ Deal.all = function() {
   time = time.slice(0, 4); //time is now in form 2300 (military)
   time = Number(time);
   return db('deals')
-    .where('month', '>=', month)
-    .andWhere('day', '>=', day)
-    .andWhere('year', '>=', year)
-    .orWhere(function(){
+    .where(function(){ //case where it is the same month, but later in the month
+      this.where('month', month).andWhere('day', '>', day).andWhere('year', year)
+    })
+    .orWhere(function(){ //case where it is anytime after this month
+      this.where('month', '>', month).andWhere('year', '>=', year)
+    })
+    .orWhere(function(){ //case where it is next year or anytime after
+      this.where('year', '>', year)
+    })
+    .orWhere(function(){ //case where it is the exact day
       this.where('month', month).andWhere('day', day).andWhere('year', year).andWhere('expiration', '>', time)
     })
+    .orderBy('year', 'asc')
+    .orderBy('month', 'asc')
+    .orderBy('day', 'asc')
+    .orderBy('expiration', 'asc')
     .join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
-    .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id')
+    .select('restaurants.name', 'restaurants.image_name', 'restaurants.address', 'restaurants.url', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year');
 };
+
+//add address and url to this
 
