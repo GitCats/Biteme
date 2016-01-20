@@ -38,6 +38,7 @@ CREATE TABLE restaurants (
   description varchar(3000),
   url varchar(3000),
   address varchar(1000),
+  phone_number varchar(20),
   PRIMARY KEY (restaurant_id)
 );
 ALTER SEQUENCE restaurant_id_seq owned by restaurants.restaurant_id;
