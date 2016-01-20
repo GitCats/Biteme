@@ -16,9 +16,9 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="logoDiv">
-        <IndexLink to='/'><img src="client/assets/blueplate.png" className="bluePlateLogo" /></IndexLink>
+        <IndexLink to='/'><img src="client/assets/banner.jpg" className="bluePlateLogo" /></IndexLink>
         <div className="auth">Care to filter by preferences? Click <Signup /> or <Login /> for this cool feature!</div>
-        <span className="ownerAuth">Are you a <strong>restaurant owner</strong> with deals to offer? Click <OwnerSignup /> to sign up to list them, or <OwnerLogin /> if you already have an account.</span>
+        <span className="ownerAuth"><p className="text">Are you a <strong>restaurant owner</strong> with deals to offer? Click <OwnerSignup /> to sign up to list them, or <OwnerLogin /> if you already have an account.</p></span>
         {this.props.children}
       </div>
     );
