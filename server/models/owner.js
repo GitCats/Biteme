@@ -7,7 +7,7 @@ var Owner = module.exports
 Owner.allDeals = function(restaurantId) {
   return db('deals')
     .join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
-    .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id')
+    .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
     .where ('deals.restaurant_id', restaurantId)
 };
 
