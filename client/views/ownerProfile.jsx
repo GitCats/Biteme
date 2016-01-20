@@ -12,15 +12,13 @@ var Link = require('react-router').Link
 //sends unique AJAX POST request to db with form info => POST/api/owner/create
 //re-renders past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
 //
-//Displaying the restaurant profile:
+//Displaying & Updating the restaurant profile:
 //make a unique AJAX GET request to retrieve previous deals AND profile info already saved, based on restaurant_id in localStorage (append to API route)
-//
-//Updating the restaurant profile:
 //include restaurant address (concat address field values), phone #, description (limit # of characters), cuisine, logo URL & business website(URL) fields & submit button
 //make a unique AJAX POST request to update only profile info, not deals (has to update all fields, must include "restaurant_id" identifier in req.body) => api/owner/updateprofile
 //
 //Displaying past deals:
-//show restaurant name, expiration date/time (hour/minute/ampm dropdowns), logo, & text of deal description (based on AJAX GET request referenced above)
+//show restaurant name, cuisine, expiration date/time (hour/minute/ampm dropdowns), logo, & text of deal description (based on AJAX GET request referenced above)
 
 
 var OwnerProfile = React.createClass({
@@ -31,7 +29,7 @@ var OwnerProfile = React.createClass({
 
   loadPriorSettings: function() {
     $.ajax({
-      url: 'api/owner/' + localStorage.getItem("restaurant_id"),    //should return all deals and settings
+      url: 'api/owner/' + localStorage.getItem("restaurant_id"),
       dataType: 'json',    /*defaults to GET request*/
       success: function(settings) {
         this.setState({settings: settings});
@@ -46,13 +44,13 @@ var OwnerProfile = React.createClass({
   render: function() {
     return (
       <div>
-        <Dropdown />
+        <OwnerForm settings={this.state.settings} />
       </div>
     );
   }
 });
 
-var Dropdown = React.createClass({
+var OwnerForm = React.createClass({
 
   getInitialState: function() {
     return {cuisine: ""};    //SET TO WHATEVER IS RETURNED FROM PAST ENTRY IN DB
@@ -67,13 +65,13 @@ var Dropdown = React.createClass({
   },
 
   render: function() {
-    console.log("Current dropdown value:", this.state.cuisine)
+    console.log("Current dropdown value:", this.state.cuisine);
     return (
       <form className="ownerForm">
-        Street Address: <input type="text" />
-        City: <input type="text" />
-        State: <input type="text" />
-        ZIP: <input type="text" />
+        Street Address: <input type="text" value="street" /> 
+        City: <input type="text" value="city" /> 
+        State: <input type="text" value="state" /> 
+        ZIP: <input type="text" value="zip" /> 
         <br/><br/>
         <select onChange={this.selectCuisine}>
           <option value="">-Choose your cuisine-</option>

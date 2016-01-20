@@ -252,7 +252,7 @@ var OwnerLogin = React.createClass({   //Update API route when ready
       type: 'POST',
       data: ownerLoginRequest,
       success: function(res) {
-        console.log("Owner Login Response:", res.restaurant_id);
+        console.log("Owner Login Response:", res);
         localStorage.setItem("user", ownerLoginRequest.username);
         localStorage.setItem("restaurant_id", res.restaurant_id);
         console.log("Logged in as:", localStorage.getItem("user"));
