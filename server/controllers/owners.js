@@ -8,9 +8,9 @@ module.exports = router;
 //this will grab all of the deals from the database which
 //haven't yet expired for this specific restaurant id
 //and send them along with a 200 response
-router.post('/', function (req, res) {
-	console.log('request body:', req.body)
-	Owner.allDeals(req.body.restaurant_id)
+router.get('/*', function (req, res) {
+	console.log('request body:', req.url)
+	Owner.allDeals(req.url)
 		.then(function(result){
 			res.status(200).send(result);
 		})
@@ -42,6 +42,14 @@ router.post('/login', function (req, res) {
 router.post('/create', function (req, res) {
 	Owner.create(req.body).then(function() {
 		res.sendStatus(201);
+	})
+})
+
+router.get('/getprofile/*', function(req, res){
+	console.log('req url:', req.url);
+	Owner.getProfile(req.url)
+	.then(function (data){
+		res.status(200).send(data);
 	})
 })
 
