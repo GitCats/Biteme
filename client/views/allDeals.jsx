@@ -27,7 +27,7 @@ var Deal = React.createClass({
 
   render: function() {
     return (
-      <a onClick={this.openModal}>
+      <a class='links' onClick={this.openModal}>
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
           <img src={this.props.image_name} className='dealLogo' />
