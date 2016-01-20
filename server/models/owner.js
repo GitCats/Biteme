@@ -18,7 +18,7 @@ Owner.allDeals = function(restaurantId) {
 Owner.signin = function(body){
 	return db('restaurants')
 	.where('username', body.username)
-	.select('password')
+	.select('password', 'restaurant_id')
 }
 
 
@@ -29,7 +29,7 @@ Owner.create = function(body) {
 }
 
 //**NEED TO CHECK FOR SIGN IN**
-Owner.setup = function(body){
+Owner.update = function(body){
 	return db('restaurants')
 	.where('restaurant_id', body.restaurant_id)
 	.update('cuisine_id', body.cuisine_id)
@@ -37,11 +37,15 @@ Owner.setup = function(body){
 	.update('description', body.description)
 	.update('url', body.url)
 	.update('address', body.address)
+  .then(function(){
+    return db('restaurants').select('cuisine_id', 'image_name', 'name', 'description', 'url', 'address')
+      .where('restaurant_id', body.restaurant_id)
+    })
 }
 
 //figure out duplicates
 
-//body will be {"restaurant_id": 1, "cuisine_id": 7, 
-//"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg", 
+//body will be {"restaurant_id": 1, "cuisine_id": 7,
+//"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg",
 //"description": "World Famous Barbecue", "url": "www.franklinbarbecue.com", "address": "900 East 11th Street, Austin, TX"}
 
