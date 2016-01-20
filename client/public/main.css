@@ -74,7 +74,7 @@ body {
 }
 
 .bluePlateLogo {
-  width: 250px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   display: block;
@@ -118,6 +118,14 @@ body {
 #map {
   width: 500px;
   height: 500px;
+}
+
+.auth {
+  text-align: center;
+}
+
+.text {
+  text-align: center;
 }
 
 
