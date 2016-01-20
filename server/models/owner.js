@@ -18,7 +18,7 @@ Owner.prevDeals = function(restaurantId) {
 Owner.signin = function(body){
 	return db('restaurants')
 	.where('username', body.username)
-	.select('password')
+	.select('password', 'restaurant_id')
 }
 
 

@@ -24,10 +24,15 @@ router.post('/', function (req, res) {
 router.post('/login', function (req, res) {
 	Owner.signin(req.body)
 	.then(function (data) {
-	if(req.body.password === data[0].password){
-	res.sendStatus(200);
-}
+		if(req.body.password === data[0].password){
+			res.status(200).send(data);
+		} else {
+     res.status(400).send({reason: "Password incorrect"});
+		}
 	})
+	.catch(function(err){
+    res.status(400).send({reason: "User not found"});
+  })
 })
 
 //POST A NEW DEAL
