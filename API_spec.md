@@ -39,6 +39,6 @@ POST/api/owner/login => this will take the inputed username and password and com
 
 POST/api/owner/create => this will take user inputed information and use it to add a new deal to the database
 
-GET/api/owner/getprofile => this gets all the info from the database according to restaurant id that is related to the specific restaurant
+GET/api/owner/getprofile/* => this gets all the info from the database according to restaurant id that is related to the specific restaurant
 
 POST/api/owner/profile => this updates the database with new info from the restaurant owner input form fields for the profile
