@@ -8,7 +8,7 @@ var Link = require('react-router').Link
 //OWNER PROFILE PAGE
 //
 //Creating new deals:
-//create deal form (see line 19, limited # of characters for deal description) & submit button
+//create deal form (see line 23, limited # of characters for deal description) & submit button
 //sends unique AJAX POST request to db with form info => POST/api/owner/create
 //re-renders past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
 //
@@ -16,11 +16,11 @@ var Link = require('react-router').Link
 //make a unique AJAX GET request to retrieve previous deals AND profile info already saved, based on restaurant_id in localStorage (append to API route)
 //
 //Updating the restaurant profile:
-//include restaurant address (concat address field values), description (limit # of characters), cuisine, logo URL & business website(URL) fields & submit button
+//include restaurant address (concat address field values), phone #, description (limit # of characters), cuisine, logo URL & business website(URL) fields & submit button
 //make a unique AJAX POST request to update only profile info, not deals (has to update all fields, must include "restaurant_id" identifier in req.body) => api/owner/updateprofile
 //
 //Displaying past deals:
-//show restaurant name, expiration date/time, logo, & text of deal description (based on AJAX GET request referenced above)
+//show restaurant name, expiration date/time (hour/minute/ampm dropdowns), logo, & text of deal description (based on AJAX GET request referenced above)
 
 
 var OwnerProfile = React.createClass({
