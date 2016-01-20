@@ -8,7 +8,7 @@
 //change address to this.props.address in getMap Coordinates
 
 var React = require('react');
-var Gmaps = require('../../gmaps.js')
+// var Gmaps = require('../../gmaps.js')
 
 
 var Map = React.createClass({ 
@@ -82,6 +82,7 @@ var Map = React.createClass({
 			)
 		}
 	});
+
 
 	
 

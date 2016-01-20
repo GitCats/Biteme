@@ -18,7 +18,6 @@ var Deal = React.createClass({
 
   openModal: function() {
     this.setState({ modalIsOpen: true});
-    console.log(this.props)
   },
 
   closeModal: function() {
@@ -73,9 +72,10 @@ var Deal = React.createClass({
 var AllDeals = React.createClass({
   loadDealsFromServer: function() {
     $.ajax({
-      url: '/api/getDeals',
+      url: 'api/getDeals',
       dataType: 'json',
       cache: false,
+      type: 'GET',
       success: function(data) {
         console.log('data', data)
         this.setState({data: data});
@@ -97,9 +97,7 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-      <Link to='maps'>
         <h1>Deals</h1>
-        </Link>
         <DealList data={this.state.data} />
       </div>
     );
