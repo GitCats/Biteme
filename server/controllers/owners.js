@@ -32,8 +32,8 @@ router.post('/login', function (req, res) {
 		}
 	})
 	.catch(function(err){
-		res.status(400).send({reason: "User not found!"});
-	})
+    res.status(400).send({reason: "User not found"});
+  })
 })
 
 //POST A NEW DEAL
