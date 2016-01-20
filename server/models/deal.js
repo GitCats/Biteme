@@ -49,6 +49,8 @@ Deal.all = function() {
     .orderBy('day', 'asc')
     .orderBy('expiration', 'asc')
     .join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
-    .select('restaurants.name', 'restaurants.image_name', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year');
+    .select('restaurants.name', 'restaurants.image_name', 'restaurants.address', 'restaurants.url', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year');
 };
+
+//add address and url to this
 
