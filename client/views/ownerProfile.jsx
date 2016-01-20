@@ -16,7 +16,7 @@ var Link = require('react-router').Link
 //make a unique AJAX GET request to retrieve previous deals AND profile info already saved, based on restaurant_id in localStorage (append to API route)
 //
 //Updating the restaurant profile:
-//include restaurant address (concat address field values), description (limit # of characters), cuisine, logo URL & business website(URL) fields & submit button
+//include restaurant address (concat address field values), phone #, description (limit # of characters), cuisine, logo URL & business website(URL) fields & submit button
 //make a unique AJAX POST request to update only profile info, not deals (has to update all fields, must include "restaurant_id" identifier in req.body) => api/owner/updateprofile
 //
 //Displaying past deals:
