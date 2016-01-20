@@ -39,6 +39,15 @@ router.post('/create', function (req, res) {
 	})
 })
 
+router.get('/getprofile/*', function(req, res){
+	console.log('req url:', req.url);
+	Owner.getProfile(req.url)
+	.then(function (data){
+		res.send(data);
+		res.status(200);
+	})
+})
+
 
 router.post('/profile', function (req, res) {
 	Owner.setup(req.body).then(function() {

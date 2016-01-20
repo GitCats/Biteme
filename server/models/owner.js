@@ -28,6 +28,14 @@ Owner.create = function(body) {
 	.insert({restaurant_id: body.restaurant_id, description: body.description, expiration: body.expiration, month: body.month, day: body.day, year: body.year})
 }
 
+Owner.getProfile = function(url){
+	var id = url.substr(url.lastIndexOf("/")+1);
+	console.log('id: ', id)
+	return db('restaurants')
+	.where('restaurant_id', id)
+	.select('cuisine_id', 'image_name', 'description', 'url', 'address')
+}
+
 //**NEED TO CHECK FOR SIGN IN**
 Owner.setup = function(body){
 	return db('restaurants')
