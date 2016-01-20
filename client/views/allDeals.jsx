@@ -120,7 +120,6 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
-      <h1 onClick={this.handleClick}>TEST</h1>
         {dealNodes}
       </div>
     );
