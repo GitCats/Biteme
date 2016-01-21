@@ -14,11 +14,3 @@ router.get('/', function (req, res) {
 		})
 })
 
-//POST A NEW DEAL
-//this will take user inputed information and use it to add a new deal to the database
-router.post('/', function (req, res) {
-	Deal.create(req.body).then(function () {
-		res.sendStatus(201)
-	})
-})
-
