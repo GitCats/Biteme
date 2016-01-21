@@ -10,7 +10,7 @@ Owner.allDeals = function(url) {
 	return db('deals')
 	.join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
   .select('restaurants.name', 'restaurants.image_name', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
-    .where ('deals.restaurant_id', restaurantId)
+    .where ('deals.restaurant_id', id)
 };
 
 //this will check to see if the username is in the restaurant table
