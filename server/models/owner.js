@@ -28,7 +28,6 @@ Owner.signin = function(body){
 	.select('password', 'restaurant_id')
 }
 
-
 //inserts a new deal into the database
 Owner.create = function(body) {
 	return db('deals')
