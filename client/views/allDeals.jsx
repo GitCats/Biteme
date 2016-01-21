@@ -14,7 +14,8 @@ var Yelp = require('./yelpinfo.jsx')
 
 var Deal = React.createClass({
   getInitialState: function() {
-    return { modalIsOpen: false };
+    return { modalIsOpen: false,
+             date: '' };
   },
 
   openModal: function() {
@@ -26,6 +27,48 @@ var Deal = React.createClass({
   },
 
   render: function() {
+
+    //formatting date 
+    var calendarMonths = {
+      1: 'January',
+      2: 'February',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December'
+    }
+    var month = calendarMonths[this.props.month];
+    var displayDate =  month + ' ' + this.props.day + ', ' + this.props.year;
+
+      //formatting time
+      var num = this.props.expiration
+      var minutes = num.toString().slice(-2);
+      if(num.toString().length === 4) {
+        var hours = num.toString().slice(0, 2)
+      } else {
+        var hours = num.toString().slice(0, 1)
+      }
+      var period;
+      if(hours < 12) {
+        period = 'am'
+      }
+      if(hours >= 12) {
+        hours = hours - 12;
+          if(hours === 12) {
+            period = 'am'
+          } else {
+            period = 'pm'
+          } 
+      }
+    var displayTime = hours + ':' + minutes + period
+
+
     return (
       <a onClick={this.openModal}>
       <div className="deal col-md-6 col-sm-12" >
@@ -39,14 +82,17 @@ var Deal = React.createClass({
           <div className="restaurantName">
             {this.props.name}
           </div> 
-          <div className="dealExpiration">
-            {this.props.expiration}
-          </div>
           <div className="dealUrl">
             {this.props.url}
           </div>
           <div className="dealAddress">
             {this.props.address.split(',', 1)}
+          </div>
+          <div className="dealDate">
+            {displayDate}
+          </div>
+          <div className="dealExpiration">
+            {displayTime}
           </div>
         </div>  
       </div> 
@@ -116,7 +162,7 @@ var DealList = React.createClass({
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
-        <Deal name={deal.name} url={deal.url} address={deal.address} description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
+        <Deal day={deal.day} year={deal.year} month={deal.month} name={deal.name} url={deal.url} address={deal.address} description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
         </Deal>
       );
     });
