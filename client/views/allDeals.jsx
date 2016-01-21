@@ -69,10 +69,10 @@ var Deal = React.createClass({
         period = 'am'
       }
       if(hours >= 12) {
-        hours = hours - 12;
-          if(hours === 12) {
+          if(hours === '12') {
             period = 'am'
           } else {
+            hours = hours - 12;
             period = 'pm'
           } 
       }
@@ -109,20 +109,11 @@ var Deal = React.createClass({
           <h3 className="dealDescription">
             {this.props.description}
           </h3>
-          <div className="restaurantName">
-            {this.props.name}
-          </div> 
           <div className="dealUrl">
             {this.props.url}
           </div>
           <div className="dealAddress">
             {this.props.address.split(',', 1)}
-          </div>
-          <div className="cuisineType">
-            {displayCuisine}
-          </div>
-          <div className="dealDate">
-            {displayDate}
           </div>
           <div className="dealExpiration">
             {displayTime}
@@ -199,7 +190,7 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1>Deals</h1>
+        <h1>Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );

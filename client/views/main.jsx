@@ -13,8 +13,8 @@ var App = React.createClass({
       {/*ADD CONDITIONAL STATEMENT HERE THAT CHECKS FOR LOGIN STATUS TO DISPLAY THE NEXT 2 LINES*/}
       {/*IF localStorage.getItem("user" or "token"), IT SHOULD DISPLAY LINK TO USER PREFS PAGE*/}
         {/*IF localStorage.getItem("restaurant_id"), IT SHOULD ALSO DISPLAY LINK TO OWNERPROFILE*/}
-        <div className="auth">Care to filter by preferences? <Signup /> or <Login /></div>
-        <div className="ownerAuth"><p className="text">Restaurant Owner? <OwnerSignup /> or <OwnerLogin /></p></div>
+        <div className="auth">Care to filter by preferences? <Signup /> or <Login /> </div>
+        <div className="ownerAuth">Restaurant Owner? <OwnerSignup /> or <OwnerLogin /></div>
         <IndexLink to='/'><img src="client/assets/banner.jpg" className="bluePlateLogo" /></IndexLink>
         {this.props.children}
       </div>
