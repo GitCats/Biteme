@@ -37,11 +37,11 @@ TestHelper.createApp = function(loader) {
 
   app.testReady = function() {
     //log all errors
-    app.use(err, req, res, next){
+    app.use(function(err, req, res, next){
       console.error("===Error===")
       console.error("  ", err.stack)
       next(err)
-    }
+    })
   }
   return app
 }
