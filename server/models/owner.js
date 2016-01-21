@@ -28,7 +28,6 @@ Owner.signin = function(body){
 	.select('password', 'restaurant_id')
 }
 
-
 //inserts a new deal into the database
 Owner.create = function(body) {
 	return db('deals')
@@ -56,8 +55,6 @@ Owner.update = function(body){
       .where('restaurant_id', body.restaurant_id)
     })
 }
-
-//figure out duplicates
 
 //body will be {"restaurant_id": 1, "cuisine_id": 7,
 //"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg",

@@ -19,7 +19,7 @@ browserify('./client/app.js', {
   transform: [require('reactify')]
 }))
 
-routes.use('/api/getDeals', dealsRouter);
+routes.use('/api/deals', dealsRouter);
 routes.use('/api/login', authRouter);
 routes.use('/api/userprefs', userRouter);
 routes.use('/api/owner', ownerRouter);
@@ -45,7 +45,7 @@ app.use('/', routes)
 var port = process.env.PORT || 4000
 app.listen(port)
 console.log("Listening on port", port)
-}
+  }
 else{
   //here we're in test mode
   module.exports = routes

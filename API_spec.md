@@ -11,7 +11,10 @@ heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 ==>DELETE FROM [TABLENAME] WHERE name='jimmy johns'; - deletes all records from specified table based on whatever comes after 'where' statement
 ==>UPDATE [TABLENAME] SET expiration=2200 WHERE id=1; - updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
 
-GET/api/getDeals => gets all deals from database that haven't expired
+GET/api/deals/getAll => gets all deals from database that haven't expired
+
+POST /api/deals/delete => delete deal from deals table. Sends a 200 and the message 'Deleted'
+  body:{deal_id: INTEGER}
 
 POST/api/getDeals => creates a deal from req.body and sends a 201
 
@@ -24,14 +27,14 @@ body: {
     year: INTEGER (2016)
 	}
 
-POST/api/login/signin => selects email where they match and then runs a function to check password against database. if they match it sends a 200.
+POST/api/login/signin => selects email where they match and then runs a function to encrypt and check password against encrypted password in database. if they match it sends a 200.
 
 body: {
 	"email": "person@gmail.com",
 	"password": "abc"
 	}
 
-POST/api/login/signup => when a user inputs an email, this will check against the database to see if it already exists, if it doesn't then it will create it and save the password associated with it to the users database & then send back 201 (created) response
+POST/api/login/signup => when a user inputs an email, this will check against the database to see if it already exists, if it doesn't then it will create it and save the password associated with it (after encrypting it) to the users database & then send back 201 (created) response
 
 GET /api/owner/* =>	this will grab all of the deals from the database for this specific restaurant id and send them along with a 200 response
 

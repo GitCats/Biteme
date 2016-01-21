@@ -4,9 +4,9 @@ var Owner = require('../models/owner');
 var router = express.Router();
 module.exports = router;
 
-//POST ALL PREVIOUS DEALS
-//this will grab all of the deals from the database which
-//haven't yet expired for this specific restaurant id
+//GET A RESTAURANTS DEALS
+//this will grab all of the deals from the database
+//for this specific restaurant id
 //and send them along with a 200 response
 router.get('*', function (req, res) {
 	console.log('request body:', req.url)

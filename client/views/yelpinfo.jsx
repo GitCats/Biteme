@@ -17,8 +17,8 @@ var YelpBox = React.createClass({
 			signatureMethod: 'HMAC-SHA1'
 		}
 	};
-	var terms = 'Franklin\'s Barbecue';
-	var near = 'Austin, TX';
+	var near = this.props.address;
+	var terms = this.props.name;
 	var limit = 1;
 
 	var accessor = {
