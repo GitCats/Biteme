@@ -18,7 +18,11 @@ router.get('/getAll', function (req, res) {
 router.post('/delete', function(req, res){
   Deal.remove(req.body.deal_id)
     .then(function(result){
-      console.log('is there a result', result)
-      res.status(200).send('Deleted')
+      if(result === 1){
+        res.status(200).send('Deleted')
+      }
+      else{
+        res.status(400).send('There was an error. Nothing could be deleted')
+      }
     })
 })
