@@ -193,7 +193,7 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1>Deals</h1>
+        <h1>Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );
