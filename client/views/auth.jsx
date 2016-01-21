@@ -79,7 +79,7 @@ var UserSignup = React.createClass({
   render: function() {
     return (
       <span>
-        <a onClick={this.openModal}>here to sign up</a>
+        <a onClick={this.openModal}>Sign Up</a>
         <Modal
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
@@ -159,7 +159,7 @@ var UserLogin = React.createClass({
   render: function() {
     return (
       <span>
-        <a onClick={this.openModal}>here to log in</a>
+        <a onClick={this.openModal}>Sign In</a>
         <Modal
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
@@ -203,7 +203,7 @@ var OwnerSignup = React.createClass({   //Prompt only, no AJAX request
   render: function() {
     return (
       <span>
-        <a onClick={this.openModal}>HERE</a>
+        <a onClick={this.openModal}>Sign Up</a>
         <Modal
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
@@ -270,7 +270,7 @@ var OwnerLogin = React.createClass({   //Update API route when ready
   render: function() {
     return (
       <span>
-        <a onClick={this.openModal}>here to log in</a>
+        <a onClick={this.openModal}>Sign In</a>
         <Modal
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
