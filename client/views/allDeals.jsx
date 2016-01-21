@@ -195,6 +195,9 @@ var AllDeals = React.createClass({
   componentDidMount: function() {
     this.loadDealsFromServer();
   },
+    filterResults: function() {
+    console.log('filtered')
+  },
 
   render: function() {
     return (
@@ -207,6 +210,10 @@ var AllDeals = React.createClass({
 });
 
 var DealList = React.createClass({
+  filterResults: function() {
+    console.log('filtered')
+  },
+
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
@@ -216,7 +223,7 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
-      <Dropdown />
+      <Dropdown {...this.props} />
         {dealNodes}
       </div>
     );
@@ -231,11 +238,13 @@ var Dropdown = React.createClass({
 
   selectCuisine: function(e) {
     this.setState({cuisine: e.target.value});
+    console.log(this.state)
   },
 
   render: function() {
     console.log("Current dropdown value:", this.state.cuisine)
     return (
+      <div onClick={this.filterResults}>TEST
       <form className="filterByCuisine">
         <select onChange={this.selectCuisine}>
           <option value="">-Choose your cuisine-</option>
@@ -257,6 +266,7 @@ var Dropdown = React.createClass({
           <option value="16">Other</option>
         </select>
       </form>
+      </div>
     );
   }
 });
