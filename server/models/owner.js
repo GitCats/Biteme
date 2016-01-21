@@ -1,6 +1,11 @@
 var db = require('../db/index.js');
+var bcrypt = require('bcrypt');
 
 var Owner = module.exports
+
+Owner.generateHash = function(password){
+	return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
+}
 
 //selects and returns all deals for the specified restaurant
 //only if they are not yet expired
