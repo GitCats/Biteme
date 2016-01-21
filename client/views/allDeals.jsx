@@ -43,8 +43,18 @@ var Deal = React.createClass({
       11: 'November',
       12: 'December'
     }
+    //getting the year. if the deal year is also the current year, won't display. If it's next year 
+    //(like if an owner puts in a deal in December for January), then it will display. 
+
+    //grab the current year
+    var currentYear = new Date().getFullYear(); 
+
     var month = calendarMonths[this.props.month];
-    var displayDate =  month + ' ' + this.props.day + ', ' + this.props.year;
+    if(this.props.year === currentYear) {
+      var displayDate = month + ' ' + this.props.day;
+    } else {
+      var displayDate =  month + ' ' + this.props.day + ', ' + this.props.year;
+    } 
 
       //formatting time
       var num = this.props.expiration
@@ -112,7 +122,7 @@ var Deal = React.createClass({
               {this.props.name}
             </div> 
             <div className="dealExpiration">
-              {this.props.expiration}
+              {displayTime}
             </div>
             <Map {...this.props} />
             <Yelp {...this.props} />

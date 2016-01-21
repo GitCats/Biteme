@@ -67,7 +67,7 @@ var Map = React.createClass({
         			style : 'SMALL',
         			position: 'TOP_LEFT'
     			},
-    			panControl : false,
+    			panControl : true,
   			});
 			map.addMarker({ 
 				lat: latlng.lat(),
