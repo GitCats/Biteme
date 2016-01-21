@@ -14,7 +14,8 @@ var Yelp = require('./yelpinfo.jsx')
 
 var Deal = React.createClass({
   getInitialState: function() {
-    return { modalIsOpen: false };
+    return { modalIsOpen: false,
+             date: '' };
   },
 
   openModal: function() {
@@ -26,6 +27,78 @@ var Deal = React.createClass({
   },
 
   render: function() {
+
+    //formatting date 
+    var calendarMonths = {
+      1: 'January',
+      2: 'February',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December'
+    }
+    //getting the year. if the deal year is also the current year, won't display. If it's next year 
+    //(like if an owner puts in a deal in December for January), then it will display. 
+
+    //grab the current year
+    var currentYear = new Date().getFullYear(); 
+
+    var month = calendarMonths[this.props.month];
+    if(this.props.year === currentYear) {
+      var displayDate = month + ' ' + this.props.day;
+    } else {
+      var displayDate =  month + ' ' + this.props.day + ', ' + this.props.year;
+    } 
+
+      //formatting time
+      var num = this.props.expiration
+      var minutes = num.toString().slice(-2);
+      if(num.toString().length === 4) {
+        var hours = num.toString().slice(0, 2)
+      } else {
+        var hours = num.toString().slice(0, 1)
+      }
+      var period;
+      if(hours < 12) {
+        period = 'am'
+      }
+      if(hours >= 12) {
+        hours = hours - 12;
+          if(hours === 12) {
+            period = 'am'
+          } else {
+            period = 'pm'
+          } 
+      }
+    var displayTime = hours + ':' + minutes + period;
+
+    //formatting type of cuisine
+    var cuisineMap = {
+      1: 'Mexican',
+      2: 'Fast Food',
+      3: 'Pizza',
+      4: 'Sandwiches',
+      5: 'Burgers',
+      6: 'American',
+      7: 'Barbecue',
+      8: 'Diner',
+      9: 'Chinese',
+      10: 'Italian',
+      11: 'Japanese',
+      12: 'Vietnamese',
+      13: 'Thai',
+      14: 'Steakhouse',
+      15: 'Indian',
+      16: 'Other'
+    }
+    var displayCuisine = cuisineMap[this.props.cuisine];
+
     return (
       <a onClick={this.openModal}>
       <div className="deal col-md-6 col-sm-12" >
@@ -39,8 +112,20 @@ var Deal = React.createClass({
           <div className="restaurantName">
             {this.props.name}
           </div> 
+          <div className="dealUrl">
+            {this.props.url}
+          </div>
+          <div className="dealAddress">
+            {this.props.address.split(',', 1)}
+          </div>
+          <div className="cuisineType">
+            {displayCuisine}
+          </div>
+          <div className="dealDate">
+            {displayDate}
+          </div>
           <div className="dealExpiration">
-            {this.props.expiration}
+            {displayTime}
           </div>
         </div>  
       </div> 
@@ -59,11 +144,26 @@ var Deal = React.createClass({
             <div className="restaurantName">
               {this.props.name}
             </div> 
-            <div className="dealExpiration">
-              {this.props.expiration}
+            <div className='resDescription'>
+              {this.props.res_description}
+            </div> 
+            <div className="dealUrl">
+              {this.props.url}
             </div>
-            <Map />
-            <Yelp />
+            <div className="dealAddress">
+              {this.props.address.split(',', 1)}
+            </div>
+            <div className="cuisineType">
+              {displayCuisine}
+            </div>
+            <div className="dealDate">
+              {displayDate}
+            </div>
+            <div className="dealExpiration">
+              {displayTime}
+            </div>
+            <Map {...this.props} />
+            <Yelp {...this.props} />
           </div>
         </Modal>
       </a>
@@ -74,7 +174,7 @@ var Deal = React.createClass({
 var AllDeals = React.createClass({
   loadDealsFromServer: function() {
     $.ajax({
-      url: 'api/getDeals',
+      url: 'api/deals/getAll',
       dataType: 'json',
       cache: false,
       type: 'GET',
@@ -107,53 +207,59 @@ var AllDeals = React.createClass({
 });
 
 var DealList = React.createClass({
-  handleClick: function() {
-    console.log(this.props)
-  },
-
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
-        <Deal description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
+        <Deal res_description={deal.res_description} cuisine={deal.cuisine_id} day={deal.day} year={deal.year} month={deal.month} name={deal.name} url={deal.url} address={deal.address} description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
         </Deal>
       );
     });
     return (
       <div className="dealList">
-      <h1 onClick={this.handleClick}>TEST</h1>
+      <Dropdown />
         {dealNodes}
       </div>
     );
   }
 });
 
-// var ExampleGoogleMap = React.createClass({  
-//     getDefaultProps: function () {
-//         return {
-//             initialZoom: 8,
-//             mapCenterLat: 43.6425569,
-//             mapCenterLng: -79.4073126,
-//         };
-//     },
-//     componentDidMount: function (rootNode) {
-//         var mapOptions = {
-//             center: this.mapCenterLatLng(),
-//             zoom: this.props.initialZoom
-//         },
-//         map = new google.maps.Map(ReactDOM.findDOMNode('.map-gic'), mapOptions);
-//         var marker = new google.maps.Marker({position: this.mapCenterLatLng(), title: 'Hi', map: map});
-//         this.setState({map: map});
-//     },
-//     mapCenterLatLng: function () {
-//         var props = this.props;
-//         return new google.maps.LatLng(props.mapCenterLat, props.mapCenterLng);
-//     },
-//     render: function () {
-//         return (
-//           <div className='map-gic'>HERE</div>
-//         );
-//     }
-// });
+var Dropdown = React.createClass({
+
+  getInitialState: function() {
+    return {cuisine: "Choose a cuisine"};    //SET TO WHATEVER IS RETURNED FROM PAST ENTRY IN DB
+  },
+
+  selectCuisine: function(e) {
+    this.setState({cuisine: e.target.value});
+  },
+
+  render: function() {
+    console.log("Current dropdown value:", this.state.cuisine)
+    return (
+      <form className="filterByCuisine">
+        <select onChange={this.selectCuisine}>
+          <option value="">-Choose your cuisine-</option>
+          <option value="1">Mexican</option>
+          <option value="2">Fast Food</option>
+          <option value="3">Pizza</option>
+          <option value="4">Sandwiches</option>
+          <option value="5">Burgers</option>
+          <option value="6">American</option>
+          <option value="7">BBQ</option>
+          <option value="8">Diner</option>
+          <option value="9">Chinese</option>
+          <option value="10">Italian</option>
+          <option value="11">Japanese</option>
+          <option value="12">Vietnamese</option>
+          <option value="13">Thai</option>
+          <option value="14">Steakhouse</option>
+          <option value="15">Indian</option>
+          <option value="16">Other</option>
+        </select>
+      </form>
+    );
+  }
+});
 
 
 const customStyles = {
