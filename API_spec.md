@@ -33,7 +33,7 @@ body: {
 
 POST/api/login/signup => when a user inputs an email, this will check against the database to see if it already exists, if it doesn't then it will create it and save the password associated with it to the users database & then send back 201 (created) response
 
-POST/api/owner/* =>	this will grab all of the deals from the database which haven't yet expired for this specific restaurant id and send them along with a 200 response
+GET /api/owner/* =>	this will grab all of the deals from the database for this specific restaurant id and send them along with a 200 response
 
 POST/api/owner/login => this will take the inputed username and password and compare the username to the database if found, it will compare the passwords and if they match it will send a 200 response
 

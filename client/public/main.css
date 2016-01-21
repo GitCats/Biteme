@@ -6,10 +6,11 @@ body {
   line-height: 1.7;
   margin: 0;
   padding: 30px;
+  color: #050091;
 }
 
 a {
-  color: #4183c4;
+  color: #050091;
   text-decoration: none;
 }
 
@@ -28,6 +29,7 @@ code {
 }
 
 h1, h2, h3, h4 {
+  color: #050091;
   font-weight: bold;
   margin: 0 0 15px;
   padding: 0;
@@ -126,5 +128,9 @@ body {
 
 .text {
   text-align: center;
+}
+
+.links {
+color: #050091;
 }
 
