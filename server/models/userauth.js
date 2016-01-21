@@ -1,6 +1,15 @@
 var db = require('../db/index.js');
+var bcrypt = require('bcrypt');
 
 var Auth = module.exports
+
+Auth.generateHash = function(password){
+	return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
+}
+
+Auth.validPassword = function(attemptedPass, correctPass){
+	return bcrypt.compareSync(attemptedPass, correctPass);
+}
 
 Auth.signin = function(body){
 console.log('signin func running')
@@ -22,6 +31,6 @@ Auth.signup = function(body){
 Auth.create = function(body){
 	var newUser = body.email;
 	var newPass = body.password;
-	return db('users').insert({email: newUser, password: newPass});
+	return db('users').insert({email: newUser, password: Auth.generateHash(newPass)});
 }
 

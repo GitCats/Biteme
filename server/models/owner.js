@@ -1,6 +1,11 @@
 var db = require('../db/index.js');
+var bcrypt = require('bcrypt');
 
 var Owner = module.exports
+
+Owner.generateHash = function(password){
+	return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
+}
 
 //selects and returns all deals for the specified restaurant
 //only if they are not yet expired
@@ -9,7 +14,7 @@ Owner.allDeals = function(url) {
 	console.log('id: ', id)
 	return db('deals')
 	.join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
-  .select('restaurants.name', 'restaurants.image_name', 'restaurants.cusine_id', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
+  .select('restaurants.name', 'restaurants.image_name', 'restaurants.cuisine_id', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
     .where ('deals.restaurant_id', id)
 };
 
