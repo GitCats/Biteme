@@ -112,7 +112,7 @@ var OwnerForm = React.createClass({
       <div>
         <h1>Create or Update Your Restaurant Profile</h1>
         <br/><br/>
-        <img src={this.state.logo} alt="Your Logo" className="dealLogo" />
+        <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
         <form className="ownerForm">
           Street Address: <input type="text" valueLink={this.linkState("address")} /> 
           City: <input type="text" valueLink={this.linkState("city")} /> 
