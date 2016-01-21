@@ -11,10 +11,9 @@ module.exports = router;
 //if it finds a match it will check the password
 //and if that matches it sends a 200 (okay) response
 router.post('/signin', function (req, res) {
-	console.log('body', req.body)
 	Auth.signin(req.body)
 	.then(function (data) {
-		if(req.body.password === data[0].password){
+		if(Auth.validPassword(req.body.password, data[0].password)){
 		res.sendStatus(200)
 		} else {
      res.status(400).send({reason: "Password incorrect"});
@@ -32,13 +31,11 @@ router.post('/signin', function (req, res) {
 router.post('/signup', function (req, res){
 	Auth.signup(req.body)
 	.then(function(data){
-		console.log("first promise data:", data)
 		if(data.length > 0){
 			res.status(401).send({message: 'Email already exists!'});
 		} else{
 			Auth.create(req.body)
 			.then(function(data){
-				console.log('data new user:', data)
 				res.sendStatus(201);
 			})
 		}
