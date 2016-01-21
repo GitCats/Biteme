@@ -9,7 +9,7 @@ var OwnerLogin = require('./auth.jsx').ownerLogin;
 //OWNER PROFILE PAGE
 //
 //Creating new deals <CreateDeal />:
-//create deal form (see line 23, limited # of characters for deal description) & submit button
+//create deal form (see line 23, 35 character limit for deal description) & submit button
 //sends unique AJAX POST request to db with form info => POST/api/owner/create
 //re-renders past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
 //
@@ -22,11 +22,13 @@ var OwnerLogin = require('./auth.jsx').ownerLogin;
 //show restaurant name, cuisine, expiration date/time (hour/minute/ampm dropdowns), logo, & text of deal description
 //based on AJAX GET request referenced above, must loop through all deals
 
+//When done check to see what empty settings do to a newly sign-up owner's profile
+
 
 var OwnerProfile = React.createClass({
 
   render: function() {
-    if (localStorage.getItem("restaurant_id")) {
+    if (localStorage.getItem("restaurant_id")) {  //should check for jwt token
       return (
         <div>
           <CreateDeal />
@@ -37,7 +39,6 @@ var OwnerProfile = React.createClass({
       return (
         <div>
           <h1>YOU ARE NOT LOGGED IN AS A RESTAURANT OWNER</h1>
-          <span className="ownerAuth"><p className="text">Are you a <strong>restaurant owner</strong> with deals to offer? Click <OwnerSignup /> to sign up to list them, or <OwnerLogin /> if you already have an account.</p></span>
           <p className="text">If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link></p>
         </div>
       )
@@ -53,7 +54,10 @@ var CreateDeal = React.createClass({
       <div>
         <h1>Create a Deal</h1>
         <br/><br/>
-        When will your deal expire?: <input type="text" />
+        When will your deal expire?
+        Month: <input type="text" />
+        Day: <input type="text" />
+        Year: <input type="text" />
         <br/><br/>
       </div>
     );
@@ -71,26 +75,28 @@ var OwnerForm = React.createClass({
       address: "",
       city: "",
       state: "",
-      zip: ""
+      zip: "",
+      logo: ""
     };
   },
 
   componentDidMount: function() {
     $.ajax({
-      url: 'api/owner/' + localStorage.getItem("restaurant_id"),
-      dataType: 'json',    /*defaults to GET request*/
+      url: "api/owner/"+localStorage.getItem("restaurant_id"),
+      dataType: "json",             //defaults to GET request
       success: function(settings) {
-        var settings = settings[0];
-        console.log("Owner settings:", settings);
-        var address = settings.address.split(",");
+        var setting = settings[0];
+        console.log("Owner settings:", setting);
+        var address = setting.address.split(",");
         // if (this.isMounted()) {
-          this.setState({settings: settings}); //Needed to pass down all deals to PastDeals
-          this.setState({
-            cuisine: settings.cuisine_id,
+          this.setState({          //Each setState command re-renders components
+            settings: settings,
+            cuisine: setting.cuisine_id,
             address: address[0],
             city: address[1].substr(1),
             state: address[2].substring(1, address[2].length - 6),
-            zip: address[2].substr(address[2].length - 5)
+            zip: address[2].substr(address[2].length - 5),
+            logo: setting.image_name
           });
         // }
       }.bind(this),
@@ -106,6 +112,7 @@ var OwnerForm = React.createClass({
       <div>
         <h1>Create or Update Your Restaurant Profile</h1>
         <br/><br/>
+        <img src={this.state.logo} alt="Your Logo" className="dealLogo" />
         <form className="ownerForm">
           Street Address: <input type="text" valueLink={this.linkState("address")} /> 
           City: <input type="text" valueLink={this.linkState("city")} /> 
