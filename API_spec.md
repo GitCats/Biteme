@@ -11,7 +11,10 @@ heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 ==>DELETE FROM [TABLENAME] WHERE name='jimmy johns'; - deletes all records from specified table based on whatever comes after 'where' statement
 ==>UPDATE [TABLENAME] SET expiration=2200 WHERE id=1; - updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
 
-GET/api/getDeals => gets all deals from database that haven't expired
+GET/api/deals/getAll => gets all deals from database that haven't expired
+
+POST /api/deals/delete => delete deal from deals table. Sends a 200 and the message 'Deleted'
+  body:{deal_id: INTEGER}
 
 POST/api/getDeals => creates a deal from req.body and sends a 201
 
