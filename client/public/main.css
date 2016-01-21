@@ -93,7 +93,7 @@ body {
   margin: 12px auto;
   width: 100%;
   height: 225px;
-  border-bottom: 2px solid #ddd;
+  border: 2px solid #ddd;
   /*display: inline-block;*/
   display: flex;
 }
@@ -104,6 +104,7 @@ body {
 }
 
 .dealLogo {
+  margin-top: 15px;
   max-width: 250px;
   max-height: 200px;
 }
@@ -111,7 +112,7 @@ body {
 .dealInfoDiv {
   width: 50%;
   /*float: right;*/
-  padding: 0px 0px 0px 100px;
+  padding: 5px 0px 0px 100px;
   color: black;
   text-align: center;
   /*position: relative;*/
