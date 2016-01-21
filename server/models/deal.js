@@ -52,5 +52,10 @@ Deal.all = function() {
     .select('restaurants.name', 'restaurants.image_name', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'restaurants.cuisine_id', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year');
 };
 
-//add address and url to this
+//Delete a deal
+Deal.remove = function(deal){
+  return db('deals')
+    .where('deal_id', deal)
+    .del()
+};
 
