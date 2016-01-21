@@ -27,14 +27,14 @@ body: {
     year: INTEGER (2016)
 	}
 
-POST/api/login/signin => selects email where they match and then runs a function to check password against database. if they match it sends a 200.
+POST/api/login/signin => selects email where they match and then runs a function to encrypt and check password against encrypted password in database. if they match it sends a 200.
 
 body: {
 	"email": "person@gmail.com",
 	"password": "abc"
 	}
 
-POST/api/login/signup => when a user inputs an email, this will check against the database to see if it already exists, if it doesn't then it will create it and save the password associated with it to the users database & then send back 201 (created) response
+POST/api/login/signup => when a user inputs an email, this will check against the database to see if it already exists, if it doesn't then it will create it and save the password associated with it (after encrypting it) to the users database & then send back 201 (created) response
 
 GET /api/owner/* =>	this will grab all of the deals from the database for this specific restaurant id and send them along with a 200 response
 

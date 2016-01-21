@@ -25,8 +25,9 @@ router.post('/signin', function (req, res) {
 });
 
 //SIGN UP (POST)
-//when a user inputs a new username, this will check against the database to see if it already exists
-//if it doesn't then it will create it and save the password associated with it to the users database
+//when a user inputs a new username, this will check against the database 
+//to see if it already exists if it doesn't then it will create it and 
+//save the password associated with it to the users database
 //then send back 201 (created) response
 router.post('/signup', function (req, res){
 	Auth.signup(req.body)
