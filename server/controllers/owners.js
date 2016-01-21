@@ -25,7 +25,7 @@ router.post('/login', function (req, res) {
 	Owner.signin(req.body)
 	.then(function (data) {
 		if(req.body.password === data[0].password){
-			res.status(200).send(data[0]);
+			res.status(200).send({restaurant_id: data[0].restaurant_id});
 		}
 		else{
 			res.status(400).send({reason: "Password incorrect"});
