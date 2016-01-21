@@ -91,9 +91,9 @@ body {
 
 .deal {
 	margin: 12px auto;
-	width: 100%;
-	height: 225px;
-	border-bottom: 2px solid #ddd;
+	width: 250%;
+	height: 300px;
+  border: 2px solid #ddd;
 	/*display: inline-block;*/
 	display: flex;
 }
@@ -102,6 +102,7 @@ body {
 	width: 175px;
 	height: 125px;
 	margin: 12px;
+  vertical-align: center;
 }
 
 .dealLogo {
@@ -123,6 +124,10 @@ body {
 }
 
 .auth {
+  text-align: center;
+}
+
+.ownerAuth {
   text-align: center;
 }
 
