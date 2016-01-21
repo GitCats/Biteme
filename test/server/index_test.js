@@ -35,11 +35,20 @@ describe("The Server", function(){
           var dealsArray = response.body;
           var target;
           dealsArray.forEach(function(value){
-            if(value["description"] === "the sweetest deal ever - testing"){target=value; }
+            if(value["description"] === "the sweetest deal ever - testing"){target=value; deal_id=value["deal_id"]}
           })
           expect(target).to.have.property('description', 'the sweetest deal ever - testing')
         })
     })
+
+    it('will delete a deal', function(){
+      return request(app)
+      .post('/api/deals/delete')
+      .send({deal_id: deal_id})
+      .expect(200)
+      .expect('Deleted')
+    })
+
   })
 
   describe('Owner', function(){
