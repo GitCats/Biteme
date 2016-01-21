@@ -69,14 +69,20 @@ var Deal = React.createClass({
         period = 'am'
       }
       if(hours >= 12) {
-          if(hours === '12') {
+        hours = hours - 12
+          if(hours === 12) {
             period = 'am'
           } else {
-            hours = hours - 12;
             period = 'pm'
           } 
+          if(hours === 00) {
+            hours = 12;
+          }
       }
     var displayTime = hours + ':' + minutes + period;
+
+    //1200 is noon or 12:00pm
+    //2400 is midnight or 12:00am
 
     //formatting type of cuisine
     var cuisineMap = {
