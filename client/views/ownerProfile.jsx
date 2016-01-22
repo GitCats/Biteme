@@ -31,6 +31,7 @@ var OwnerProfile = React.createClass({
 
   render: function() {
     if (localStorage.getItem("restaurant_id")) {  //should check for jwt token
+      console.log("This will be null:", this.props.children);
       return (
         <div>
           <CreateDeal />
