@@ -190,7 +190,7 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1>Today&#39;s Deals</h1>
+        <h1 className="today">Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );
@@ -207,7 +207,7 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
-      <Dropdown />
+      <div className="dropdown"><Dropdown /></div>
         {dealNodes}
       </div>
     );
