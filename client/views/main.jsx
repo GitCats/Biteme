@@ -16,8 +16,6 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="logoDiv">
-      <div className="auth">Care to filter by preferences? <Signup /> or <Login /> </div>
-      <div className="ownerAuth">Restaurant Owner? <OwnerSignup /> or <OwnerLogin /></div>
         <IndexLink to='/'><img src="client/assets/banner.jpg" className="bluePlateLogo" /></IndexLink>
         {this.props.children}
       </div>
