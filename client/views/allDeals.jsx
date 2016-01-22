@@ -220,7 +220,7 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
-      <Dropdown {...this.props} />
+      <Dropdown />
         {dealNodes}
       </div>
     );
