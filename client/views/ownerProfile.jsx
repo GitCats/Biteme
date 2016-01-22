@@ -29,13 +29,26 @@ var Yelp = require('./yelpinfo.jsx');
 
 var OwnerProfile = React.createClass({
 
+  mixins: [LinkedStateMixin],
+
+  getInitialState: function() {
+    console.log("OwnerProfile this:", this); //"this" DOES refer to OwnerProfile!
+    var passProps = function(data) {
+      this.setState({settings: data});
+    };
+    var boundProps = passProps.bind(this);
+    return { 
+      getProps: boundProps
+    }
+  },
+
   render: function() {
     if (localStorage.getItem("restaurant_id")) {  //should check for jwt token
       console.log("This will be null:", this.props.children);
       return (
         <div>
-          <CreateDeal />
-          <OwnerForm />
+          <CreateDeal data={this.state.settings} />
+          <OwnerForm updateParent={this.state.getProps} />
         </div>
       );
     } else {
@@ -53,6 +66,7 @@ var OwnerProfile = React.createClass({
 var CreateDeal = React.createClass({
 
   render: function() {
+    console.log("CreateDeal's this.props.data:", this.props.data);
     return (
       <div>
         <h1>Create a Deal</h1>
@@ -109,6 +123,7 @@ var OwnerForm = React.createClass({
             website: setting.url
           });
         // }
+        this.props.updateParent(this.state.settings);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
