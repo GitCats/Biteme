@@ -186,14 +186,11 @@ var AllDeals = React.createClass({
   },
 
   getInitialState: function() {
-    return {data: []};
+    return {data: []}
   },
 
   componentDidMount: function() {
     this.loadDealsFromServer();
-  },
-    filterResults: function() {
-    console.log('filtered')
   },
 
   render: function() {
@@ -207,12 +204,35 @@ var AllDeals = React.createClass({
 });
 
 var DealList = React.createClass({
-  filterResults: function() {
-    console.log('filtered')
+  getInitialState: function() {
+    return {
+      cuisine_id: '',
+      updateCuisineId: function(id) {
+        this.test(id)
+      }
+    }
+  },
+
+  test: function(id) {
+    this.setState({ cuisine_id: id})
+  },
+
+  filterByCuisine: function(value) {
+    if(value.cuisine_id == this.state.cuisine_id) {
+      return true;
+    } else {
+        return false;
+    }
   },
 
   render: function() {
-    var dealNodes = this.props.data.map(function(deal) {
+    var dealsToUse;
+    if(this.state.cuisine_id !== '') {
+      dealsToUse = this.props.data.filter(this.filterByCuisine)
+    } else {
+      dealsToUse = this.props.data;
+    }
+    var dealNodes = dealsToUse.map(function(deal) {
       return (
         <Deal res_description={deal.res_description} cuisine={deal.cuisine_id} day={deal.day} year={deal.year} month={deal.month} name={deal.name} url={deal.url} address={deal.address} description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
         </Deal>
@@ -220,7 +240,7 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
-      <Dropdown />
+      <Dropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
         {dealNodes}
       </div>
     );
@@ -230,18 +250,16 @@ var DealList = React.createClass({
 var Dropdown = React.createClass({
 
   getInitialState: function() {
-    return {cuisine: "Choose a cuisine"};    //SET TO WHATEVER IS RETURNED FROM PAST ENTRY IN DB
+    return {cuisine: "Choose a cuisine"};   //SET TO WHATEVER IS RETURNED FROM PAST ENTRY IN DB
   },
 
   selectCuisine: function(e) {
-    this.setState({cuisine: e.target.value});
-    console.log(this.state)
+    var id = e.target.value;
+    this.props.updateCuisineId(id)
   },
 
   render: function() {
-    console.log("Current dropdown value:", this.state.cuisine)
     return (
-      <div onClick={this.filterResults}>TEST
       <form className="filterByCuisine">
         <select onChange={this.selectCuisine}>
           <option value="">-Choose your cuisine-</option>
@@ -263,7 +281,6 @@ var Dropdown = React.createClass({
           <option value="16">Other</option>
         </select>
       </form>
-      </div>
     );
   }
 });
@@ -292,3 +309,7 @@ const customStyles = {
 };
 
 module.exports = AllDeals;
+
+//have a filter results function that listens to user input on the dropdown 
+//and then filters this.props.data and then re-renders
+//(how to re-render? forceUpdate? componentDidUpdate? )
