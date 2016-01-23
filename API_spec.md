@@ -36,7 +36,13 @@ body: {
 
 POST/api/login/signup => when a user inputs an email, this will check against the database to see if it already exists, if it doesn't then it will create it and save the password associated with it (after encrypting it) to the users database & then send back 201 (created) response
 
+POST/api/owner/signup => when we input username and password for the restaurant owners it will hash the password and store in the database
+
+
 GET /api/owner/* =>	this will grab all of the deals from the database for this specific restaurant id and send them along with a 200 response
+
+POST /api/owner/updatePassword => this will update the restaurant table where the username matches with a new hashed password
+
 
 POST/api/owner/login => this will take the inputed username and password and compare the username to the database if found, it will compare the passwords and if they match it will send a 200 response
 
@@ -44,7 +50,5 @@ POST/api/owner/create => this will take user inputed information and use it to a
 
 
 GET/api/owner/getprofile/* => this gets all the info from the database according to restaurant id that is related to the specific restaurant
-
-POST/api/owner/profile => this updates the database with new info from the restaurant owner input form fields for the profile
 
 POST/api/owner/updateProfile=> updates the restaurant owner's profile information. All of these fields must be specified: restaurant_id, cuisine_id, image_name, description, url, address. If any particular property is not specified in the request body, it will be overwritten with a blank value in the db. Also, this POST request returns all of the restaurant's info
