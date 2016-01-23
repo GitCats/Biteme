@@ -5,11 +5,11 @@ var ReactDOM = require('react-dom');
 // var Router = require('react-router').Router;
 // var Route = require('react-router').Route;
 // var IndexRoute = require('react-router').IndexRoute;
-var Link = require('react-router').Link
+var Link = require('react-router').Link;
 var Modal = require('react-modal');
 // var Maps = require('google-maps')
-var Map = require('./map.jsx')
-var Yelp = require('./yelpinfo.jsx')
+var Map = require('./map.jsx');
+var Yelp = require('./yelpinfo.jsx');
 
 
 var Deal = React.createClass({
@@ -109,7 +109,7 @@ var Deal = React.createClass({
       <a onClick={this.openModal}>
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className='dealLogo' />
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
@@ -119,7 +119,7 @@ var Deal = React.createClass({
             {this.props.url}
           </div>
           <div className="dealAddress">
-            {this.props.address.split(',', 1)}
+            {this.props.address.split(",", 1)}
           </div>
           <div className="dealExpiration">
             {displayTime}
@@ -196,7 +196,7 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1>Today&#39;s Deals</h1>
+        <h1 className="today">Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );
