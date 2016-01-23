@@ -1,6 +1,7 @@
 var $ = require('jquery');
 var Link = require('react-router').Link;
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var Datetime = require('react-datetime');
 
 //OWNER PROFILE PAGE
 //
@@ -13,6 +14,7 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 //Displaying & Updating the restaurant profile <OwnerForm />:
 //submit button
 //concat address values & "trim" all values on submit
+//update GET request API route to "api/owner/getAllDeals/"+id after KaylaM's update
 //make a unique AJAX POST request to update only profile info, must include "restaurant_id" in req.body) => api/owner/updateprofile
 //
 //Displaying past deals <PastDeals />:
@@ -75,6 +77,7 @@ var CreateDeal = React.createClass({
   getInitialState: function() {
     return {
       description: "",
+      totalExpiration: new Date(),
       expiration: "",
       month: "",
       day: "",
@@ -82,7 +85,15 @@ var CreateDeal = React.createClass({
     }
   },
 
+  chooseDate: function(momentObj) {
+    this.setState({ totalExpiration: momentObj._d });
+  },
+
   render: function() {
+    var yesterday = Datetime.moment().subtract(1,'day');
+    var valid = function(current) {
+      return current.isAfter( yesterday );
+    };
     return (
       <div>
         <h1>Create a Deal</h1>
@@ -91,11 +102,11 @@ var CreateDeal = React.createClass({
         <br/>
         <p>Describe your deal in a few words: </p>
           <input type="text" valueLink={this.linkState("description")} size="40" maxLength="35" />
-        <br/><br/><br/>
-        <p>When will your deal expire?</p>
-        <br/>
-        
-        <br/>
+        <br/><br/>
+        <p style={{textAlign: "center"}}>When will your deal expire?</p>
+        <div style={{textAlign: "center"}}>Click a calendar date to see type-in formatting.</div>
+        <Datetime open={ true } isValidDate={ valid } value={this.state.totalExpiration} onChange={this.chooseDate} />
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
       </div>
     );
   }
