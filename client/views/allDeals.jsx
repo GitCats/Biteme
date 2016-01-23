@@ -5,11 +5,11 @@ var ReactDOM = require('react-dom');
 // var Router = require('react-router').Router;
 // var Route = require('react-router').Route;
 // var IndexRoute = require('react-router').IndexRoute;
-var Link = require('react-router').Link
+var Link = require('react-router').Link;
 var Modal = require('react-modal');
 // var Maps = require('google-maps')
-var Map = require('./map.jsx')
-var Yelp = require('./yelpinfo.jsx')
+var Map = require('./map.jsx');
+var Yelp = require('./yelpinfo.jsx');
 
 
 var Deal = React.createClass({
@@ -69,14 +69,20 @@ var Deal = React.createClass({
         period = 'am'
       }
       if(hours >= 12) {
-          if(hours === '12') {
+        hours = hours - 12
+          if(hours === 12) {
             period = 'am'
           } else {
-            hours = hours - 12;
             period = 'pm'
           } 
+          if(hours === 00) {
+            hours = 12;
+          }
       }
     var displayTime = hours + ':' + minutes + period;
+
+    //1200 is noon or 12:00pm
+    //2400 is midnight or 12:00am
 
     //formatting type of cuisine
     var cuisineMap = {
@@ -103,7 +109,7 @@ var Deal = React.createClass({
       <a onClick={this.openModal}>
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className='dealLogo' />
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
@@ -113,10 +119,7 @@ var Deal = React.createClass({
             {this.props.url}
           </div>
           <div className="dealAddress">
-            {this.props.address.split(',', 1)}
-          </div>
-          <div className="dealDate">
-            {displayDate}
+            {this.props.address.split(",", 1)}
           </div>
           <div className="dealExpiration">
             {displayTime}
@@ -183,7 +186,7 @@ var AllDeals = React.createClass({
   },
 
   getInitialState: function() {
-    return {data: []};
+    return {data: []}
   },
 
   componentDidMount: function() {
@@ -193,7 +196,7 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1>Deals</h1>
+        <h1 className="today">Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );
@@ -201,8 +204,35 @@ var AllDeals = React.createClass({
 });
 
 var DealList = React.createClass({
+  getInitialState: function() {
+    return {
+      cuisine_id: '',
+      updateCuisineId: function(id) {
+        this.test(id)
+      }
+    }
+  },
+
+  test: function(id) {
+    this.setState({ cuisine_id: id})
+  },
+
+  filterByCuisine: function(value) {
+    if(value.cuisine_id == this.state.cuisine_id) {
+      return true;
+    } else {
+        return false;
+    }
+  },
+
   render: function() {
-    var dealNodes = this.props.data.map(function(deal) {
+    var dealsToUse;
+    if(this.state.cuisine_id !== '') {
+      dealsToUse = this.props.data.filter(this.filterByCuisine)
+    } else {
+      dealsToUse = this.props.data;
+    }
+    var dealNodes = dealsToUse.map(function(deal) {
       return (
         <Deal res_description={deal.res_description} cuisine={deal.cuisine_id} day={deal.day} year={deal.year} month={deal.month} name={deal.name} url={deal.url} address={deal.address} description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
         </Deal>
@@ -210,7 +240,7 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
-      <Dropdown />
+      <Dropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
         {dealNodes}
       </div>
     );
@@ -220,15 +250,15 @@ var DealList = React.createClass({
 var Dropdown = React.createClass({
 
   getInitialState: function() {
-    return {cuisine: "Choose a cuisine"};    //SET TO WHATEVER IS RETURNED FROM PAST ENTRY IN DB
+    return {cuisine: "Choose a cuisine"};   //SET TO WHATEVER IS RETURNED FROM PAST ENTRY IN DB
   },
 
   selectCuisine: function(e) {
-    this.setState({cuisine: e.target.value});
+    var id = e.target.value;
+    this.props.updateCuisineId(id)
   },
 
   render: function() {
-    console.log("Current dropdown value:", this.state.cuisine)
     return (
       <form className="filterByCuisine">
         <select onChange={this.selectCuisine}>
@@ -279,3 +309,7 @@ const customStyles = {
 };
 
 module.exports = AllDeals;
+
+//have a filter results function that listens to user input on the dropdown 
+//and then filters this.props.data and then re-renders
+//(how to re-render? forceUpdate? componentDidUpdate? )

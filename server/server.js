@@ -6,6 +6,7 @@ var dealsRouter = require('./controllers/deals.js');
 var authRouter = require('./controllers/userauths.js')
 var userRouter = require('./controllers/userprefs.js')
 var ownerRouter = require('./controllers/owners.js')
+var jwt = require('jwt-simple');
 
 var routes = express.Router()
 
@@ -38,8 +39,8 @@ app.use(require('body-parser').urlencoded({
   //middleware - executes on any client and server interaction trade
   //marks the request and time on console
 app.use(morgan('dev'));
-
 app.use('/', routes)
+app.set('jwtTokenSecret', 'YOUR_SECRET_STRING');
 
 // Start the server!
 var port = process.env.PORT || 4000
