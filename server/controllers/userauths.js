@@ -14,14 +14,14 @@ router.post('/signin', function (req, res) {
 	Auth.signin(req.body)
 	.then(function (data) {
 		if(Auth.validPassword(req.body.password, data[0].password)){
-		res.sendStatus(200)
+		res.json(Auth.genToken(req.body.email)).status(200)
 		} else {
-     res.status(400).send({reason: "Password incorrect"});
+     	res.status(400).send({reason: "Password incorrect"});
 		}
 	})
-  .catch(function(err){
-    res.status(400).send({reason: "User not found"});
-  });
+  // .catch(function(err){
+  //   res.status(400).send({reason: "User not found"});
+  // });
 });
 
 //SIGN UP (POST)
@@ -37,7 +37,7 @@ router.post('/signup', function (req, res){
 		} else{
 			Auth.create(req.body)
 			.then(function(data){
-				res.sendStatus(201);
+				res.json(Auth.genToken(req.body.email)).status(201)
 			})
 		}
 	})
