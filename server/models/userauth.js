@@ -12,7 +12,6 @@ Auth.validPassword = function(attemptedPass, correctPass){
 }
 
 Auth.signin = function(body){
-console.log('signin func running')
   var attemptedemail = body.email;
 	return db('users')
 	.where('email', attemptedemail)
@@ -45,6 +44,11 @@ Auth.genToken = function(user) {
     expires: expires,
     user: user
   };
+}
+
+Auth.logout = function(user){
+	var now = new Date();
+	return now.setDate(now.getDate())
 }
  
 Auth.expiresIn = function(numDays) {
