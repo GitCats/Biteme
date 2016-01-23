@@ -1,17 +1,13 @@
 var $ = require('jquery');
-// var React = require('react');
-// var ReactDOM = require('react-dom');
 var Link = require('react-router').Link;
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var OwnerSignup = require('./auth.jsx').ownerSignup;
-var OwnerLogin = require('./auth.jsx').ownerLogin;
-var Yelp = require('./yelpinfo.jsx');
 
 //OWNER PROFILE PAGE
 //
 //Creating new deals <CreateDeal />:
-//create deal form (see line 22, 35 character limit for deal description) & submit button
-//sends unique AJAX POST request to db with form info => POST/api/owner/create
+//expiration (INTEGER, ex: 1700, 24 hr time, no colons), calendar select:(month(INT value), day, year)
+//submit button
+//sends unique AJAX POST => "api/owner/create/"+localStorage.getItem("restaurant_id")
 //re-renders past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
 //
 //Displaying & Updating the restaurant profile <OwnerForm />:
@@ -22,32 +18,39 @@ var Yelp = require('./yelpinfo.jsx');
 //Displaying past deals <PastDeals />:
 //show restaurant name, cuisine, expiration date/time (hour/minute/ampm dropdowns), logo, & text of deal description
 //based on AJAX GET request referenced above, must loop through all deals
-
+//
 //When done check to see what empty settings do to a newly sign-up owner's profile
 //Place the above 3 sections in tabs
 
+//Note about this module: the AJAX request in OwnerForm and its state-setting arguably should 
+//have been done in the parent OwnerProfile component. But we learned a lot about React
+//in figuring out how to pass values around from a child component to others and managed to get
+//everything displaying as expected with just one AJAX request. The values had to be state
+//properties in OwnerForm so as to be mutable and the source of truth, but they could just as
+//well have been set as props upon AJAX success in OwnerProfile, passed down as properties, and
+//reset to state values in OwnerForm.
 
 var OwnerProfile = React.createClass({
 
-  mixins: [LinkedStateMixin],
-
   getInitialState: function() {
-    console.log("OwnerProfile this:", this); //"this" DOES refer to OwnerProfile!
     var passProps = function(data) {
-      this.setState({settings: data});
+      this.setState({settings: data[0]});
     };
+    //bind this component's "this" to pass the function to the child component, call it from
+    //there, and change the state of this parent component, so that the sibling CreateDeal
+    //can get the data from the AJAX request in OwnerForm
     var boundProps = passProps.bind(this);
     return { 
-      getProps: boundProps
+      getProps: boundProps,
+      settings: {}  //must set initial state for anything passed down
     }
   },
 
   render: function() {
     if (localStorage.getItem("restaurant_id")) {  //should check for jwt token
-      console.log("This will be null:", this.props.children);
       return (
         <div>
-          <CreateDeal data={this.state.settings} />
+          <CreateDeal initialData={this.state.settings} />
           <OwnerForm updateParent={this.state.getProps} />
         </div>
       );
@@ -55,7 +58,9 @@ var OwnerProfile = React.createClass({
       return (
         <div>
           <h1>YOU ARE NOT LOGGED IN AS A RESTAURANT OWNER</h1>
-          <p className="text">If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link></p>
+          <p className="text">
+            If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
+          </p>
         </div>
       )
     }
@@ -65,17 +70,32 @@ var OwnerProfile = React.createClass({
 
 var CreateDeal = React.createClass({
 
+  mixins: [LinkedStateMixin],
+
+  getInitialState: function() {
+    return {
+      description: "",
+      expiration: "",
+      month: "",
+      day: "",
+      year: ""
+    }
+  },
+
   render: function() {
-    console.log("CreateDeal's this.props.data:", this.props.data);
     return (
       <div>
         <h1>Create a Deal</h1>
         <br/><br/>
-        When will your deal expire?
-        Month: <input type="text" />
-        Day: <input type="text" />
-        Year: <input type="text" />
-        <br/><br/>
+        <h3>Make a deal for {this.props.initialData.name}</h3>
+        <br/>
+        <p>Describe your deal in a few words: </p>
+          <input type="text" valueLink={this.linkState("description")} size="40" maxLength="35" />
+        <br/><br/><br/>
+        <p>When will your deal expire?</p>
+        <br/>
+        
+        <br/>
       </div>
     );
   }
@@ -107,11 +127,11 @@ var OwnerForm = React.createClass({
       dataType: "json",             //defaults to GET request
       success: function(settings) {
         var setting = settings[0];
-        console.log("Owner settings:", setting);
         var address = setting.address.split(",");
-        // if (this.isMounted()) {
-          this.setState({          //Each setState command re-renders components
+          //Each setState command re-renders components
+          this.setState({
             settings: settings,
+            name: setting.name,
             cuisine: setting.cuisine_id,
             address: address[0],
             city: address[1].substr(1),
@@ -122,7 +142,6 @@ var OwnerForm = React.createClass({
             res_description: setting.res_description,
             website: setting.url
           });
-        // }
         this.props.updateParent(this.state.settings);
       }.bind(this),
       error: function(xhr, status, err) {
@@ -132,11 +151,11 @@ var OwnerForm = React.createClass({
   },
 
   render: function() {
-    console.log("Dropdown menu value:", this.state.cuisine);
     return (
       <div>
         <h1>Create or Update Your Restaurant Profile</h1>
         <br/>
+        Restaurant name: <input type="text" valueLink={this.linkState("name")} />
         <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
         Enter a new URL to update your logo: <input type="text" valueLink={this.linkState("logo")} size="70" />
         <form className="ownerForm">
@@ -145,7 +164,8 @@ var OwnerForm = React.createClass({
           State: <input type="text" valueLink={this.linkState("state")} /> 
           ZIP: <input type="text" valueLink={this.linkState("zip")} maxLength="5" /> 
           <br/><br/>
-          Phone number (which customers should use to call the restaurant): <input type="text" valueLink={this.linkState("phone")} maxLength="14" />
+          Phone number (which customers should use to call the restaurant): 
+          <input type="text" valueLink={this.linkState("phone")} maxLength="14" />
           Business website: <input type="text" valueLink={this.linkState("website")} />
           <br/><br/>Select the cuisine that best matches your restaurant:
           <select valueLink={this.linkState("cuisine")} >
@@ -181,7 +201,6 @@ var OwnerForm = React.createClass({
 var PastDeals = React.createClass({
 
   render: function() {
-    console.log("PastDeals settings property:", this.props.settings);
     return (
       <div className="dealBox">
         <h1>Past Deals</h1>
@@ -198,7 +217,17 @@ var DealList = React.createClass({
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
       return (
-        <Deal res_description={deal.res_description} cuisine={deal.cuisine_id} day={deal.day} year={deal.year} month={deal.month} name={deal.name} url={deal.url} address={deal.address} description={deal.description} expiration={deal.expiration} image_name={deal.image_name} name={deal.name} key={deal.deal_id}>
+        <Deal 
+          res_description={deal.res_description} 
+          cuisine={deal.cuisine_id} day={deal.day} 
+          year={deal.year} month={deal.month} 
+          name={deal.name} url={deal.url} 
+          address={deal.address} 
+          description={deal.description} 
+          expiration={deal.expiration} 
+          image_name={deal.image_name} 
+          name={deal.name} 
+          key={deal.deal_id}>
         </Deal>
       );
     });
@@ -214,7 +243,6 @@ var DealList = React.createClass({
 var Deal = React.createClass({
 
   render: function() {
-
     //formatting date 
     var calendarMonths = {
       1: "January",
@@ -235,14 +263,12 @@ var Deal = React.createClass({
 
     //grab the current year
     var currentYear = new Date().getFullYear(); 
-
     var month = calendarMonths[this.props.month];
     if(this.props.year === currentYear) {
       var displayDate = month + " " + this.props.day;
     } else {
       var displayDate =  month + " " + this.props.day + ", " + this.props.year;
     } 
-
       //formatting time
       var num = this.props.expiration
       var minutes = num.toString().slice(-2);
@@ -264,7 +290,6 @@ var Deal = React.createClass({
         } 
       }
     var displayTime = hours + ":" + minutes + period;
-
     //formatting type of cuisine
     var cuisineMap = {
       1: "Mexican",
@@ -285,7 +310,6 @@ var Deal = React.createClass({
       16: "Other"
     }
     var displayCuisine = cuisineMap[this.props.cuisine];
-
     return (
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
