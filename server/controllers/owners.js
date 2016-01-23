@@ -8,7 +8,7 @@ module.exports = router;
 //this will grab all of the deals from the database
 //for this specific restaurant id
 //and send them along with a 200 response
-router.get('*', function (req, res) {
+router.get('/getAllDeals/*', function (req, res) {
 	console.log('request body:', req.url)
 	Owner.allDeals(req.url)
 		.then(function(result){
@@ -83,6 +83,13 @@ router.get('/getprofile/*', function(req, res){
 router.post('/updateProfile', function (req, res) {
 	Owner.update(req.body).then(function(data) {
 		res.status(200).send(data);
+	})
+})
+
+router.get('/logout', function(req,res) {
+	Owner.logout()
+	.then(function(){
+		res.sendStatus(200);
 	})
 })
 

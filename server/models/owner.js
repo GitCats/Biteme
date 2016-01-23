@@ -89,6 +89,10 @@ Owner.updatePassword = function(body){
 	.update('password', Owner.generateHash(body.password));
 }
 
+Owner.logout = function(){
+	$window.localStorage.removeItem('jwtToken');
+}
+
 //body will be {"restaurant_id": 1, "cuisine_id": 7,
 //"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg",
 //"description": "World Famous Barbecue", "url": "www.franklinbarbecue.com", "address": "900 East 11th Street, Austin, TX"}

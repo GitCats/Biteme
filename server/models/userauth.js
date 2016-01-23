@@ -46,9 +46,8 @@ Auth.genToken = function(user) {
   };
 }
 
-Auth.logout = function(user){
-	var now = new Date();
-	return now.setDate(now.getDate())
+Auth.logout = function(){
+	$window.localStorage.removeItem('jwtToken');
 }
  
 Auth.expiresIn = function(numDays) {
