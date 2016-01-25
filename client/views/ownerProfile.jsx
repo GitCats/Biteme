@@ -276,6 +276,7 @@ var Deal = React.createClass({
         <div className="dealLogoDiv">
           <img src={this.props.image_name} className="dealLogo" />
         </div>
+
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
             {this.props.description}
@@ -286,10 +287,11 @@ var Deal = React.createClass({
           <div className="dealAddress">
             {this.props.address.split(",")}
           </div>
-          <div className="dealExpiration">
+          <strong><div className="dealExpiration">
             {displayDate} {displayTime}
-          </div>
-        </div>  
+          </div></strong>
+        </div>
+
       </div>
     );
   }

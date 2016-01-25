@@ -122,10 +122,10 @@ var Deal = React.createClass({
             {this.props.address.split(",", 1)}
           </div>
           <div className="dealExpiration">
-            {displayTime}
+            <h3>{displayTime}</h3>
           </div>
-        </div>  
-      </div> 
+        </div>
+      </div>
 
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -140,10 +140,10 @@ var Deal = React.createClass({
             </h3>
             <div className="restaurantName">
               {this.props.name}
-            </div> 
+            </div>
             <div className='resDescription'>
               {this.props.res_description}
-            </div> 
+            </div>
             <div className="dealUrl">
               {this.props.url}
             </div>
@@ -241,7 +241,7 @@ var DealList = React.createClass({
     return (
       <div className="dealList">
       <Dropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
-        {dealNodes}
+      {dealNodes}
       </div>
     );
   }
@@ -304,12 +304,12 @@ const customStyles = {
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '50px'
- 
+
   }
 };
 
 module.exports = AllDeals;
 
-//have a filter results function that listens to user input on the dropdown 
+//have a filter results function that listens to user input on the dropdown
 //and then filters this.props.data and then re-renders
 //(how to re-render? forceUpdate? componentDidUpdate? )
