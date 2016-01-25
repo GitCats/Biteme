@@ -205,11 +205,6 @@ var AllDeals = React.createClass({
 
 var DealList = React.createClass({
   getInitialState: function() {
-    // var gettoday = new Date();
-    // var month = gettoday.getMonth() + 1;
-    // var date = gettoday.getDate();
-    // var year = gettoday.getFullYear(); 
-    // var today = '' + month + date + year
     return {
       cuisine_id: '',
       expirationDate: 1,
@@ -220,6 +215,10 @@ var DealList = React.createClass({
         this.setState({ expirationDate: exp})
       }
     }
+  },
+
+  componentWillMount: function() {
+    this.setState({ expirationDate: 1})
   },
 
   filterByCuisine: function(value) {
@@ -237,7 +236,6 @@ var DealList = React.createClass({
     var month = temptoday.getMonth();
     var date = temptoday.getDate();
     var today = +new Date(year, month, date, 23, 59, 59)
-    console.log('today', today)
 
     //find milliseconds of tomorrow at midnight
     var tomorrowInMilliseconds = today + 86400000; 
@@ -256,17 +254,10 @@ var DealList = React.createClass({
       expHour = parseInt(value.expiration.toString().substr(0, 1))
       expMin = parseInt(value.expiration.toString().slice(-2))
     }
-    // console.log('hour', typeof expHour)
-    // console.log('min', typeof expMin)
-    // console.log('value.year', value.year)
-    // console.log('value.month', value.month-1)
-    // console.log('value.day', value.day)
-    // console.log('expHour', expHour)
-    // console.log('expMin', expMin)
-
+    //milliseconds of when deal will expire
     var date = +new Date(value.year, value.month-1, value.day, expHour, expMin, 59)
 
-    if(this.state.expirationDate === '1') {
+    if(this.state.expirationDate === 1) {
       if(date < today) {
         return true
       } else {
@@ -274,7 +265,7 @@ var DealList = React.createClass({
       }
     }
 
-    if(this.state.expirationDate === '2') {
+    if(this.state.expirationDate === 2) {
       if(date < tomorrowInMilliseconds && date > today){
       return true;
     } else {
@@ -282,8 +273,7 @@ var DealList = React.createClass({
     }
   }
 
-    if(this.state.expirationDate === '3') {
-      console.log('askdlfjsa')
+    if(this.state.expirationDate === 3) {
       if(date < oneWeekInMilliseconds) {
         return true;
       } else {
@@ -293,32 +283,14 @@ var DealList = React.createClass({
   },
 
   render: function() {
-
-    //filtering by date
-    //find today's date to default all deals to today
-    // var gettoday = new Date();
-    // var month = gettoday.getMonth() + 1;
-    // var date = gettoday.getDate();
-    // var year = gettoday.getFullYear(); 
-    // var today = '' + month + date + year
     var dealsToUse;
-    //filtering by cuisine type
-    // console.log(this.state.expirationDate)
-    // if(this.state.expirationDate === '1' && this.state.cuisine_id !== '') {
-    //   dealsToUse = this.props.data.filter(this.filterByExpiration)
-    // }
-    // if(this.state.cuisine_id !== '') {
-    //   dealsToUse = this.props.data.filter(this.filterByCuisine)
-    // } 
-    if(this.state.expirationDate === 1) {
+    if(this.state.expirationDate !== '') {
       dealsToUse = this.props.data.filter(this.filterByExpiration)
-    }
-    if(this.state.expirationDate !== '1') {
-      dealsToUse = this.props.data.filter(this.filterByExpiration)
-    }
-    else {
+      if(this.state.cuisine_id !== '') {
+        dealsToUse = dealsToUse.filter(this.filterByCuisine)
+      }
+    } else {
       dealsToUse = this.props.data;
-      console.log('no initial state', this.props.data)
     }
     var dealNodes = dealsToUse.map(function(deal) {
       return (
@@ -364,6 +336,7 @@ var CuisineDropdown = React.createClass({
       <form className="filterByCuisine">
         <select onChange={this.selectCuisine}>
           <option value="">-Choose your cuisine-</option>
+          <option value="">All cuisines</option>
           <option value="1">Mexican</option>
           <option value="2">Fast Food</option>
           <option value="3">Pizza</option>
@@ -433,8 +406,8 @@ var ExpirationDropdown = React.createClass({
     //   expirationDate = oneWeekOut;
     // }
     // console.log('expirationdate', expirationDate)
-    console.log('here', expirationDate)
-    this.props.updateExpiration(expirationDate)
+    var exp = parseInt(expirationDate)
+    this.props.updateExpiration(exp)
   },
 
   render: function() {
