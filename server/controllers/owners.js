@@ -45,7 +45,7 @@ router.post('/create', function (req, res) {
 	})
 })
 
-router.get('/getprofile/*', function(req, res){
+router.get('/getprofile/*', function(req, res){ //ARE WE EVER USING THIS?
 	console.log('req url:', req.url);
 	Owner.getProfile(req.url)
 	.then(function (data){

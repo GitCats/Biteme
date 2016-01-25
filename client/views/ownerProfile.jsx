@@ -18,6 +18,7 @@ var Datetime = require('react-datetime');
 //Displaying past deals <PastDeals />:
 //
 //When done check to see what empty settings do to a newly sign-up owner's profile
+//add "Delete Deal" button with AJAX request to remove unexpired deals
 //Place the above 3 sections in tabs
 
 
@@ -76,39 +77,75 @@ var CreateDeal = React.createClass({
       description: "",
       totalExpiration: new Date(),
       expiration: "",
-      month: "",
-      day: "",
-      year: ""
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate(),
+      year: new Date().getFullYear()
     }
   },
 
   chooseDate: function(momentObj) {
     this.setState({ totalExpiration: momentObj._d });
     var time = this.state.totalExpiration;
-    console.log("Selected time:", time.getHours());
-    //we don't want 0 in front of hours less than 10, midnight should be 2400, all should be numbers, and months are mapped from 1 - 12
+    var hour = time.getHours();
+    var minute = function() {
+      if (time.getMinutes() < 10) {
+        return "0" + time.getMinutes();
+      } else {
+        return time.getMinutes();
+      }
+    }()
+    var expiration = function() {
+      if (hour.toString() + minute.toString() === "000") {
+        return "2400";
+      } else {
+        return hour.toString() + minute.toString();
+      }
+    }()
+    this.setState({ expiration: expiration });
+    this.setState({ month: time.getMonth() + 1 });
+    this.setState({ year: time.getFullYear() });
+    this.setState({ day: time.getDate() });
+    console.log("Selected time:", time);
   },
 
   postDeal: function(e) {
     e.preventDefault();
     var description = this.state.description.trim();
-    
+    if (!description) {
+      alert("You must enter a description for your deal.");
+      return;
+    }
+    var newDeal = { 
+                    restaurant_id: localStorage.getItem("restaurant_id"), 
+                    description: description,
+                    expiration: this.state.expiration,
+                    month: this.state.month,
+                    day: this.state.day,
+                    year: this.state.year
+                  };
+    this.submitDeal(newDeal);
+  },
+
+  submitDeal: function(deal) {
     $.ajax({
-      url: ,
-      dataType: 'json',
-      type: 'POST',
-      data: ,
-      success: function(data) {
-        
-        this.setState({description: '', totalExpiration: new Date()});
+      url: "api/owner/create",
+      dataType: "json",
+      type: "POST",
+      data: deal,
+      success: function(res) {
+        console.log("Deal posted:", res);
+        this.setState({ description: "", 
+                        totalExpiration: new Date(), 
+                        expiration: "", 
+                        month: new Date().getMonth() + 1, 
+                        day: new Date().getDate(), 
+                        year: new Date().getFullYear() });
       }.bind(this),
       error: function(xhr, status, err) {
-        this.setState({data: comments});
         console.error(this.props.url, status, err.toString());
+        alert("There was an error processing your request.");
       }.bind(this)
     });
-
-
   },
 
   render: function() {
@@ -118,7 +155,7 @@ var CreateDeal = React.createClass({
     };
     return (
       <div>
-        <form>
+        <form onSubmit={this.postDeal} >
           <h1>Create a Deal</h1>
           <br/>
           <h3 className="text">Make a deal for {this.props.initialData.name}</h3>
