@@ -102,10 +102,6 @@ var CreateDeal = React.createClass({
       }
     }()
     this.setState({ expiration: expiration });
-    this.setState({ month: time.getMonth() + 1 });
-    this.setState({ year: time.getFullYear() });
-    this.setState({ day: time.getDate() });
-    console.log("Selected time:", time);
   },
 
   postDeal: function(e) {
@@ -119,9 +115,9 @@ var CreateDeal = React.createClass({
                     restaurant_id: localStorage.getItem("restaurant_id"), 
                     description: description,
                     expiration: this.state.expiration,
-                    month: this.state.month,
-                    day: this.state.day,
-                    year: this.state.year
+                    month: this.state.totalExpiration.getMonth() + 1,
+                    day: this.state.totalExpiration.getDate(),
+                    year: this.state.totalExpiration.getFullYear()
                   };
     this.submitDeal(newDeal);
   },
@@ -129,11 +125,11 @@ var CreateDeal = React.createClass({
   submitDeal: function(deal) {
     $.ajax({
       url: "api/owner/create",
-      dataType: "json",
+      dataType: "text",
       type: "POST",
       data: deal,
       success: function(res) {
-        console.log("Deal posted:", res);
+        alert("Your deal has been posted!");
         this.setState({ description: "", 
                         totalExpiration: new Date(), 
                         expiration: "", 
@@ -165,7 +161,7 @@ var CreateDeal = React.createClass({
           <br/><br/>
           <p className="text">When will your deal expire?</p>
           <Datetime open={ true } isValidDate={ valid } value={this.state.totalExpiration} onChange={this.chooseDate} />
-          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
           <input type="submit" className="dealSubmit" value="Post My Deal!" />
           <br/><br/>
         </form>

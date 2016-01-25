@@ -55,7 +55,7 @@ CREATE TABLE deals (
   deal_id INTEGER NOT NULL default nextval('deal_id_seq'),
   restaurant_id INTEGER,
   description varchar(5000),
-  expiration INTEGER,
+  expiration varchar(4),
   month INTEGER,
   day INTEGER,
   year INTEGER,
