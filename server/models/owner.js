@@ -90,7 +90,8 @@ Owner.updatePassword = function(body){
 }
 
 Owner.logout = function(){
-	$window.localStorage.removeItem('jwtToken');
+	// $window.localStorage.removeItem('jwtToken');
+	$window.localStorage.delete();
 }
 
 //body will be {"restaurant_id": 1, "cuisine_id": 7,
