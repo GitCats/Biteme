@@ -1,6 +1,6 @@
 var express = require('express')
 var Auth = require('../models/userauth.js');
-var db = require('../db/index.js');
+// var db = require('../db/index.js');
 
 var router = express.Router();
 module.exports = router;
@@ -42,3 +42,17 @@ router.post('/signup', function (req, res){
 		}
 	})
 })
+
+router.get('/logout', function (req, res) {
+	Auth.logout()
+	.then(function () {
+		if(Auth.validPassword(req.body.password, data[0].password)){
+		res.json(Auth.genToken(req.body.email)).status(200)
+		} else {
+     	res.status(400).send({reason: "Password incorrect"});
+		}
+	})
+  // .catch(function(err){
+  //   res.status(400).send({reason: "User not found"});
+  // });
+});
