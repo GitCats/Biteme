@@ -28,7 +28,7 @@ var Deal = React.createClass({
 
   render: function() {
 
-    //formatting date 
+    //formatting date
     var calendarMonths = {
       1: 'January',
       2: 'February',
@@ -43,18 +43,18 @@ var Deal = React.createClass({
       11: 'November',
       12: 'December'
     }
-    //getting the year. if the deal year is also the current year, won't display. If it's next year 
-    //(like if an owner puts in a deal in December for January), then it will display. 
+    //getting the year. if the deal year is also the current year, won't display. If it's next year
+    //(like if an owner puts in a deal in December for January), then it will display.
 
     //grab the current year
-    var currentYear = new Date().getFullYear(); 
+    var currentYear = new Date().getFullYear();
 
     var month = calendarMonths[this.props.month];
     if(this.props.year === currentYear) {
       var displayDate = month + ' ' + this.props.day;
     } else {
       var displayDate =  month + ' ' + this.props.day + ', ' + this.props.year;
-    } 
+    }
 
       //formatting time
       var num = this.props.expiration
@@ -74,7 +74,7 @@ var Deal = React.createClass({
             period = 'am'
           } else {
             period = 'pm'
-          } 
+          }
           if(hours === 00) {
             hours = 12;
           }
@@ -122,10 +122,10 @@ var Deal = React.createClass({
             {this.props.address.split(",", 1)}
           </div>
           <div className="dealExpiration">
-            {displayTime}
+            <h3>{displayTime}</h3>
           </div>
-        </div>  
-      </div> 
+        </div>
+      </div>
 
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -140,10 +140,10 @@ var Deal = React.createClass({
             </h3>
             <div className="restaurantName">
               {this.props.name}
-            </div> 
+            </div>
             <div className='resDescription'>
               {this.props.res_description}
-            </div> 
+            </div>
             <div className="dealUrl">
               {this.props.url}
             </div>
@@ -231,17 +231,17 @@ var DealList = React.createClass({
 
   filterByExpiration: function(value) {
     //find milliseconds of today at midnight
-    var temptoday = new Date(); 
+    var temptoday = new Date();
     var year = temptoday.getFullYear();
     var month = temptoday.getMonth();
     var date = temptoday.getDate();
     var today = +new Date(year, month, date, 23, 59, 59)
 
     //find milliseconds of tomorrow at midnight
-    var tomorrowInMilliseconds = today + 86400000; 
+    var tomorrowInMilliseconds = today + 86400000;
 
     //find milliseconds of 7 days from now at midnight
-    var oneWeekInMilliseconds = today + 604800000; 
+    var oneWeekInMilliseconds = today + 604800000;
 
     //getting the time expiration of the deals
     var expHour;
@@ -294,18 +294,18 @@ var DealList = React.createClass({
     }
     var dealNodes = dealsToUse.map(function(deal) {
       return (
-        <Deal res_description={deal.res_description} 
-              cuisine={deal.cuisine_id} 
-              day={deal.day} 
-              year={deal.year} 
-              month={deal.month} 
-              name={deal.name} 
-              url={deal.url} 
-              address={deal.address} 
-              description={deal.description} 
-              expiration={deal.expiration} 
-              image_name={deal.image_name} 
-              name={deal.name} 
+        <Deal res_description={deal.res_description}
+              cuisine={deal.cuisine_id}
+              day={deal.day}
+              year={deal.year}
+              month={deal.month}
+              name={deal.name}
+              url={deal.url}
+              address={deal.address}
+              description={deal.description}
+              expiration={deal.expiration}
+              image_name={deal.image_name}
+              name={deal.name}
               key={deal.deal_id}>
         </Deal>
       );
@@ -362,7 +362,7 @@ var CuisineDropdown = React.createClass({
 var ExpirationDropdown = React.createClass({
 
   // getInitialState: function() {
-  //   //do I need an initialstate? 
+  //   //do I need an initialstate?
   //   var today = new Date();
   //   var month = today.getMonth() + 1;
   //   var date = today.getDate();
@@ -373,7 +373,7 @@ var ExpirationDropdown = React.createClass({
   //   console.log('date', date)
   //   console.log('year', year)
 
-  //   return {expiration: fullDate};   
+  //   return {expiration: fullDate};
   // },
 
   selectExpiration: function(e) {
@@ -381,14 +381,14 @@ var ExpirationDropdown = React.createClass({
     // var getToday = new Date();
     // var month = getToday.getMonth() + 1;
     // var date = getToday.getDate();
-    // var year = getToday.getFullYear(); 
+    // var year = getToday.getFullYear();
     // var today = '' + month + date + year;
     // var tomorrow = '' + month + (date + 1) + year;
 
     // var today = Date.now();
     // var tomorrow = Date.now() + 86400000;
 
-    // var expirationDate; 
+    // var expirationDate;
     // if(exp === '1') {
     //   expirationDate = today;
     // }
@@ -442,12 +442,12 @@ const customStyles = {
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '50px'
- 
+
   }
 };
 
 module.exports = AllDeals;
 
-//have a filter results function that listens to user input on the dropdown 
+//have a filter results function that listens to user input on the dropdown
 //and then filters this.props.data and then re-renders
 //(how to re-render? forceUpdate? componentDidUpdate? )
