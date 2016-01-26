@@ -15,7 +15,7 @@ Auth.signin = function(body){
   var attemptedemail = body.email;
 	return db('users')
 	.where('email', attemptedemail)
-	.select('email', 'password')
+	.select('user_id', 'email', 'password')
 };
 
 Auth.signup = function(body){
@@ -38,7 +38,7 @@ Auth.genToken = function(user) {
   var token = jwt.encode({
     exp: expires
   }, require('../config/secret')());
- 
+
   return {
     token: token,
     expires: expires,
@@ -49,7 +49,7 @@ Auth.genToken = function(user) {
 Auth.logout = function(){
 	$window.localStorage.removeItem('jwtToken');
 }
- 
+
 Auth.expiresIn = function(numDays) {
   var dateObj = new Date();
   return dateObj.setDate(dateObj.getDate() + numDays);

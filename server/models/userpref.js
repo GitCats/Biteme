@@ -42,12 +42,12 @@ UserPref.updateRes = function(obj) {
 
 //this function will replace all of the values in the cuisine prefs table
 UserPref.updateCuis = function(obj) {
-	var ids = obj.cuisine_id;
+  console.log('obj', obj);
+	var ids = obj["cuisine_id"];
 	var add = [];
 	var del = [];
 	for(var k in ids) {
 		if(ids[k] === 1){
-			console.log("ids[k]:", ids[k])
 			add.push({user_id: obj.user_id, cuisine_id: Number(k)});
 		} else {
 			del.push(Number(k))
