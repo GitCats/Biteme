@@ -215,7 +215,7 @@ var OwnerSignup = React.createClass({   //Prompt only, no AJAX request
   }
 });
 
-var OwnerLogin = React.createClass({   //Update API route when ready
+var OwnerLogin = React.createClass({
  
   getInitialState: function() {
     return { modalIsOpen: false };

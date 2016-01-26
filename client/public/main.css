@@ -152,6 +152,11 @@ ul {
   color: white;
 }
 
+.dealSubmit {
+  margin: 0 auto;
+  display: block;
+}
+
 .text {
   text-align: center;
 }
