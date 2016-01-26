@@ -61,34 +61,8 @@ Deal.remove = function(deal){
     .del()
 };
 
-Deal.filterByProximity = function(startingPoint) {
 
-var options = {
-  "method": "GET",
-  "hostname": "maps.googleapis.com",
-  "port": null,
-  "path": "/maps/api/distancematrix/json?origins=Vancouver%20BC%7CSeattle&destinations=San%20Francisco%7CVictoria%20BC&key=AIzaSyCsOnxdY0OYiuT4WOPL2LQIMBPfkJUveX8",
-  "headers": {
-    "cache-control": "no-cache",
-    "postman-token": "5fb61160-d195-d0cd-ffbe-11155b6214cf"
-  }
-};
 
-var req = http.request(options, function (res) {
-  var chunks = [];
-
-  res.on("data", function (chunk) {
-    chunks.push(chunk);
-  });
-
-  res.on("end", function () {
-    var body = Buffer.concat(chunks);
-    console.log(body.toString());
-  });
-});
-
-req.end();
-}
 
 
 

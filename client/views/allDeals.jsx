@@ -313,9 +313,25 @@ var DealList = React.createClass({
   //   })
   // },
   // var startingPoint = {'startingPoint': '701 Brazos Street, Austin, Texas 78701'}
+  var array = [];
+  var destinations = function(obj) {
+    for(var key in obj) {
+      for(var i=0; i<obj[key].length; i++) {
+        var address = obj[key][i].address;
+        var formatAddress = address.replace(/\s/g, '+')
+        array.push(formatAddress)
+        console.log(obj[key][0])
+      }
+    }
+  }
+  destinations(this.props)
 
-  console.log('sp', startingPoint)
-  var data = {'startingPoint': startingPoint}
+  var allDestinations = array.join('|')
+  console.log('allDestinations', allDestinations)
+  var data = {
+    startingPoint: startingPoint,
+    destinations: allDestinations
+  }
 
   $.ajax({ 
       url: 'api/deals/filterByProximity',
