@@ -6,47 +6,43 @@ var Datetime = require('react-datetime');
 //OWNER PROFILE PAGE
 //
 //EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
+//Place the following 3 sections in tabs:
 //
 //Creating new deals <CreateDeal />:
-//depends on restaurant_id being in localStorage so until owner signup returns this key, owner must sign in to see past deals & profile info
 //should re-render past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
 //
 //Displaying & Updating the restaurant profile <OwnerForm />:
-//make a unique AJAX POST request to update only profile info, must include "restaurant_id" in req.body) => api/owner/updateprofile
 //
 //Displaying past deals <PastDeals />:
-//
-//When done check to see what empty settings do to a newly sign-up owner's profile
 //add "Delete Deal" button with AJAX request to remove unexpired deals
-//Place the above 3 sections in tabs
 
 
-//Note about this module: the AJAX request in OwnerForm and its state-setting arguably should 
-//have been done in the parent OwnerProfile component. But we learned a lot about React
-//in figuring out how to pass values around from a child component to others and managed to get
-//everything displaying as expected with just one AJAX request. The values had to be state
-//properties in OwnerForm so as to be mutable and the source of truth, but they could just as
-//well have been set as props upon AJAX success in OwnerProfile, passed down as properties, and
-//reset to state values in OwnerForm.
+//Note about this module: the AJAX request in OwnerForm and its state-setting could 
+//have been done in the parent OwnerProfile component. The values had to be state
+//properties in OwnerForm so as to be mutable and the source of truth, but they probably
+//could have been state values in OwnerProfile upon AJAX success, passed down as properties,
+//and reset to state values in OwnerForm.
 
 var OwnerProfile = React.createClass({
 
   getInitialState: function() {
     var passProps = function(data) {
       this.setState({settings: data[0]});
+      //the above setState re-renders CreateDeal before the next line logs!
+      console.log("If you see me after updating profile, OwnerProfile is re-rendering.");
     };
-    //bind this component's "this" to pass the function to the child component, call it from
+    //Bind this component's "this" to pass the function to the child component, call it from
     //there, and change the state of this parent component, so that the sibling CreateDeal
-    //can get the data from the AJAX request in OwnerForm
+    //can get the data from the AJAX request in OwnerForm.
     var boundProps = passProps.bind(this);
     return { 
       getProps: boundProps,
-      settings: {}  //must set initial state for anything passed down
+      settings: {}  //Must set initial state for anything passed down.
     }
   },
 
   render: function() {
-    if (localStorage.getItem("token") && localStorage.getItem("restaurant_id")) {
+    if (localStorage.getItem("token") && localStorage.getItem("restaurant_id") !== "undefined") {
       return (
         <div>
           <CreateDeal initialData={this.state.settings} />
@@ -145,6 +141,7 @@ var CreateDeal = React.createClass({
   },
 
   render: function() {
+    console.log("If you see me after updating, CreateDeal re-renders upon updating profile.") ///////////////////////////////////////
     var yesterday = Datetime.moment().subtract(1,'day');
     var valid = function(current) {
       return current.isAfter( yesterday );
@@ -206,7 +203,7 @@ var OwnerForm = React.createClass({
       dataType: "json",             //defaults to GET request
       success: function(settings) {
         var setting = settings[0];
-        var address = setting ? setting.address.split(",") : "";
+        var address = setting ? setting.address ? setting.address.split(",") : "" : "";
           //Each setState command re-renders components
           //Ternary operators are just a failsafe but not having them doesn't break anything
           this.setState({
@@ -262,6 +259,19 @@ var OwnerForm = React.createClass({
       data: updates,
       success: function(res) {
         alert("Your profile has been updated.");
+        this.setState({
+          settings: [{
+            address: updates.address,
+            cuisine_id: updates.cuisine_id,
+            restaurant_id: updates.restaurant_id,
+            name: updates.name,
+            image_name: updates.image_name,
+            res_description: updates.res_description,
+            url: updates.url,
+            phone_number: updates.phone_number
+          }]
+        })
+        this.props.updateParent(this.state.settings);/////////////////////////////
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -391,7 +401,7 @@ var Deal = React.createClass({
   render: function() {
     //formatting date 
     var calendarMonths = {    //DISPLAY MODAL DETAILS IN NON-MODAL VIEW
-      1: "January",           //CHECK AGAINST HOMEPAGE & allDeals.jsx & 50 lines down
+      1: "January",           //CHECK AGAINST HOMEPAGE & allDeals.jsx
       2: "February",
       3: "March",
       4: "April",

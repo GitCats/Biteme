@@ -42,7 +42,7 @@ Owner.create = function(body) {
 	.insert({restaurant_id: body.restaurant_id, description: body.description, expiration: body.expiration, month: body.month, day: body.day, year: body.year})
 }
 
-Owner.genToken = function(user) {
+Owner.genToken = function(req) {
   var expires = Owner.expiresIn(3600000); // 1 hour in milliseconds
   var token = jwt.encode({
     exp: expires
@@ -51,7 +51,8 @@ Owner.genToken = function(user) {
   return {
     token: token,
     expires: expires,
-    user: user
+    user: req.username,
+    restaurant_id: req.restaurant_id
   };
 }
  
