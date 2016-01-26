@@ -196,7 +196,6 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1 className="today">Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );
@@ -213,6 +212,9 @@ var DealList = React.createClass({
       },
       updateExpiration: function(exp) {
         this.setState({ expirationDate: exp})
+      },
+      filterByProximity: function(startingPoint) {
+        this.filterByProximity(startingPoint)
       }
     }
   },
@@ -282,6 +284,53 @@ var DealList = React.createClass({
     }
   },
 
+  filterByProximity: function(startingPoint) {
+
+  // var parameters = {
+  //   origin: '6102 NW 24th Lane, Gainesville, FL 32606',
+  //   destinations: '701 Brazos Street, Austin, Texas 78701',
+  //   key: 'AIzaSyALjdbv4xgtU6isXWq3gAyC_OQfvlbzbzg'
+  // };
+
+  // var headers = {
+  //   key: 'AIzaSyALjdbv4xgtU6isXWq3gAyC_OQfvlbzbzg'
+  // }
+
+  // var key = 'AIzaSyALjdbv4xgtU6isXWq3gAyC_OQfvlbzbzg';
+
+  // var dataType = 'jsonp'
+
+  //   $.ajax({ 
+  //     url: 'https://maps.googleapis.com/maps/api/distancematrix/jsonp?origins=' + parameters.origin + '&destinations=' + parameters.destinations + '&key=AIzaSyALjdbv4xgtU6isXWq3gAyC_OQfvlbzbzg',
+  //     dataType: 'jsonp',
+  //     headers: {'Key': key},
+  //     success: function(data) {
+  //       console.log(data)
+  //     }.bind(this),
+  //     error: function(xhr, status, err) {
+  //       console.log('Error:', err)
+  //     }.bind(this)
+  //   })
+  // },
+  // var startingPoint = {'startingPoint': '701 Brazos Street, Austin, Texas 78701'}
+
+  console.log('sp', startingPoint)
+  var data = {'startingPoint': startingPoint}
+
+  $.ajax({ 
+      url: 'api/deals/filterByProximity',
+      type: 'POST',
+      data: data,
+      success: function(data) {
+        console.log('ajaxdata', data)
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.log('Error:', err)
+      }.bind(this)
+    })
+  },
+ 
+
   render: function() {
     var dealsToUse;
     if(this.state.expirationDate !== '') {
@@ -314,6 +363,7 @@ var DealList = React.createClass({
       <div className="dealList">
       <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
       <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
+      <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
         {dealNodes}
       </div>
     );
@@ -423,6 +473,26 @@ var ExpirationDropdown = React.createClass({
   }
 });
 
+var SearchBar = React.createClass({ 
+   filterByProximity: function(e) {
+    // console.log('here')
+    e.preventDefault();
+    var startingPoint = $('#address').val()
+    // console.log(startingPoint)
+    this.props.filterByProximity(startingPoint)
+  },
+
+  render: function() {
+    return (
+      <form className='searchBar' onSubmit={this.filterByProximity} >
+        <input type='text' name='address' id='address'></input>
+        <input type='submit' className='searchButton' value='search'></input>
+      </form>
+      )
+  }
+
+})
+
 
 const customStyles = {
    overlay : {
@@ -442,12 +512,13 @@ const customStyles = {
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '50px'
- 
   }
 };
 
 module.exports = AllDeals;
 
-//have a filter results function that listens to user input on the dropdown 
-//and then filters this.props.data and then re-renders
-//(how to re-render? forceUpdate? componentDidUpdate? )
+//grab the input from the search bar
+//call a function in deal list with that value
+//makes a call to distance api
+
+
