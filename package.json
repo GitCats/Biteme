@@ -1,5 +1,5 @@
 {
-  "name": "Blue Plate",
+  "name": "BluePlate",
   "version": "1.0.0",
   "description": "Flash deals from restaurants to patrons",
   "engines": {
@@ -35,6 +35,7 @@
     "jquery": "^2.2.0",
     "jwt-simple": "^0.4.1",
     "knex": "^0.9.0",
+    "moment": "^2.11.1",
     "morgan": "^1.6.1",
     "nodemon": "^1.8.1",
     "passport": "^0.3.2",
@@ -49,6 +50,7 @@
     "react-addons-shallow-compare": "^0.14.6",
     "react-addons-transition-group": "^0.14.6",
     "react-addons-update": "^0.14.6",
+    "react-datetime": "^2.0.2",
     "react-dom": "^0.14.6",
     "react-gmaps": "^1.2.2",
     "react-google-maps": "^4.7.2",
