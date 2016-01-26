@@ -5,6 +5,8 @@ var Datetime = require('react-datetime');
 
 //OWNER PROFILE PAGE
 //
+//EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
+//
 //Creating new deals <CreateDeal />:
 //depends on restaurant_id being in localStorage so until owner signup returns this key, owner must sign in to see past deals & profile info
 //should re-render past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
@@ -32,7 +34,6 @@ var OwnerProfile = React.createClass({
   getInitialState: function() {
     var passProps = function(data) {
       this.setState({settings: data[0]});
-      console.log("OwnerForm has called updateParent, CreateDeal props should be getting initialData props");
     };
     //bind this component's "this" to pass the function to the child component, call it from
     //there, and change the state of this parent component, so that the sibling CreateDeal
@@ -45,8 +46,8 @@ var OwnerProfile = React.createClass({
   },
 
   render: function() {
-    if (localStorage.getItem("token")) {  //EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKEN
-      return (                            //AUTH HEADER THAT IS VERIFIED ON THE BACKEND
+    if (localStorage.getItem("token") && localStorage.getItem("restaurant_id")) {
+      return (
         <div>
           <CreateDeal initialData={this.state.settings} />
           <OwnerForm updateParent={this.state.getProps} />
@@ -81,7 +82,6 @@ var CreateDeal = React.createClass({
       year: new Date().getFullYear()
     }
   },
-
 
   chooseDate: function(momentObj) {
     this.setState({ totalExpiration: momentObj._d });
@@ -145,42 +145,37 @@ var CreateDeal = React.createClass({
   },
 
   render: function() {
-    var profileCheck = function() {
-      if (this.props && this.props.initialData.name && this.props.initialData.url && this.props.initialData.res_description && this.props.initialData.image_name && this.props.initialData.address && this.props.initialData.phone_number) {
-        return (
-          <div>
-            <h1>Create a Deal for {this.props.initialData.name}</h1>
-            <br/>
-            <form onSubmit={this.postDeal} >
-              <p className="text">Describe your deal in a few words: </p>
-                <input type="text" valueLink={this.linkState("description")} className="dealSubmit" size="40" maxLength="35" />
-              <br/><br/>
-              <p className="text">When will your deal expire?</p>
-              <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
-              <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-              <input type="submit" className="dealSubmit" value="Post My Deal!" />
-              <br/><br/>
-            </form>
-          </div>
-        )
-      } else {
-        return (
-          <div>
-            <h3 className="text">Create a Deal After You Have Completed Your Profile</h3>
-            <br/>
-          </div>
-        )
-      }
-    }();
     var yesterday = Datetime.moment().subtract(1,'day');
     var valid = function(current) {
       return current.isAfter( yesterday );
     };
-    return (
-      <div>
-        {profileCheck}
-      </div>
-    );
+    if (this.props && this.props.initialData.name && this.props.initialData.url && 
+        this.props.initialData.res_description && this.props.initialData.image_name && 
+        this.props.initialData.address && this.props.initialData.phone_number) {
+      return (
+        <div>
+          <h1>Create a Deal for {this.props.initialData.name}</h1>
+          <br/>
+          <form onSubmit={this.postDeal} >
+            <p className="text">Describe your deal in a few words: </p>
+              <input type="text" valueLink={this.linkState("description")} className="dealSubmit" size="40" maxLength="35" />
+            <br/><br/>
+            <p className="text">When will your deal expire?</p>
+            <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <input type="submit" className="dealSubmit" value="Post My Deal!" />
+            <br/><br/>
+          </form>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <h3 className="text">Please Complete Your Profile to Create a Deal</h3>
+          <br/>
+        </div>
+      )
+    }
   }
 });
 
@@ -207,24 +202,25 @@ var OwnerForm = React.createClass({
 
   componentDidMount: function() {
     $.ajax({
-      url: "api/owner/getprofile/"+localStorage.getItem("restaurant_id"),
+      url: "api/owner/getProfile/"+localStorage.getItem("restaurant_id"),
       dataType: "json",             //defaults to GET request
       success: function(settings) {
         var setting = settings[0];
-        var address = setting.address.split(",");
+        var address = setting ? setting.address.split(",") : "";
           //Each setState command re-renders components
+          //Ternary operators are just a failsafe but not having them doesn't break anything
           this.setState({
             settings: settings,
-            name: setting.name,
-            cuisine: setting.cuisine_id,
-            address: address[0],
-            city: address[1].substr(1),
-            state: address[2].substring(1, address[2].length - 6),
-            zip: address[2].substr(address[2].length - 5),
-            logo: setting.image_name,
-            phone: setting.phone_number,
-            res_description: setting.res_description,
-            website: setting.url
+            name: setting ? setting.name : "",
+            cuisine: setting ? setting.cuisine_id : "",
+            address: address ? address[0] : "",
+            city: address ? address[1].substr(1) : "",
+            state: address ? address[2].substring(1, address[2].length - 6) : "",
+            zip: address ? address[2].substr(address[2].length - 5) : "",
+            logo: setting ? setting.image_name : "",
+            phone: setting ? setting.phone_number : "",
+            res_description: setting ? setting.res_description : "",
+            website: setting ? setting.url : ""
           });
         this.props.updateParent(this.state.settings);
       }.bind(this),
@@ -277,8 +273,7 @@ var OwnerForm = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Create or Update Your Restaurant Profile</h1>
-        <br/>
+        <h1>Update Your Restaurant Profile</h1>
         <form onSubmit={this.updateProfile}>
           Restaurant name: <input type="text" valueLink={this.linkState("name")} />
           <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
@@ -319,7 +314,7 @@ var OwnerForm = React.createClass({
             <input type="submit" value="Update Restaurant Profile" />
           </div>
         </form>
-        <PastDeals settings={this.state.settings} />
+        <PastDeals />
       </div>
     );
   }
@@ -328,12 +323,31 @@ var OwnerForm = React.createClass({
 
 var PastDeals = React.createClass({
 
+  getInitialState: function() {
+    return {
+      settings: []
+    }
+  },
+
+  componentDidMount: function() {
+    $.ajax({
+      url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
+      dataType: "json",
+      success: function(settings) {
+        this.setState({ settings: settings });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
   render: function() {
     return (
       <div className="dealBox">
         <h1>Past Deals</h1>
         <br/>
-        <DealList data={this.props.settings} />
+        <DealList data={this.state.settings} />
       </div>
     );
   }
@@ -343,7 +357,7 @@ var PastDeals = React.createClass({
 var DealList = React.createClass({
 
   // componentDidMount: function() {
-  //   setInterval(this.render, 500);  //?? WILL THIS WORK?
+  //   setInterval(this.render, 500);  //?? WILL THIS WORK??????????
   // },
 
   render: function() {
@@ -376,8 +390,8 @@ var Deal = React.createClass({
 
   render: function() {
     //formatting date 
-    var calendarMonths = {    //WILL DATE DISPLAY IN NON-MODAL VIEW? MAY NOT NEED THIS
-      1: "January",
+    var calendarMonths = {    //DISPLAY MODAL DETAILS IN NON-MODAL VIEW
+      1: "January",           //CHECK AGAINST HOMEPAGE & allDeals.jsx & 50 lines down
       2: "February",
       3: "March",
       4: "April",
@@ -390,7 +404,7 @@ var Deal = React.createClass({
       11: "November",
       12: "December"
     }
-    //getting the year. if the deal year is also the current year, won't display. If it's next year 
+    //Getting the year. If the deal year is also the current year, won't display. If it's next year 
     //(like if an owner puts in a deal in December for January), then it will display. 
 
     //grab the current year
@@ -422,26 +436,6 @@ var Deal = React.createClass({
         } 
       }
     var displayTime = hours + ":" + minutes + period;
-    //formatting type of cuisine
-    // var cuisineMap = {     //CUISINE ONLY DISPLAYED IN HOMEPAGE'S MODALS
-    //   1: "Mexican",
-    //   2: "Fast Food",
-    //   3: "Pizza",
-    //   4: "Sandwiches",
-    //   5: "Burgers",
-    //   6: "American",
-    //   7: "Barbecue",
-    //   8: "Diner",
-    //   9: "Chinese",
-    //   10: "Italian",
-    //   11: "Japanese",
-    //   12: "Vietnamese",
-    //   13: "Thai",
-    //   14: "Steakhouse",
-    //   15: "Indian",
-    //   16: "Other"
-    // }
-    // var displayCuisine = cuisineMap[this.props.cuisine];
     return (
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">

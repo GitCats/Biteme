@@ -12,7 +12,6 @@ Owner.validPassword = function(attemptedPass, correctPass){
 	return bcrypt.compareSync(attemptedPass, correctPass);
 }
 //selects and returns all deals for the specified restaurant
-//only if they are not yet expired(?????????????)
 Owner.allDeals = function(url) {
 	var id = url.substr(url.lastIndexOf("/")+1);
 	console.log('id: ', id)
