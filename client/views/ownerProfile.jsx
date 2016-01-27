@@ -10,15 +10,14 @@ var Datetime = require('react-datetime');
 //
 //Creating new deals <CreateDeal />:
 //-make this a modal that is called with a button onClick from any tab
-//-should re-render past deals view to include latest deals
 //-should put allDeals view on a setInterval to update with this info
 //
 //Displaying & Updating the restaurant profile <OwnerForm />:
 //-this should be its own tab
 //
-//Displaying past deals <PastDeals />:
-//-divide this into 2 tabs: Current Deals and Expired Deals
-//-add "Delete Deal" button with AJAX request to expire current deals
+//Displaying past deals <CurrentDealList /> & <ExpiredDealList />:
+//-Place each in their own tab
+//-add "Delete Deal" button with AJAX request on current deals to expire them
 
 
 //Note about this module: the AJAX request in OwnerForm and its state-setting could 
@@ -71,7 +70,15 @@ var OwnerProfile = React.createClass({
         <div>
           <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
           <OwnerForm updateParent={this.state.getProps} />
-          <PastDeals deals={this.state.deals} updateDeals={this.state.updateDeals} />
+          <div className="dealBox">
+            <h1>Current Deals</h1>
+            <br/>
+            <CurrentDealList deals={this.state.deals} updateDeals={this.state.updateDeals} />
+            <br/>
+            <h1>Expired Deals</h1>
+            <br/>
+            <ExpiredDealList deals={this.state.deals} />
+          </div>
           <Link to={"/"} className="dealSubmit text">Go to Main Page</Link><br/><br/>
         </div>
       );
@@ -362,28 +369,36 @@ var OwnerForm = React.createClass({
 });
 
 
-var PastDeals = React.createClass({
+var CurrentDealList = React.createClass({
 
   componentDidMount: function() {
     this.props.updateDeals();
   },
 
+  filterByExpiration: function(value) {
+    var expHour;
+    var expMin;
+    if(value.expiration.length === 4) {
+      expHour = value.expiration.substr(0, 2);
+      expMin = value.expiration.slice(-2);
+    }
+    if(value.expiration.length === 3) {
+      expHour = parseInt(value.expiration.substr(0, 1));
+      expMin = parseInt(value.expiration.slice(-2));
+    }
+    //milliseconds of when deal will expire
+    var date = +new Date(value.year, value.month-1, value.day, expHour, expMin, 59);
+    if (Date.now() < date) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
   render: function() {
-    return (
-      <div className="dealBox">
-        <h1>Past Deals</h1>
-        <br/>
-        <DealList deals={this.props.deals} />
-      </div>
-    );
-  }
-});
-
-
-var DealList = React.createClass({
-
-  render: function() {
-    var dealNodes = this.props.deals.map(function(deal) {
+    var dealsToUse = this.props.deals.filter(this.filterByExpiration);
+    console.log("Current Deals:", dealsToUse);
+    var dealNodes = dealsToUse.map(function(deal) {
       return (
         <Deal 
           res_description={deal.res_description} 
@@ -409,6 +424,60 @@ var DealList = React.createClass({
     );
   }
 });
+
+
+var ExpiredDealList = React.createClass({
+
+  filterByExpiration: function(value) {
+    var expHour;
+    var expMin;
+    if(value.expiration.length === 4) {
+      expHour = value.expiration.substr(0, 2);
+      expMin = value.expiration.slice(-2);
+    }
+    if(value.expiration.length === 3) {
+      expHour = parseInt(value.expiration.substr(0, 1));
+      expMin = parseInt(value.expiration.slice(-2));
+    }
+    //milliseconds of when deal will expire
+    var date = +new Date(value.year, value.month-1, value.day, expHour, expMin, 59);
+    if (Date.now() > date) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  render: function() {
+    var dealsToUse = this.props.deals.filter(this.filterByExpiration);
+    console.log("Expired Deals:", dealsToUse);
+    var dealNodes = dealsToUse.map(function(deal) {
+      return (
+        <Deal 
+          res_description={deal.res_description} 
+          cuisine={deal.cuisine_id} 
+          day={deal.day} 
+          year={deal.year} 
+          month={deal.month} 
+          name={deal.name} 
+          url={deal.url} 
+          address={deal.address} 
+          description={deal.description} 
+          expiration={deal.expiration} 
+          image_name={deal.image_name} 
+          name={deal.name} 
+          key={deal.deal_id}>
+        </Deal>
+      );
+    });
+    return (
+      <div className="dealList">
+        {dealNodes}
+      </div>
+    );
+  }
+});
+
 
 var Deal = React.createClass({
 
