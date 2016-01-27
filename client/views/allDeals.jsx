@@ -10,6 +10,7 @@ var Modal = require('react-modal');
 // var Maps = require('google-maps')
 var Map = require('./map.jsx');
 var Yelp = require('./yelpinfo.jsx');
+var SingleDeal = require('./singleDeal.jsx')
 
 
 var Deal = React.createClass({
@@ -106,7 +107,9 @@ var Deal = React.createClass({
     }
     var displayCuisine = cuisineMap[this.props.cuisine];
 
+console.log('props', this.props)
     return (
+      <div>
       <a onClick={this.openModal}>
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
@@ -133,6 +136,7 @@ var Deal = React.createClass({
           </div>
         </div>  
       </div> 
+      </a>
 
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -152,7 +156,7 @@ var Deal = React.createClass({
               {this.props.res_description}
             </div> 
             <div className="dealUrl">
-              <a href={this.props.url}>{this.props.url}</a>
+              <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
             </div>
             <div className="dealAddress">
               {this.props.address.split(',', 1)}
@@ -170,7 +174,7 @@ var Deal = React.createClass({
             <Yelp {...this.props} />
           </div>
         </Modal>
-      </a>
+      </div>
     );
   }
 });
@@ -537,5 +541,3 @@ module.exports = AllDeals;
 //grab the input from the search bar
 //call a function in deal list with that value
 //makes a call to distance api
-
-
