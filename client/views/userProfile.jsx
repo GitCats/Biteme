@@ -39,6 +39,23 @@ var CuisineCheckBox = React.createClass({
   }
 });
 
+var RestaurantCheckBox = React.createClass({
+  handleChange: function(e) {
+    this.props.changeBox(e.target.checked, this.props.restaurant.name);
+  },
+
+  render: function() {
+    var checked = this.props.restaurant.checked;
+    return (
+      <p style={{display: "inline-block", margin: 30}}>
+        <input type="checkbox" checked={this.props.restaurant.checked} onChange={this.handleChange} />
+        {' '}
+        {this.props.restaurant.name}
+      </p>
+    );
+  }
+});
+
 var CuisineForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
@@ -60,12 +77,41 @@ var CuisineForm = React.createClass({
 
     return (
     <div className="cuisineform">
-      <h3>Choose to be alerted when new deals are created for any of these cuisines:</h3>
+      <h3>Get udpates for these cuisines:</h3>
       <form onSubmit={this.handleSubmit}>
         {options}
         <input type="submit" value="Save Changes" className="cuisineButton" />
       </form>
     </div>
+    );
+  }
+});
+
+var RestaurantForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    this.props.submitChanges();
+  },
+
+  render: function() {
+    var options = [];
+    this.props.data.forEach(function(row){
+      options.push(<RestaurantCheckBox restaurant={row} key={row.restaurant_id} changeBox={this.props.onBoxChange} />);
+    }.bind(this));
+
+    $(".restaurantButton").hide();
+    if(this.props.altered){
+      $(".restaurantButton").show();
+    }
+
+    return (
+      <div className="restaurantform">
+        <h3>Get updates for these restaurants:</h3>
+        <form onSubmit={this.handleSubmit}>
+          {options}
+          <input type="submit" value="Save Changes" className="restaurantButton" />
+        </form>
+      </div>
     );
   }
 });
@@ -102,6 +148,57 @@ var UserProfile = React.createClass({
     });
   },
 
+  loadRestaurants: function() {
+    var user_id = localStorage.getItem("user_id");
+    $.ajax({
+      url: 'api/userprefs/allRestaurants',
+      dataType: 'json',
+      cache: false,
+
+      success: function(data) {
+        var restaurants = [];
+        data.forEach(function(row){
+          restaurants.push(row);
+        }.bind(this));
+        this.setState({restaurantPreferences: restaurants});
+        //nested ajax call to get stored preferences
+        $.ajax({
+          url: 'api/userprefs/restaurants',
+          dataType: 'json',
+          type: 'POST',
+          data: {"user_id": user_id},
+          success: function(data) {
+            var checkedRes = [];
+            // var temp = [];
+            data.forEach(function(row){
+              checkedRes.push(row["name"]);
+            }.bind(this));
+
+            this.state.restaurantPreferences.forEach(function(row){
+              if(checkedRes.indexOf(row.name) > -1){
+                row["checked"] = true;
+              }
+              else{
+                row["checked"] = false;
+              }
+            }.bind(this));
+            this.forceUpdate();
+
+          }.bind(this),
+
+          error: function(xhr, status, err) {
+            console.error('api/userprefs/cuisines', status, err.toString());
+          }.bind(this)
+        });
+
+      }.bind(this), //first success closer
+
+      error: function(xhr, status, err) {
+        console.error('api/userprefs/allRestaurants', status, err.toString());
+      }.bind(this)
+    });
+  },
+
   submitCuisinesChange: function(changes) {
     var user_id = localStorage.getItem("user_id");
     var changes = {"user_id": user_id, "cuisine_id": this.state.cuisineChanges};
@@ -112,10 +209,30 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": changes},
       success: function(data) {
-        this.setState({viewAltered: false});
+        this.setState({cuisineViewAltered: false});
+        this.setState({cuisineChanges: {}});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error('api/userprefs/updateCuis', status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  submitResChange: function(changes) {
+    var user_id = localStorage.getItem("user_id");
+    var changes = {"user_id": user_id, "restaurant_id": this.state.restaurantChanges};
+    changes = JSON.stringify(changes);
+    $.ajax({
+      url: 'api/userprefs/updateRes',
+      dataType: 'json',
+      type: 'POST',
+      data: {"a": changes},
+      success: function(data) {
+        this.setState({resViewAltered: false});
+        this.setState({restaurantChanges: {}});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('api/userprefs/updateRes', status, err.toString());
       }.bind(this)
     });
   },
@@ -126,7 +243,7 @@ var UserProfile = React.createClass({
     this.state.cuisinePreferences[index].checked = yesOrNo;
     this.forceUpdate();
 
-    this.setState({viewAltered: true});
+    this.setState({cuisineViewAltered: true});
     if(yesOrNo === true){yesOrNo=1;}else{yesOrNo=0;}
 
     var holder = this.state.cuisineChanges;
@@ -143,16 +260,45 @@ var UserProfile = React.createClass({
     this.setState({cuisineChanges: holder});
   },
 
+  handleResChange: function(yesOrNo, category) {
+    var index = this.state.restaurantPreferences.map(function(obj){
+      return obj.name;}).indexOf(category);
+    this.state.restaurantPreferences[index].checked = yesOrNo;
+    this.forceUpdate();
+
+    this.setState({resViewAltered: true});
+    if(yesOrNo === true){yesOrNo = 1;}else{yesOrNo=0;}
+
+    var holder = this.state.restaurantChanges;
+    var element = this.state.restaurantPreferences[index];
+    var id = element.restaurant_id;
+    var existed = false;
+    for(var x in holder){
+      if(x === id){
+        holder[x] = yesOrNo;
+        existed = true;
+      }
+    }
+    if(!existed){
+      holder[id] = yesOrNo;
+    }
+    this.setState({restaurantChanges: holder});
+  },
+
   getInitialState: function() {
     return {
       cuisinePreferences: [],
       cuisineChanges: {},
-      viewAltered: false
+      restaurantPreferences: [],
+      restaurantChanges: {},
+      cuisineViewAltered: false,
+      resViewAltered: false
     };
   },
 
   componentDidMount: function() {
     this.loadCuisinesFromServer();
+    this.loadRestaurants();
   },
 
   // onChangeSubmit={this.handleCuisinesChange}
@@ -160,7 +306,8 @@ var UserProfile = React.createClass({
     return (
       <div className="userprefs">
         <h2>Hello sir</h2>
-        <CuisineForm data={this.state.cuisinePreferences} altered={this.state.viewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
+        <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
+        <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
       </div>
     );
   }

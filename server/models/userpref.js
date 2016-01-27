@@ -42,7 +42,6 @@ UserPref.updateRes = function(obj) {
 
 //this function will replace all of the values in the cuisine prefs table
 UserPref.updateCuis = function(obj) {
-  console.log('obj', obj);
 	var ids = obj["cuisine_id"];
 	var add = [];
 	var del = [];
@@ -59,4 +58,9 @@ UserPref.updateCuis = function(obj) {
 		.then(function() {
 			return db('cuisine_prefs').whereIn('cuisine_id', del).andWhere('user_id', obj.user_id).del()
 		})
+}
+
+UserPref.allRestaurants = function() {
+  return db('restaurants')
+    .select('name', 'restaurant_id', 'image_name')
 }
