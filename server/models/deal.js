@@ -52,10 +52,15 @@ Deal.all = function() {
     .select('restaurants.name', 'restaurants.image_name', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'restaurants.cuisine_id', 'restaurants.latitude', 'restaurants.longitude', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year');
 };
 
-//Delete a deal
-Deal.remove = function(deal){
+Deal.update = function(body){
   return db('deals')
-    .where('deal_id', deal)
-    .del()
-};
-
+  .where('deal_id', body.deal_id)
+  .update('expiration', body.expiration)
+  .update('day', body.day)
+  .update('year', body.year)
+  .update('month', body.month)
+  .then(function(){
+    return db('deals').select('deal_id', 'expiration', 'day', 'month', 'year', 'month')
+      .where('deal_id', body.deal_id)
+    })
+}
