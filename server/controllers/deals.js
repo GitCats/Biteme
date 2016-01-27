@@ -15,14 +15,9 @@ router.get('/getAll', function (req, res) {
 })
 
 //Delete a deal
-router.post('/delete', function(req, res){
-  Deal.remove(req.body.deal_id)
+router.post('/update', function(req, res){
+  Deal.update(req.body)
     .then(function(result){
-      if(result === 1){
-        res.status(200).send('Deleted')
-      }
-      else{
-        res.status(400).send('There was an error. Nothing could be deleted')
-      }
+      res.status(200).send(data);
     })
 })
