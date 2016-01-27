@@ -23,14 +23,14 @@ var cuisines = [
 
 var CuisineCheckBox = React.createClass({
   handleChange: function(e) {
-    this.props.calledWhatever(
+    this.props.changeBox(
       e.target.checked, this.props.cuisine.category);
   },
 
   render: function() {
     var checked = this.props.cuisine.checked
     return (
-      <p>
+      <p style={{display: "inline-block", margin: 30}}>
         <input type="checkbox" checked={this.props.cuisine.checked} onChange={this.handleChange}/>
           {' '}
           {this.props.cuisine.category}
@@ -40,20 +40,30 @@ var CuisineCheckBox = React.createClass({
 });
 
 var CuisineForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    this.props.submitChanges();
+  },
+
   render: function(){
     var checkedCuisines = [];
     var options = [];
     //next bit takes the array of objects from the db, which are the included prefs, and puts them in an array
 
     this.props.data.forEach(function(row){
-      options.push(<CuisineCheckBox cuisine={row} key={row.category} calledWhatever={this.props.onBoxChange}/>);
+      options.push(<CuisineCheckBox cuisine={row} key={row.category} changeBox={this.props.onBoxChange}/>);
     }.bind(this));
+    $(".cuisineButton").hide();
+    if(this.props.altered){
+      $(".cuisineButton").show();
+    }
 
     return (
     <div className="cuisineform">
-      <h3>Cuisines</h3>
-      <form>
+      <h3>Choose which cuisines to receive updates for</h3>
+      <form onSubmit={this.handleSubmit}>
         {options}
+        <input type="submit" value="Save Changes" className="cuisineButton" />
       </form>
     </div>
     );
@@ -95,7 +105,7 @@ var UserProfile = React.createClass({
     });
   },
 
-  // handleCuisinesChange: function(changes) {
+  // submitCuisinesChange: function(changes) {
   //   var user_id = localStorage.getItem()
   //   $.ajax({
   //     url: 'api/userprefs/updateCuis',
@@ -110,12 +120,28 @@ var UserProfile = React.createClass({
       return obj.category;}).indexOf(category);
     this.state.cuisinePreferences[index].checked = yesOrNo;
     this.forceUpdate();
-    console.log('the state has changed', this.state.cuisinePreferences);
+
+    this.setState({viewAltered: true});
+    console.log('yesOrNobefore', yesOrNo);
+    if(yesOrNo === true){yesOrNo=1;}else{yesOrNo=0;}
+
+    var holder = this.state.cuisineChanges;
+    var existed = false;
+    var id = index+1;
+    for(var z in holder){
+      if(z === id){
+        holder[z] = yesOrNo;
+        existed = true;
+      }
+    }
+    if(!existed){holder[id] = yesOrNo;}
+    this.setState({cuisineChanges: holder});
   },
 
   getInitialState: function() {
     return {
-      cuisinePreferences: cuisines,
+      cuisinePreferences: [],
+      cuisineChanges: {},
       viewAltered: false
     };
   },
@@ -129,7 +155,7 @@ var UserProfile = React.createClass({
     return (
       <div className="userprefs">
         <h2>Hello sir</h2>
-        <CuisineForm data={this.state.cuisinePreferences} altered={this.state.viewAltered} onBoxChange={this.handleBoxChange} />
+        <CuisineForm data={this.state.cuisinePreferences} altered={this.state.viewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
       </div>
     );
   }
