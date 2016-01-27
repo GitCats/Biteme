@@ -48,7 +48,6 @@ var req = http.request(options, function (res) {
   res.on("data", function (chunk) {
     chunks.push(chunk);
     var body = Buffer.concat(chunks);
-    console.log('body', body.toString());
   });
 
   res.on("end", function (body) {
