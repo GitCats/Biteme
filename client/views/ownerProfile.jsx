@@ -5,48 +5,73 @@ var Datetime = require('react-datetime');
 
 //OWNER PROFILE PAGE
 //
-//EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
-//Place the following 3 sections in tabs:
+//**EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
+//**Place the following 3 sections in tabs:
 //
 //Creating new deals <CreateDeal />:
-//should re-render past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
+//-make this a modal that is called with a button onClick from any tab
+//-should re-render past deals view to include latest deals
+//-should put allDeals view on a setInterval to update with this info
 //
 //Displaying & Updating the restaurant profile <OwnerForm />:
+//-this should be its own tab
 //
 //Displaying past deals <PastDeals />:
-//add "Delete Deal" button with AJAX request to remove unexpired deals
+//-divide this into 2 tabs: Current Deals and Expired Deals
+//-add "Delete Deal" button with AJAX request to expire current deals
 
 
 //Note about this module: the AJAX request in OwnerForm and its state-setting could 
 //have been done in the parent OwnerProfile component. The values had to be state
 //properties in OwnerForm so as to be mutable and the source of truth, but they probably
-//could have been state values in OwnerProfile upon AJAX success, passed down as properties,
-//and reset to state values in OwnerForm.
+//could have been state values in OwnerProfile upon AJAX success and passed down as properties.
 
 var OwnerProfile = React.createClass({
 
   getInitialState: function() {
-    var passProps = function(data) {
-      this.setState({settings: data[0]});
-      //the above setState re-renders CreateDeal before the next line logs!
-      console.log("If you see me after updating profile, OwnerProfile is re-rendering.");
-    };
     //Bind this component's "this" to pass the function to the child component, call it from
     //there, and change the state of this parent component, so that the sibling CreateDeal
-    //can get the data from the AJAX request in OwnerForm.
+    //can get the data as props from the AJAX request in OwnerForm.
+    var passProps = function(data) {
+      this.setState({settings: data[0]});
+    };
+    //Here, passDeals uses the same principle to update the state of this parent component, 
+    //thus updating props in PastDeals and thence DealList and finally Deal from CreateDeal 
+    //by calling the GET request here.
+    var passDeals = function() {
+      this.loadDealsFromServer();
+    };
     var boundProps = passProps.bind(this);
+    var boundDeals = passDeals.bind(this);
     return { 
+      //Must set initial state for anything passed down.
       getProps: boundProps,
-      settings: {}  //Must set initial state for anything passed down.
+      updateDeals: boundDeals,
+      deals: [],
+      settings: {}
     }
+  },
+
+  loadDealsFromServer: function() {
+    $.ajax({
+      url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
+      dataType: "json",
+      success: function(deals) {
+        this.setState({ deals: deals });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
   },
 
   render: function() {
     if (localStorage.getItem("token") && localStorage.getItem("restaurant_id") !== "undefined") {
       return (
         <div>
-          <CreateDeal initialData={this.state.settings} />
+          <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
           <OwnerForm updateParent={this.state.getProps} />
+          <PastDeals deals={this.state.deals} updateDeals={this.state.updateDeals} />
           <Link to={"/"} className="dealSubmit text">Go to Main Page</Link><br/><br/>
         </div>
       );
@@ -131,7 +156,10 @@ var CreateDeal = React.createClass({
                         expiration: "", 
                         month: new Date().getMonth() + 1, 
                         day: new Date().getDate(), 
-                        year: new Date().getFullYear() });
+                        year: new Date().getFullYear() 
+                      });
+        //Call bound function from OwnerProfile to run AJAX request to update past deals.
+        this.props.updateDeals();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -141,7 +169,6 @@ var CreateDeal = React.createClass({
   },
 
   render: function() {
-    console.log("If you see me after updating, CreateDeal re-renders upon updating profile.") ///////////////////////////////////////
     var yesterday = Datetime.moment().subtract(1,'day');
     var valid = function(current) {
       return current.isAfter( yesterday );
@@ -219,6 +246,7 @@ var OwnerForm = React.createClass({
             res_description: setting ? setting.res_description : "",
             website: setting ? setting.url : ""
           });
+        //Update the initialData props in CreateDeal on load (see comments in this.submitUpdate).
         this.props.updateParent(this.state.settings);
       }.bind(this),
       error: function(xhr, status, err) {
@@ -259,6 +287,7 @@ var OwnerForm = React.createClass({
       data: updates,
       success: function(res) {
         alert("Your profile has been updated.");
+        //Reset this.state.settings...
         this.setState({
           settings: [{
             address: updates.address,
@@ -271,7 +300,10 @@ var OwnerForm = React.createClass({
             phone_number: updates.phone_number
           }]
         })
-        this.props.updateParent(this.state.settings);/////////////////////////////
+        //...and call the bound function from OwnerProfile with the new values to update & run a 
+        //check on CreateDeal's initialData props to determine whether the owner's profile is 
+        //complete and if creating deals should be allowed (see render function for CreateDeal).
+        this.props.updateParent(this.state.settings);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -324,7 +356,6 @@ var OwnerForm = React.createClass({
             <input type="submit" value="Update Restaurant Profile" />
           </div>
         </form>
-        <PastDeals />
       </div>
     );
   }
@@ -333,23 +364,8 @@ var OwnerForm = React.createClass({
 
 var PastDeals = React.createClass({
 
-  getInitialState: function() {
-    return {
-      settings: []
-    }
-  },
-
   componentDidMount: function() {
-    $.ajax({
-      url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
-      dataType: "json",
-      success: function(settings) {
-        this.setState({ settings: settings });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
+    this.props.updateDeals();
   },
 
   render: function() {
@@ -357,7 +373,7 @@ var PastDeals = React.createClass({
       <div className="dealBox">
         <h1>Past Deals</h1>
         <br/>
-        <DealList data={this.state.settings} />
+        <DealList deals={this.props.deals} />
       </div>
     );
   }
@@ -366,18 +382,17 @@ var PastDeals = React.createClass({
 
 var DealList = React.createClass({
 
-  // componentDidMount: function() {
-  //   setInterval(this.render, 500);  //?? WILL THIS WORK??????????
-  // },
-
   render: function() {
-    var dealNodes = this.props.data.map(function(deal) {
+    var dealNodes = this.props.deals.map(function(deal) {
       return (
         <Deal 
           res_description={deal.res_description} 
-          cuisine={deal.cuisine_id} day={deal.day} 
-          year={deal.year} month={deal.month} 
-          name={deal.name} url={deal.url} 
+          cuisine={deal.cuisine_id} 
+          day={deal.day} 
+          year={deal.year} 
+          month={deal.month} 
+          name={deal.name} 
+          url={deal.url} 
           address={deal.address} 
           description={deal.description} 
           expiration={deal.expiration} 
@@ -395,13 +410,12 @@ var DealList = React.createClass({
   }
 });
 
-
 var Deal = React.createClass({
 
   render: function() {
     //formatting date 
-    var calendarMonths = {    //DISPLAY MODAL DETAILS IN NON-MODAL VIEW
-      1: "January",           //CHECK AGAINST HOMEPAGE & allDeals.jsx
+    var calendarMonths = {
+      1: "January",
       2: "February",
       3: "March",
       4: "April",
@@ -417,7 +431,7 @@ var Deal = React.createClass({
     //Getting the year. If the deal year is also the current year, won't display. If it's next year 
     //(like if an owner puts in a deal in December for January), then it will display. 
 
-    //grab the current year
+    //Grab the current year.
     var currentYear = new Date().getFullYear(); 
     var month = calendarMonths[this.props.month];
     if(this.props.year === currentYear) {
@@ -435,6 +449,9 @@ var Deal = React.createClass({
       }
       var period;
       if(hours < 12) {
+        if(hours === "0") {
+          hours = "12";
+        }
         period = "am";
       }
       if(hours >= 12) {
@@ -450,6 +467,7 @@ var Deal = React.createClass({
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
           <img src={this.props.image_name} className="dealLogo" />
+          <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
