@@ -60,7 +60,7 @@ var CuisineForm = React.createClass({
 
     return (
     <div className="cuisineform">
-      <h3>Choose which cuisines to receive updates for</h3>
+      <h3>Choose to be alerted when new deals are created for any of these cuisines:</h3>
       <form onSubmit={this.handleSubmit}>
         {options}
         <input type="submit" value="Save Changes" className="cuisineButton" />
@@ -74,14 +74,12 @@ var UserProfile = React.createClass({
 
   loadCuisinesFromServer: function() {
     var user_id = localStorage.getItem("user_id");
-    console.log('user_id', user_id);
     $.ajax({
       url: 'api/userprefs/cuisines',
       dataType: 'json',
       type: 'POST',
       data: {"user_id": user_id},
       success: function(data) {
-        console.log('cuisines data', data);
         var checkedCuisines = [];
         var temp = [];
         data.forEach(function(row){
@@ -95,7 +93,6 @@ var UserProfile = React.createClass({
           temp.push(row);
         }.bind(this));
 
-        console.log('temp', temp);
         this.setState({cuisinePreferences: temp});
       }.bind(this),
 
@@ -105,15 +102,23 @@ var UserProfile = React.createClass({
     });
   },
 
-  // submitCuisinesChange: function(changes) {
-  //   var user_id = localStorage.getItem()
-  //   $.ajax({
-  //     url: 'api/userprefs/updateCuis',
-  //     dataType: 'json',
-  //     type: 'POST',
-  //     data: {"user_id": user_id, "cuisine_id": {changes}}
-  //   })
-  // },
+  submitCuisinesChange: function(changes) {
+    var user_id = localStorage.getItem("user_id");
+    var changes = {"user_id": user_id, "cuisine_id": this.state.cuisineChanges};
+    changes = JSON.stringify(changes);
+    $.ajax({
+      url: 'api/userprefs/updateCuis',
+      dataType: 'json',
+      type: 'POST',
+      data: {"a": changes},
+      success: function(data) {
+        this.setState({viewAltered: false});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('api/userprefs/updateCuis', status, err.toString());
+      }.bind(this)
+    });
+  },
 
   handleBoxChange: function(yesOrNo, category) {
     var index = cuisines.map(function(obj){
@@ -122,7 +127,6 @@ var UserProfile = React.createClass({
     this.forceUpdate();
 
     this.setState({viewAltered: true});
-    console.log('yesOrNobefore', yesOrNo);
     if(yesOrNo === true){yesOrNo=1;}else{yesOrNo=0;}
 
     var holder = this.state.cuisineChanges;
@@ -134,7 +138,8 @@ var UserProfile = React.createClass({
         existed = true;
       }
     }
-    if(!existed){holder[id] = yesOrNo;}
+    if(!existed){
+      holder[id] = yesOrNo;}
     this.setState({cuisineChanges: holder});
   },
 

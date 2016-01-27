@@ -56,5 +56,5 @@ POST /api/userprefs/updateCuis => updates user's cuisine preferences
   body: {
     user_id: 1,
     cuisine_id: {3: 1, 6: 0, 9: 1}
-}
+  }
   In the cuisine_id object, the key values represent cuisine_id's to update. A '1' value means add that preference, '0' means remove the preference

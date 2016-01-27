@@ -36,8 +36,10 @@ router.post('/updateRes', function(req, res){
 //(replaces previous data)
 //sends 201 status
 router.post('/updateCuis', function(req, res){
-	UserPref.updateCuis(req.body)
+	var reqParsed = JSON.parse(req.body["a"]);
+	console.log('this is parsed', reqParsed);
+	UserPref.updateCuis(reqParsed)
 		.then(function(result){
-			res.sendStatus(201);
+			res.status(201).json({});
 		})
 })
