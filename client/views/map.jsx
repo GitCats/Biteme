@@ -52,9 +52,6 @@ var Map = React.createClass({
   				}
     			if (status === 'OK') {
       				var latlng = results[0].geometry.location;
-      				console.log('mapinfo', results[0])
-      				console.log('lat', latlng.lat())
-      				console.log('lng', latlng.lng())
     			}
 
 			var map = new GMaps({

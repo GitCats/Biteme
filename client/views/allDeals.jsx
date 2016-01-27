@@ -29,8 +29,6 @@ var Deal = React.createClass({
 
   render: function() {
 
-    console.log('here', this.props)
-
     //formatting date 
     var calendarMonths = {
       1: 'January',
@@ -108,9 +106,6 @@ var Deal = React.createClass({
     }
     var displayCuisine = cuisineMap[this.props.cuisine];
 
-    console.log('deals', this.props)
-    console.log('deals2', this.state)
-
     return (
       <a onClick={this.openModal}>
       <div className="deal col-md-6 col-sm-12" >
@@ -157,7 +152,7 @@ var Deal = React.createClass({
               {this.props.res_description}
             </div> 
             <div className="dealUrl">
-              {this.props.url}
+              <a href={this.props.url}>{this.props.url}</a>
             </div>
             <div className="dealAddress">
               {this.props.address.split(',', 1)}
@@ -188,7 +183,6 @@ var AllDeals = React.createClass({
       cache: false,
       type: 'GET',
       success: function(data) {
-        console.log('data', data)
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -298,7 +292,7 @@ var DealList = React.createClass({
     }
   },
 
-  filterByProximity: function(startingPoint) {
+ filterByProximity: function(startingPoint) {
 
   var array = [];
   var destinations = function(obj) {
@@ -326,17 +320,18 @@ var DealList = React.createClass({
       success: function(data) {
         results = JSON.parse(data)
         console.log('results', results)
+        console.log('test', allDestinations)
         var distancesToDestinationsMap = {};
         var distances = results.rows[0].elements;
         var destinations = results.destination_addresses
         var destinationsArray;
-        for(var i=0; i<distances.length; i++) {
-          for(var key in distances[i]) {
-            console.log('key', distances[i].distance.text)
-          }
-        }
-        console.log('distances', distances)
-        console.log('destinations', destinations)
+        // for(var i=0; i<distances.length; i++) {
+        //   for(var key in distances[i]) {
+        //     console.log('key', distances[i].distance.text)
+        //   }
+        // }
+        // console.log('distances', distances)
+        // console.log('destinations', destinations)
         for(var i=0; i<destinations.length; i++) {
           var x=destinations[i];
           for(var j=i; j<distances.length; j++) {
@@ -357,7 +352,6 @@ var DealList = React.createClass({
  
 
   render: function() {
-    console.log('rrrrrrr', this.state.destinations)
     var dealsToUse;
     if(this.state.expirationDate !== '') {
       dealsToUse = this.props.data.filter(this.filterByExpiration)
@@ -367,30 +361,43 @@ var DealList = React.createClass({
     } else {
       dealsToUse = this.props.data;
     }
-console.log('TTTTT', dealsToUse)
-console.log('state', this.state)
     if(this.state.destinations !== ''){
       for(var key in this.state.destinations) {
         var x = key.substr(0, key.length-5);
+        console.log('x', x)
+        console.log('google maps address', x)
+        console.log('currently displayed deals', dealsToUse)
+        console.log('deals from database', this.props)
         for(var i=0; i<dealsToUse.length; i++) {
-          console.log('DEALS', dealsToUse)
-          var address = dealsToUse[i].address
-          console.log('address', address)
-          console.log('i', i)
-          if(address === x) {
-            // var distance = this.state.destinations[key]
+          var address = dealsToUse[i].address;
+          var addressSplit = address.split(' ')
+          var streetNumber = new RegExp(addressSplit[0]);
+          var zipCode = new RegExp(address.split[address.length-1]);
+          console.log('streetnumber', streetNumber)
+          console.log('input address', address)
+          if(streetNumber.test(x) && zipCode.test(x)) {
+            console.log('match')
             dealsToUse[i].distance = this.state.destinations[key]
-            console.log('herehere', dealsToUse[i].distance)
-            // console.log('asdfsa', this.props.data[i].distance)
-            // console.log('here', distance)
+
           }
         }
       }
     }
 
-
-    console.log('XXXXXX', this.props)
-    console.log('this.state', this.state.destinations)
+    var verifyAddress = function(array) {
+      var count;
+      for(var i=0; i<array.length; i++) {
+        var regex = array[i]; 
+        if(address.test(regex)) {
+          count++;
+        }
+      }
+      if(count >=3) {
+        return true;
+      } else {
+        return false; 
+      }
+    }
 
     var dealNodes = dealsToUse.map(function(deal) {
       return (
