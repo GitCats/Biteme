@@ -5,53 +5,49 @@ var Datetime = require('react-datetime');
 
 //OWNER PROFILE PAGE
 //
+//EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
+//Place the following 3 sections in tabs:
+//
 //Creating new deals <CreateDeal />:
-//expiration (INTEGER, ex: 1700, 24 hr time, no colons), calendar select:(month(INT value), day, year)
-//sends unique AJAX POST => "api/owner/create/"+localStorage.getItem("restaurant_id")
-//re-renders past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
+//should re-render past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
 //
 //Displaying & Updating the restaurant profile <OwnerForm />:
-//concat address values & "trim" all values on submit
-//update GET request API route to "api/owner/getAllDeals/"+id after KaylaM's update
-//make a unique AJAX POST request to update only profile info, must include "restaurant_id" in req.body) => api/owner/updateprofile
 //
 //Displaying past deals <PastDeals />:
-//
-//When done check to see what empty settings do to a newly sign-up owner's profile
 //add "Delete Deal" button with AJAX request to remove unexpired deals
-//Place the above 3 sections in tabs
 
 
-//Note about this module: the AJAX request in OwnerForm and its state-setting arguably should 
-//have been done in the parent OwnerProfile component. But we learned a lot about React
-//in figuring out how to pass values around from a child component to others and managed to get
-//everything displaying as expected with just one AJAX request. The values had to be state
-//properties in OwnerForm so as to be mutable and the source of truth, but they could just as
-//well have been set as props upon AJAX success in OwnerProfile, passed down as properties, and
-//reset to state values in OwnerForm.
+//Note about this module: the AJAX request in OwnerForm and its state-setting could 
+//have been done in the parent OwnerProfile component. The values had to be state
+//properties in OwnerForm so as to be mutable and the source of truth, but they probably
+//could have been state values in OwnerProfile upon AJAX success, passed down as properties,
+//and reset to state values in OwnerForm.
 
 var OwnerProfile = React.createClass({
 
   getInitialState: function() {
     var passProps = function(data) {
       this.setState({settings: data[0]});
+      //the above setState re-renders CreateDeal before the next line logs!
+      console.log("If you see me after updating profile, OwnerProfile is re-rendering.");
     };
-    //bind this component's "this" to pass the function to the child component, call it from
+    //Bind this component's "this" to pass the function to the child component, call it from
     //there, and change the state of this parent component, so that the sibling CreateDeal
-    //can get the data from the AJAX request in OwnerForm
+    //can get the data from the AJAX request in OwnerForm.
     var boundProps = passProps.bind(this);
     return { 
       getProps: boundProps,
-      settings: {}  //must set initial state for anything passed down
+      settings: {}  //Must set initial state for anything passed down.
     }
   },
 
   render: function() {
-    if (localStorage.getItem("restaurant_id")) {  //should check for jwt token
+    if (localStorage.getItem("token") && localStorage.getItem("restaurant_id") !== "undefined") {
       return (
         <div>
           <CreateDeal initialData={this.state.settings} />
           <OwnerForm updateParent={this.state.getProps} />
+          <Link to={"/"} className="dealSubmit text">Go to Main Page</Link><br/><br/>
         </div>
       );
     } else {
@@ -145,28 +141,38 @@ var CreateDeal = React.createClass({
   },
 
   render: function() {
+    console.log("If you see me after updating, CreateDeal re-renders upon updating profile.") ///////////////////////////////////////
     var yesterday = Datetime.moment().subtract(1,'day');
     var valid = function(current) {
       return current.isAfter( yesterday );
     };
-    return (
-      <div>
-        <form onSubmit={this.postDeal} >
-          <h1>Create a Deal</h1>
+    if (this.props && this.props.initialData.name && this.props.initialData.url && 
+        this.props.initialData.res_description && this.props.initialData.image_name && 
+        this.props.initialData.address && this.props.initialData.phone_number) {
+      return (
+        <div>
+          <h1>Create a Deal for {this.props.initialData.name}</h1>
           <br/>
-          <h3 className="text">Make a deal for {this.props.initialData.name}</h3>
+          <form onSubmit={this.postDeal} >
+            <p className="text">Describe your deal in a few words: </p>
+              <input type="text" valueLink={this.linkState("description")} className="dealSubmit" size="40" maxLength="35" />
+            <br/><br/>
+            <p className="text">When will your deal expire?</p>
+            <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <input type="submit" className="dealSubmit" value="Post My Deal!" />
+            <br/><br/>
+          </form>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <h3 className="text">Please Complete Your Profile to Create a Deal</h3>
           <br/>
-          <p className="text">Describe your deal in a few words: </p>
-            <input type="text" valueLink={this.linkState("description")} className="dealSubmit" size="40" maxLength="35" />
-          <br/><br/>
-          <p className="text">When will your deal expire?</p>
-          <Datetime open={ true } isValidDate={ valid } value={this.state.totalExpiration} onChange={this.chooseDate} />
-          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-          <input type="submit" className="dealSubmit" value="Post My Deal!" />
-          <br/><br/>
-        </form>
-      </div>
-    );
+        </div>
+      )
+    }
   }
 });
 
@@ -178,6 +184,7 @@ var OwnerForm = React.createClass({
   getInitialState: function() {
     return {
       settings: [],
+      name: "",
       cuisine: "",
       address: "",
       city: "",
@@ -192,24 +199,25 @@ var OwnerForm = React.createClass({
 
   componentDidMount: function() {
     $.ajax({
-      url: "api/owner/"+localStorage.getItem("restaurant_id"),
+      url: "api/owner/getProfile/"+localStorage.getItem("restaurant_id"),
       dataType: "json",             //defaults to GET request
       success: function(settings) {
         var setting = settings[0];
-        var address = setting.address.split(",");
+        var address = setting ? setting.address ? setting.address.split(",") : "" : "";
           //Each setState command re-renders components
+          //Ternary operators are just a failsafe but not having them doesn't break anything
           this.setState({
             settings: settings,
-            name: setting.name,
-            cuisine: setting.cuisine_id,
-            address: address[0],
-            city: address[1].substr(1),
-            state: address[2].substring(1, address[2].length - 6),
-            zip: address[2].substr(address[2].length - 5),
-            logo: setting.image_name,
-            phone: setting.phone_number,
-            res_description: setting.res_description,
-            website: setting.url
+            name: setting ? setting.name : "",
+            cuisine: setting ? setting.cuisine_id : "",
+            address: address ? address[0] : "",
+            city: address ? address[1].substr(1) : "",
+            state: address ? address[2].substring(1, address[2].length - 6) : "",
+            zip: address ? address[2].substr(address[2].length - 5) : "",
+            logo: setting ? setting.image_name : "",
+            phone: setting ? setting.phone_number : "",
+            res_description: setting ? setting.res_description : "",
+            website: setting ? setting.url : ""
           });
         this.props.updateParent(this.state.settings);
       }.bind(this),
@@ -219,12 +227,64 @@ var OwnerForm = React.createClass({
     });
   },
 
+  updateProfile: function(e) {
+    e.preventDefault;
+    var name = this.state.name.trim();
+    var logo = this.state.logo.trim();
+    var address = this.state.address.trim();
+    var city = this.state.city.trim();
+    var state = this.state.state.trim();
+    var zip = this.state.zip.trim();
+    var res_description = this.state.res_description.trim();
+    var website = this.state.website.trim();
+    var phone = this.state.phone.trim();
+    var updates = { 
+                    restaurant_id: localStorage.getItem("restaurant_id"),
+                    name: name,
+                    image_name: logo,
+                    address: [address, city, state + " " + zip].join(", "),
+                    cuisine_id: this.state.cuisine,
+                    res_description: res_description,
+                    url: website,
+                    phone_number: phone
+                  };
+    this.submitUpdate(updates);
+  },
+
+  submitUpdate: function(updates) {
+    $.ajax({
+      url: "api/owner/updateprofile",
+      dataType: "text",
+      type: "POST",
+      data: updates,
+      success: function(res) {
+        alert("Your profile has been updated.");
+        this.setState({
+          settings: [{
+            address: updates.address,
+            cuisine_id: updates.cuisine_id,
+            restaurant_id: updates.restaurant_id,
+            name: updates.name,
+            image_name: updates.image_name,
+            res_description: updates.res_description,
+            url: updates.url,
+            phone_number: updates.phone_number
+          }]
+        })
+        this.props.updateParent(this.state.settings);/////////////////////////////
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+        alert("There was an error processing your request.");
+      }.bind(this)
+    });
+  },
+
   render: function() {
     return (
       <div>
-        <h1>Create or Update Your Restaurant Profile</h1>
-        <br/>
-        <form>
+        <h1>Update Your Restaurant Profile</h1>
+        <form onSubmit={this.updateProfile}>
           Restaurant name: <input type="text" valueLink={this.linkState("name")} />
           <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
           Enter a new URL to update your logo: <input type="text" valueLink={this.linkState("logo")} size="70" />
@@ -264,8 +324,7 @@ var OwnerForm = React.createClass({
             <input type="submit" value="Update Restaurant Profile" />
           </div>
         </form>
-        <PastDeals settings={this.state.settings} />
-        <Link to={"/"} className="dealSubmit text">Go to Main Page</Link>
+        <PastDeals />
       </div>
     );
   }
@@ -274,12 +333,31 @@ var OwnerForm = React.createClass({
 
 var PastDeals = React.createClass({
 
+  getInitialState: function() {
+    return {
+      settings: []
+    }
+  },
+
+  componentDidMount: function() {
+    $.ajax({
+      url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
+      dataType: "json",
+      success: function(settings) {
+        this.setState({ settings: settings });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+
   render: function() {
     return (
       <div className="dealBox">
         <h1>Past Deals</h1>
         <br/>
-        <DealList data={this.props.settings} />
+        <DealList data={this.state.settings} />
       </div>
     );
   }
@@ -287,6 +365,10 @@ var PastDeals = React.createClass({
 
 
 var DealList = React.createClass({
+
+  // componentDidMount: function() {
+  //   setInterval(this.render, 500);  //?? WILL THIS WORK??????????
+  // },
 
   render: function() {
     var dealNodes = this.props.data.map(function(deal) {
@@ -318,8 +400,8 @@ var Deal = React.createClass({
 
   render: function() {
     //formatting date 
-    var calendarMonths = {
-      1: "January",
+    var calendarMonths = {    //DISPLAY MODAL DETAILS IN NON-MODAL VIEW
+      1: "January",           //CHECK AGAINST HOMEPAGE & allDeals.jsx
       2: "February",
       3: "March",
       4: "April",
@@ -332,7 +414,7 @@ var Deal = React.createClass({
       11: "November",
       12: "December"
     }
-    //getting the year. if the deal year is also the current year, won't display. If it's next year 
+    //Getting the year. If the deal year is also the current year, won't display. If it's next year 
     //(like if an owner puts in a deal in December for January), then it will display. 
 
     //grab the current year
@@ -364,26 +446,6 @@ var Deal = React.createClass({
         } 
       }
     var displayTime = hours + ":" + minutes + period;
-    //formatting type of cuisine
-    var cuisineMap = {
-      1: "Mexican",
-      2: "Fast Food",
-      3: "Pizza",
-      4: "Sandwiches",
-      5: "Burgers",
-      6: "American",
-      7: "Barbecue",
-      8: "Diner",
-      9: "Chinese",
-      10: "Italian",
-      11: "Japanese",
-      12: "Vietnamese",
-      13: "Thai",
-      14: "Steakhouse",
-      15: "Indian",
-      16: "Other"
-    }
-    var displayCuisine = cuisineMap[this.props.cuisine];
     return (
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
