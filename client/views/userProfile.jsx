@@ -303,13 +303,24 @@ var UserProfile = React.createClass({
 
   // onChangeSubmit={this.handleCuisinesChange}
   render: function() {
-    return (
+    if (localStorage.getItem("token") && localStorage.getItem("restaurant_id") !== "undefined") {
+      return (
+        <div className="userprefs">
+          <h2>Hello sir</h2>
+          <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
+          <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
+        </div>
+      );
+    } else {
+      return (
       <div className="userprefs">
-        <h2>Hello sir</h2>
-        <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
-        <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
+        <h1>YOU ARE NOT LOGGED IN AS A USER. STOP HACKING</h1>
+        <p className="text" >
+        If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
+        </p>
       </div>
-    );
+      );
+    }
   }
 });
 
