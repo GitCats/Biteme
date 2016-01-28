@@ -46,7 +46,6 @@ OAuth.setTimestampAndNonce(message);
 OAuth.SignatureMethod.sign(message, accessor);
 var parameterMap = OAuth.getParameterMap(message.parameters);
 parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
-console.log(parameterMap);
 	$.ajax({
 		'url': 'http://api.yelp.com/v2/search',
 		'data': parameterMap,
@@ -54,7 +53,6 @@ console.log(parameterMap);
 		'dataType': 'jsonp',
 		'headers': auth,
 		'success': function(data, textStats, XMLHttpRequest) {
-			console.log('yelpdata', data)
 			this.setState({ data: data.businesses[0] })
 		}.bind(this),
 		error: function(xhr, status, err) {
