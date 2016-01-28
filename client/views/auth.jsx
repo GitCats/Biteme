@@ -142,17 +142,15 @@ var UserLogin = React.createClass({
     var loginRequest = { email: email, password: password };
     $.ajax({
       url: 'api/login/signin',
-      dataType: 'json',
+      dataType: 'text',
       type: 'POST',
       data: loginRequest,
       success: function(res) {
         var response = JSON.parse(res);
         localStorage.setItem("user", loginRequest.email);
-        console.log(res);
-        localStorage.setItem("user_id", res.user);
-        // localStorage.setItem("token", response.token);
-        // localStorage.setItem("expires", response.expires);
-        // console.log("Logged in as:", localStorage.getItem("user"));
+        localStorage.setItem("user_id", response.user);
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("expires", response.expires);
         this.closeModal();
         window.location = '#userprofile';
       }.bind(this),

@@ -202,7 +202,6 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1 className="today col-md-6 col-md-offset-5">Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );
@@ -471,7 +470,6 @@ var CuisineDropdown = React.createClass({
 });
 
 var ExpirationDropdown = React.createClass({
-
   selectExpiration: function(e) {
     var expirationDate = e.target.value;
     var exp = parseInt(expirationDate)
