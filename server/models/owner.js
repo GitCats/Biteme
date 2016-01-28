@@ -17,15 +17,14 @@ Owner.allDeals = function(url) {
 	console.log('id: ', id)
 	return db('deals')
 	.join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
-  	.select('restaurants.name', 'restaurants.image_name', 'restaurants.cuisine_id', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
+  .select('restaurants.name', 'restaurants.image_name', 'restaurants.cuisine_id', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
     .where ('deals.restaurant_id', id)
 };
 
 Owner.signup = function(body){
 	var newUser = body.username;
 	var newPass = body.password;
-	return db('restaurants')
-	.insert({username: newUser, password: Owner.generateHash(newPass)});
+	return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)});
 }
 //this will check to see if the username is in the restaurant table
 //if it isn't it will return an error
