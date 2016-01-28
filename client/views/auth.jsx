@@ -63,7 +63,10 @@ var UserSignup = React.createClass({
       type: 'POST',
       data: signUpRequest,
       success: function(res) {
+        var response = JSON.parse(res);
         localStorage.setItem("user", signUpRequest.email);
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("expires", response.expires);
         console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
         window.location = '#ownerprofile';
@@ -143,7 +146,10 @@ var UserLogin = React.createClass({
       type: 'POST',
       data: loginRequest,
       success: function(res) {
+        var response = JSON.parse(res);
         localStorage.setItem("user", loginRequest.email);
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("expires", response.expires);
         console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
         window.location = '#ownerprofile';
@@ -248,13 +254,16 @@ var OwnerLogin = React.createClass({
     var ownerLoginRequest = { username: email, password: password };
     $.ajax({
       url: 'api/owner/login',
-      dataType: 'json',
+      dataType: 'text',
       type: 'POST',
       data: ownerLoginRequest,
       success: function(res) {
         console.log("Owner Login Response:", res);
+        var response = JSON.parse(res);
         localStorage.setItem("user", ownerLoginRequest.username);
-        localStorage.setItem("restaurant_id", res.restaurant_id);
+        localStorage.setItem("restaurant_id", response.restaurant_id);
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("expires", response.expires);
         console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
         window.location = '#ownerprofile';

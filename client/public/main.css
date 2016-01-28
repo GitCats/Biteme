@@ -1,6 +1,5 @@
+<<<<<<< HEAD
 /* KAYLA'S CSS */
-
-/*** Generic ***/
 
 body {
   margin: 0px;
@@ -34,6 +33,12 @@ body {
   display: inline-block;
   display: flex;
   background-color: #fff;
+}
+
+.dealExpiration {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 30px;
 }
 
 .dealLogoDiv {
@@ -73,11 +78,6 @@ body {
   text-align: center;
   background-color: white;
   color: black;
-}
-
-.dealSubmit {
-  margin: 0 auto;
-  display: block;
 }
 
 .text {
@@ -124,4 +124,15 @@ color: #050091;
     margin: 0;
     padding: 0;
     display: inline;
+}
+
+.singleDealLogo {
+  margin-top: 10%;
+  margin-bottom: 25%;
+  max-width: 250px;
+  max-height: 200px;
+}
+
+.singleDealLogoDiv {
+  height: 50px;
 }
