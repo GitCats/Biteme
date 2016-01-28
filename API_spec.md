@@ -13,7 +13,7 @@ heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 
 GET/api/deals/getAll => gets all deals from database that haven't expired
 
-POST /api/deals/update => takes deal_id and updates the expiration, day, month, year for that particular deal
+POST /api/deals/delete => delete deal from deals table. Sends a 200 and the message 'Deleted'
   body:{deal_id: INTEGER}
 
 body: {
