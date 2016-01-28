@@ -41,10 +41,6 @@ body {
   font-size: 30px;
 }
 
-
-
-
-
 .dealLogoDiv {
   width: 175px;
   height: 125px;
@@ -57,6 +53,11 @@ body {
   max-height: 200px;
 }
 
+.resCheckBoxPic {
+  max-width: 150px;
+  max-height: 100px;
+}
+
 .dealInfoDiv {
   width: 50%;
   float: right;
@@ -65,7 +66,7 @@ body {
   text-align: center;
   position: relative;
   display: inline-block;
-} 
+}
 
 #map {
   width: 500px;

@@ -36,7 +36,6 @@ POST /api/login/signup => when a user inputs an email, this will check against t
 
 POST/api/owner/signup => when we input username and password for the restaurant owners it will hash the password and store in the database
 
-
 POST /api/owner/updatePassword => this will update the restaurant table where the username matches with a new hashed password
 
 
@@ -44,8 +43,16 @@ POST /api/owner/login => this will take the inputed username and password and co
 
 POST/api/owner/create => this will take user inputed information and use it to add a new deal to the database
 
-
 GET /api/owner/getalldeals/* => this gets all the info from the database according to restaurant id that is related to the specific restaurant
+
+POST /api/userprefs/updateCuis => updates user's cuisine preferences
+  body: {
+    user_id: 1,
+    cuisine_id: {3: 1, 6: 0, 9: 1}
+  }
+  In the cuisine_id object, the key values represent cuisine_id's to update. A '1' value means add that preference, '0' means remove the preference
+
+GET /api/userprefs/allRestaurants => returns a list of all the restaurants currently in the db. Includes the 'name', 'restaurant_id', 'image_name' properties
 
 POST /api/owner/updateProfile=> updates the restaurant owner's profile information. All of these fields must be specified: restaurant_id, name, cuisine_id, image_name, res_description, phone_number, url, address. If any particular property is not specified in the request body, it will be overwritten with a blank value in the db. Also, this POST request returns all of the restaurant's info
 
