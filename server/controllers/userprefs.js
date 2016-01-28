@@ -52,3 +52,10 @@ router.get('/allRestaurants', function(req, res){
 			res.status(200).send(result);
 		})
 })
+
+router.post('/phone', function(req, res){
+	UserPref.phone(req.body)
+	.then(function(){
+		res.sendStatus(201);
+	})
+})

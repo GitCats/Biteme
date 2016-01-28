@@ -63,4 +63,10 @@ UserPref.updateCuis = function(obj) {
 UserPref.allRestaurants = function() {
   return db('restaurants')
     .select('name', 'restaurant_id', 'image_name')
+
+UserPref.phone = function(body){
+	var phoneNum = body.phone;
+	return db('users')
+	.where('user_id', body.user_id)
+	.update('phone', phoneNum)
 }
