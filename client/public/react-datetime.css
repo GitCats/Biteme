@@ -3,8 +3,8 @@
  */
 
 .rdt {
-  position: relative;
-  width: 19%;
+  position: absolute;
+  width: 51%;
   margin: auto;
 }
 .rdtPicker {

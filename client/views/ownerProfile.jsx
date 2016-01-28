@@ -1,60 +1,119 @@
-var $ = require('jquery');
-var Link = require('react-router').Link;
-var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var Datetime = require('react-datetime');
+var $ = require("jquery");
+var Link = require("react-router").Link;
+var Modal = require("react-modal");
+var LinkedStateMixin = require("react-addons-linked-state-mixin");
+var Datetime = require("react-datetime");
+var ReactTabs = require("react-tabs");
+var Tab = ReactTabs.Tab;
+var Tabs = ReactTabs.Tabs;
+var TabList = ReactTabs.TabList;
+var TabPanel = ReactTabs.TabPanel;
 
-//OWNER PROFILE PAGE
+const customStyles = {
+  content : {
+    top                   : "50%",
+    left                  : "50%",
+    right                 : "auto",
+    bottom                : "auto",
+    marginRight           : "-50%",
+    transform             : "translate(-50%, -50%)"
+  }
+};
+
+//OWNER PROFILE PAGE TO-DO LIST:
 //
-//EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
-//Place the following 3 sections in tabs:
-//
-//Creating new deals <CreateDeal />:
-//should re-render past deals view to include latest deals (should also put allDeals view on a setInterval to update with this info)
-//
-//Displaying & Updating the restaurant profile <OwnerForm />:
-//
-//Displaying past deals <PastDeals />:
-//add "Delete Deal" button with AJAX request to remove unexpired deals
+//ORDER THE CURRENT & EXPIRED DEALS WITH SOONEST/MOST RECENT TO EXPIRE AT TOP
+//**EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
+//**FIX DEAL DISPLAY WHERE PROPS SPILL OUT OF DIV (TRY DIFFERENT LOGOS, RESIZING WINDOWS)
+//**add "Delete Deal" button with AJAX request on current deals to expire them
 
 
 //Note about this module: the AJAX request in OwnerForm and its state-setting could 
 //have been done in the parent OwnerProfile component. The values had to be state
 //properties in OwnerForm so as to be mutable and the source of truth, but they probably
-//could have been state values in OwnerProfile upon AJAX success, passed down as properties,
-//and reset to state values in OwnerForm.
+//could have been state values in OwnerProfile upon AJAX success and passed down as properties.
 
 var OwnerProfile = React.createClass({
 
   getInitialState: function() {
-    var passProps = function(data) {
-      this.setState({settings: data[0]});
-      //the above setState re-renders CreateDeal before the next line logs!
-      console.log("If you see me after updating profile, OwnerProfile is re-rendering.");
-    };
     //Bind this component's "this" to pass the function to the child component, call it from
     //there, and change the state of this parent component, so that the sibling CreateDeal
-    //can get the data from the AJAX request in OwnerForm.
+    //can get the data as props from the AJAX request in OwnerForm.
+    var passProps = function(data) {
+      this.setState({settings: data[0]});
+    };
+    //Here, passDeals uses the same principle to update the state of this parent component, 
+    //thus updating props in PastDeals and thence DealList and finally Deal from CreateDeal 
+    //by calling the GET request here.
+    var passDeals = function() {
+      this.loadDealsFromServer();
+    };
     var boundProps = passProps.bind(this);
+    var boundDeals = passDeals.bind(this);
     return { 
+      //Must set initial state for anything passed down.
       getProps: boundProps,
-      settings: {}  //Must set initial state for anything passed down.
+      updateDeals: boundDeals,
+      deals: [],
+      settings: {}
     }
+  },
+
+  handleClick: function() {
+    window.scrollTo(0, 0);
+  },
+
+  handleSelect: function(index, last) {
+    console.log("Selected tab: " + index + ", Last tab: " + last);
+  },
+
+  loadDealsFromServer: function() {
+    console.log("AJAX request called")
+    $.ajax({
+      url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
+      dataType: "json",
+      success: function(deals) {
+        this.setState({ deals: deals });
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
   },
 
   render: function() {
     if (localStorage.getItem("token") && localStorage.getItem("restaurant_id") !== "undefined") {
       return (
         <div>
-          <CreateDeal initialData={this.state.settings} />
-          <OwnerForm updateParent={this.state.getProps} />
-          <Link to={"/"} className="dealSubmit text">Go to Main Page</Link><br/><br/>
+          <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
+          
+          <Tabs onSelect={this.handleSelect}>
+            <TabList>
+              <Tab>Restaurant Profile</Tab>
+              <Tab>Current Deals</Tab>
+              <Tab>Expired Deals</Tab>
+            </TabList>
+            <TabPanel>
+              <OwnerForm updateParent={this.state.getProps} />
+            </TabPanel>
+            <TabPanel>
+              <CurrentDealList deals={this.state.deals} updateDeals={this.state.updateDeals} />
+            </TabPanel>
+            <TabPanel>
+              <ExpiredDealList deals={this.state.deals} />
+            </TabPanel>
+          </Tabs>
+          <br/>
+          <div>
+            <a onClick={this.handleClick} className="text" style={{display: "inline-block", width: "10%", marginLeft: "45.5%"}} >Go to Top of Page</a><br/><br/>
+          </div>
         </div>
       );
     } else {
       return (
         <div>
           <h1>YOU ARE NOT LOGGED IN AS A RESTAURANT OWNER</h1>
-          <p className="text">
+          <p className="text" >
             If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
           </p>
         </div>
@@ -68,8 +127,17 @@ var CreateDeal = React.createClass({
 
   mixins: [LinkedStateMixin],
 
+  openModal: function() {
+    this.setState({modalIsOpen: true});
+  },
+ 
+  closeModal: function() {
+    this.setState({modalIsOpen: false});
+  },
+
   getInitialState: function() {
     return {
+      modalIsOpen: false,
       description: "",
       totalExpiration: new Date(),
       expiration: "",
@@ -131,7 +199,11 @@ var CreateDeal = React.createClass({
                         expiration: "", 
                         month: new Date().getMonth() + 1, 
                         day: new Date().getDate(), 
-                        year: new Date().getFullYear() });
+                        year: new Date().getFullYear() 
+                      });
+        //Call bound function from OwnerProfile to run AJAX request to update past deals.
+        this.props.updateDeals();
+        this.closeModal();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -141,8 +213,7 @@ var CreateDeal = React.createClass({
   },
 
   render: function() {
-    console.log("If you see me after updating, CreateDeal re-renders upon updating profile.") ///////////////////////////////////////
-    var yesterday = Datetime.moment().subtract(1,'day');
+    var yesterday = Datetime.moment().subtract(1, "day");
     var valid = function(current) {
       return current.isAfter( yesterday );
     };
@@ -151,18 +222,29 @@ var CreateDeal = React.createClass({
         this.props.initialData.address && this.props.initialData.phone_number) {
       return (
         <div>
-          <h1>Create a Deal for {this.props.initialData.name}</h1>
-          <br/>
-          <form onSubmit={this.postDeal} >
-            <p className="text">Describe your deal in a few words: </p>
-              <input type="text" valueLink={this.linkState("description")} className="dealSubmit" size="40" maxLength="35" />
+          <div style={{margin: "auto", width: "7.5%"}}>
             <br/><br/>
-            <p className="text">When will your deal expire?</p>
-            <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            <input type="submit" className="dealSubmit" value="Post My Deal!" />
-            <br/><br/>
-          </form>
+            <button onClick={this.openModal}>Create a Deal</button>
+          </div>
+          <Modal
+            isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
+            onRequestClose={this.closeModal}  //native to react-modal
+            style={customStyles} >
+            <h1>Create a Deal for {this.props.initialData.name}</h1>
+            <br/>
+            <form onSubmit={this.postDeal} style={{marginLeft: "100px"}}>
+              <p>Describe your deal in a few words: </p>
+              <input valueLink={this.linkState("description")} size="40" maxLength="35" />
+              <br/><br/>
+              <p>When will your deal expire?</p>
+              <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
+              <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+              <input type="submit" style={{marginLeft: "20%"}} value="Post My Deal!" />
+              <br/><br/><br/>
+              <button onClick={this.closeModal}>Close</button>
+            </form>
+          </Modal>
+          <br/><br/>
         </div>
       )
     } else {
@@ -219,6 +301,7 @@ var OwnerForm = React.createClass({
             res_description: setting ? setting.res_description : "",
             website: setting ? setting.url : ""
           });
+        //Update the initialData props in CreateDeal on load (see comments in this.submitUpdate).
         this.props.updateParent(this.state.settings);
       }.bind(this),
       error: function(xhr, status, err) {
@@ -259,6 +342,7 @@ var OwnerForm = React.createClass({
       data: updates,
       success: function(res) {
         alert("Your profile has been updated.");
+        //Reset this.state.settings...
         this.setState({
           settings: [{
             address: updates.address,
@@ -271,7 +355,10 @@ var OwnerForm = React.createClass({
             phone_number: updates.phone_number
           }]
         })
-        this.props.updateParent(this.state.settings);/////////////////////////////
+        //...and call the bound function from OwnerProfile with the new values to update & run a 
+        //check on CreateDeal's initialData props to determine whether the owner's profile is 
+        //complete and if creating deals should be allowed (see render function for CreateDeal).
+        this.props.updateParent(this.state.settings);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -288,7 +375,7 @@ var OwnerForm = React.createClass({
           Restaurant name: <input type="text" valueLink={this.linkState("name")} />
           <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
           Enter a new URL to update your logo: <input type="text" valueLink={this.linkState("logo")} size="70" />
-          <div className="dealSubmit text">
+          <div className="text">
             Street Address: <input type="text" valueLink={this.linkState("address")} /> 
             City: <input type="text" valueLink={this.linkState("city")} /> 
             State: <input type="text" valueLink={this.linkState("state")} /> 
@@ -324,60 +411,102 @@ var OwnerForm = React.createClass({
             <input type="submit" value="Update Restaurant Profile" />
           </div>
         </form>
-        <PastDeals />
       </div>
     );
   }
 });
 
 
-var PastDeals = React.createClass({
+var CurrentDealList = React.createClass({
 
-  getInitialState: function() {
-    return {
-      settings: []
+  componentDidMount: function() {
+    this.props.updateDeals();
+  },
+
+  filterByExpiration: function(value) {
+    var expHour;
+    var expMin;
+    if(value.expiration.length === 4) {
+      expHour = value.expiration.substr(0, 2);
+      expMin = value.expiration.slice(-2);
+    }
+    if(value.expiration.length === 3) {
+      expHour = parseInt(value.expiration.substr(0, 1));
+      expMin = parseInt(value.expiration.slice(-2));
+    }
+    //milliseconds of when deal will expire
+    var date = +new Date(value.year, value.month-1, value.day, expHour, expMin, 59);
+    if (Date.now() < date) {
+      return true;
+    } else {
+      return false;
     }
   },
 
-  componentDidMount: function() {
-    $.ajax({
-      url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
-      dataType: "json",
-      success: function(settings) {
-        this.setState({ settings: settings });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-
   render: function() {
+    var dealsToUse = this.props.deals.filter(this.filterByExpiration);
+    var dealNodes = dealsToUse.map(function(deal) {
+      return (
+        <Deal 
+          res_description={deal.res_description} 
+          cuisine={deal.cuisine_id} 
+          day={deal.day} 
+          year={deal.year} 
+          month={deal.month} 
+          name={deal.name} 
+          url={deal.url} 
+          address={deal.address} 
+          description={deal.description} 
+          expiration={deal.expiration} 
+          image_name={deal.image_name} 
+          name={deal.name} 
+          key={deal.deal_id}>
+        </Deal>
+      );
+    });
     return (
-      <div className="dealBox">
-        <h1>Past Deals</h1>
-        <br/>
-        <DealList data={this.state.settings} />
+      <div className="dealList" style={{height: "100%"}} >
+        {dealNodes}
       </div>
     );
   }
 });
 
 
-var DealList = React.createClass({
+var ExpiredDealList = React.createClass({
 
-  // componentDidMount: function() {
-  //   setInterval(this.render, 500);  //?? WILL THIS WORK??????????
-  // },
+  filterByExpiration: function(value) {
+    var expHour;
+    var expMin;
+    if(value.expiration.length === 4) {
+      expHour = value.expiration.substr(0, 2);
+      expMin = value.expiration.slice(-2);
+    }
+    if(value.expiration.length === 3) {
+      expHour = parseInt(value.expiration.substr(0, 1));
+      expMin = parseInt(value.expiration.slice(-2));
+    }
+    //milliseconds of when deal will expire
+    var date = +new Date(value.year, value.month-1, value.day, expHour, expMin, 59);
+    if (Date.now() > date) {
+      return true;
+    } else {
+      return false;
+    }
+  },
 
   render: function() {
-    var dealNodes = this.props.data.map(function(deal) {
+    var dealsToUse = this.props.deals.filter(this.filterByExpiration);
+    var dealNodes = dealsToUse.map(function(deal) {
       return (
         <Deal 
           res_description={deal.res_description} 
-          cuisine={deal.cuisine_id} day={deal.day} 
-          year={deal.year} month={deal.month} 
-          name={deal.name} url={deal.url} 
+          cuisine={deal.cuisine_id} 
+          day={deal.day} 
+          year={deal.year} 
+          month={deal.month} 
+          name={deal.name} 
+          url={deal.url} 
           address={deal.address} 
           description={deal.description} 
           expiration={deal.expiration} 
@@ -400,8 +529,8 @@ var Deal = React.createClass({
 
   render: function() {
     //formatting date 
-    var calendarMonths = {    //DISPLAY MODAL DETAILS IN NON-MODAL VIEW
-      1: "January",           //CHECK AGAINST HOMEPAGE & allDeals.jsx
+    var calendarMonths = {
+      1: "January",
       2: "February",
       3: "March",
       4: "April",
@@ -417,7 +546,7 @@ var Deal = React.createClass({
     //Getting the year. If the deal year is also the current year, won't display. If it's next year 
     //(like if an owner puts in a deal in December for January), then it will display. 
 
-    //grab the current year
+    //Grab the current year.
     var currentYear = new Date().getFullYear(); 
     var month = calendarMonths[this.props.month];
     if(this.props.year === currentYear) {
@@ -425,31 +554,35 @@ var Deal = React.createClass({
     } else {
       var displayDate =  month + " " + this.props.day + ", " + this.props.year;
     } 
-      //formatting time
-      var num = this.props.expiration
-      var minutes = num.toString().slice(-2);
-      if(num.toString().length === 4) {
-        var hours = num.toString().slice(0, 2);
-      } else {
-        var hours = num.toString().slice(0, 1);
+    //formatting time
+    var num = this.props.expiration
+    var minutes = num.toString().slice(-2);
+    if(num.toString().length === 4) {
+      var hours = num.toString().slice(0, 2);
+    } else {
+      var hours = num.toString().slice(0, 1);
+    }
+    var period;
+    if(hours < 12) {
+      if(hours === "0") {
+        hours = "12";
       }
-      var period;
-      if(hours < 12) {
+      period = "am";
+    }
+    if(hours >= 12) {
+      if(hours === "12") {
         period = "am";
-      }
-      if(hours >= 12) {
-        if(hours === "12") {
-          period = "am";
-        } else {
-          hours = hours - 12;
-          period = "pm";
-        } 
-      }
+      } else {
+        hours = hours - 12;
+        period = "pm";
+      } 
+    }
     var displayTime = hours + ":" + minutes + period;
     return (
       <div className="deal col-md-6 col-sm-12" >
         <div className="dealLogoDiv">
           <img src={this.props.image_name} className="dealLogo" />
+          <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
