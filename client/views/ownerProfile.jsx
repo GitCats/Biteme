@@ -226,8 +226,7 @@ var CreateDeal = React.createClass({
       return (
         <div>
           <div style={{margin: "auto", width: "7.5%"}}>
-            <br/><br/>
-            <button onClick={this.openModal} style={{width:"110px", height:"35px"}}>Create a Deal</button>
+            <button onClick={this.openModal} style={{width:"110px", height:"35px", fontWeight: "bolder", fontSize: "1em"}}>Create a Deal</button>
           </div>
           <Modal
             isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
@@ -316,7 +315,7 @@ var OwnerForm = React.createClass({
   },
 
   updateProfile: function(e) {
-    e.preventDefault;
+    e.preventDefault();
     var name = this.state.name.trim();
     var logo = this.state.logo.trim();
     var address = this.state.address.trim();
@@ -381,15 +380,15 @@ var OwnerForm = React.createClass({
           <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
           Enter a new URL to update your logo: <input type="text" valueLink={this.linkState("logo")} size="60" />
           <div className="text">
-            Street Address: <input type="text" valueLink={this.linkState("address")} /> 
-            City: <input type="text" valueLink={this.linkState("city")} /> 
-            State: <input type="text" valueLink={this.linkState("state")} /> 
-            ZIP: <input type="text" valueLink={this.linkState("zip")} maxLength="5" /> 
+            Street Address: <input type="text" valueLink={this.linkState("address")} />{" "}
+            City: <input type="text" valueLink={this.linkState("city")} />{" "}
+            State: <input type="text" valueLink={this.linkState("state")} />{" "}
+            ZIP: <input type="text" valueLink={this.linkState("zip")} maxLength="5" />
             <br/><br/>
-            Phone number (which customers should use to call the restaurant): 
-            <input type="text" valueLink={this.linkState("phone")} maxLength="14" />
-            Business website: <input type="text" valueLink={this.linkState("website")} />
-            <br/><br/>Select the cuisine that best matches your restaurant:
+            Phone number (which customers should use to call the restaurant):{" "}
+            <input type="text" valueLink={this.linkState("phone")} maxLength="14" />{" "}
+            Business website:{" "}<input type="text" valueLink={this.linkState("website")} />
+            <br/><br/>Select the cuisine that best matches your restaurant:{" "}
             <select valueLink={this.linkState("cuisine")} >
               <option value="">-Choose your cuisine-</option>
               <option value="1">Mexican</option>
@@ -446,6 +445,8 @@ var CurrentDealList = React.createClass({
       return false;
     }
   },
+
+//////////////////DELETE DEAL BUTTON
 
   render: function() {
     var dealsToUse = this.props.deals.filter(this.filterByExpiration);
@@ -633,6 +634,7 @@ var Deal = React.createClass({
           <div className="dealAddress">
             {this.props.address.split(",")}
           </div>
+          <span style={{marginRight: "45%", fontWeight: "bold"}}>Expiration:</span>
           <div className="dealExpiration">
             {displayDate} {displayTime}
           </div>
