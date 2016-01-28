@@ -15,7 +15,7 @@ var App = React.createClass({
         {/*IF localStorage.getItem("restaurant_id"), IT SHOULD ALSO DISPLAY LINK TO OWNERPROFILE*/}
         <div className="auth">Care to filter by preferences? <Signup /> or <Login /> </div>
         <div className="ownerAuth">Restaurant Owner? <OwnerSignup /> or <OwnerLogin /></div>
-        <IndexLink to='/'><img src="client/assets/banner.jpg" className="bluePlateLogo" /></IndexLink>
+        <IndexLink to='/'><img src="client/assets/blueplate.png" className="bluePlateLogo" /></IndexLink>
         {this.props.children}
       </div>
     );
