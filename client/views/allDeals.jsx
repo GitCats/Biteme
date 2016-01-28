@@ -15,7 +15,8 @@ var Yelp = require('./yelpinfo.jsx');
 var Deal = React.createClass({
   getInitialState: function() {
     return { modalIsOpen: false,
-             date: '' };
+             date: ''
+           };
   },
 
   openModal: function() {
@@ -124,6 +125,12 @@ var Deal = React.createClass({
           <div className="dealExpiration">
             <h3>{displayTime}</h3>
           </div>
+          <div>
+            {this.props.destination}
+          </div>
+          <div>
+            {this.props.distance}
+          </div>
         </div>
       </div>
 
@@ -145,7 +152,7 @@ var Deal = React.createClass({
               {this.props.res_description}
             </div>
             <div className="dealUrl">
-              {this.props.url}
+              <a href={this.props.url}>{this.props.url}</a>
             </div>
             <div className="dealAddress">
               {this.props.address.split(',', 1)}
@@ -176,7 +183,6 @@ var AllDeals = React.createClass({
       cache: false,
       type: 'GET',
       success: function(data) {
-        console.log('data', data)
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -196,7 +202,7 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1 className="today">Today&#39;s Deals</h1>
+        <h1 className="today col-md-6 col-md-offset-5">Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );
@@ -208,11 +214,16 @@ var DealList = React.createClass({
     return {
       cuisine_id: '',
       expirationDate: 1,
+      startingPoint: '',
+      destinations: '',
       updateCuisineId: function(id) {
         this.setState({ cuisine_id: id})
       },
       updateExpiration: function(exp) {
         this.setState({ expirationDate: exp})
+      },
+      filterByProximity: function(startingPoint) {
+        this.filterByProximity(startingPoint)
       }
     }
   },
@@ -282,6 +293,65 @@ var DealList = React.createClass({
     }
   },
 
+ filterByProximity: function(startingPoint) {
+
+  var array = [];
+  var destinations = function(obj) {
+    for(var key in obj) {
+      for(var i=0; i<obj[key].length; i++) {
+        var address = obj[key][i].address;
+        var formatAddress = address.replace(/\s/g, '+')
+        array.push(formatAddress)
+      }
+    }
+  }
+  destinations(this.props)
+
+  var allDestinations = array.join('|')
+  var data = {
+    startingPoint: startingPoint,
+    destinations: allDestinations
+  }
+
+  var results;
+  $.ajax({
+      url: 'api/deals/filterByProximity',
+      type: 'POST',
+      data: data,
+      success: function(data) {
+        results = JSON.parse(data)
+        console.log('results', results)
+        console.log('test', allDestinations)
+        var distancesToDestinationsMap = {};
+        var distances = results.rows[0].elements;
+        var destinations = results.destination_addresses
+        var destinationsArray;
+        // for(var i=0; i<distances.length; i++) {
+        //   for(var key in distances[i]) {
+        //     console.log('key', distances[i].distance.text)
+        //   }
+        // }
+        // console.log('distances', distances)
+        // console.log('destinations', destinations)
+        for(var i=0; i<destinations.length; i++) {
+          var x=destinations[i];
+          for(var j=i; j<distances.length; j++) {
+            for(var key in distances[j]) {
+              var y = distances[i].distance.text
+            }
+            distancesToDestinationsMap[x] = y;
+            }
+          }
+          console.log('distancesToDestinationsMap', distancesToDestinationsMap)
+        this.setState({ destinations: distancesToDestinationsMap})
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.log('Error:', err)
+      }.bind(this)
+    })
+  },
+
+
   render: function() {
     var dealsToUse;
     if(this.state.expirationDate !== '') {
@@ -292,8 +362,47 @@ var DealList = React.createClass({
     } else {
       dealsToUse = this.props.data;
     }
+    if(this.state.destinations !== ''){
+      for(var key in this.state.destinations) {
+        var x = key.substr(0, key.length-5);
+        console.log('x', x)
+        console.log('google maps address', x)
+        console.log('currently displayed deals', dealsToUse)
+        console.log('deals from database', this.props)
+        for(var i=0; i<dealsToUse.length; i++) {
+          var address = dealsToUse[i].address;
+          var addressSplit = address.split(' ')
+          var streetNumber = new RegExp(addressSplit[0]);
+          var zipCode = new RegExp(address.split[address.length-1]);
+          console.log('streetnumber', streetNumber)
+          console.log('input address', address)
+          if(streetNumber.test(x) && zipCode.test(x)) {
+            console.log('match')
+            dealsToUse[i].distance = this.state.destinations[key]
+
+          }
+        }
+      }
+    }
+
+    var verifyAddress = function(array) {
+      var count;
+      for(var i=0; i<array.length; i++) {
+        var regex = array[i];
+        if(address.test(regex)) {
+          count++;
+        }
+      }
+      if(count >=3) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     var dealNodes = dealsToUse.map(function(deal) {
       return (
+<<<<<<< HEAD
         <Deal res_description={deal.res_description}
               cuisine={deal.cuisine_id}
               day={deal.day}
@@ -307,6 +416,23 @@ var DealList = React.createClass({
               image_name={deal.image_name}
               name={deal.name}
               key={deal.deal_id}>
+=======
+        <Deal {...this.props}
+        res_description={deal.res_description}
+              cuisine={deal.cuisine_id}
+              day={deal.day}
+              year={deal.year}
+              month={deal.month}
+              name={deal.name}
+              url={deal.url}
+              address={deal.address}
+              description={deal.description}
+              expiration={deal.expiration}
+              image_name={deal.image_name}
+              name={deal.name}
+              key={deal.deal_id}
+              distance={deal.distance}>
+>>>>>>> 91588dac89f9ae46ad3c466ec370066f82272ea6
         </Deal>
       );
     });
@@ -314,6 +440,7 @@ var DealList = React.createClass({
       <div className="dealList">
       <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
       <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
+      <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
         {dealNodes}
       </div>
     );
@@ -361,6 +488,7 @@ var CuisineDropdown = React.createClass({
 
 var ExpirationDropdown = React.createClass({
 
+<<<<<<< HEAD
   // getInitialState: function() {
   //   //do I need an initialstate?
   //   var today = new Date();
@@ -406,6 +534,10 @@ var ExpirationDropdown = React.createClass({
     //   expirationDate = oneWeekOut;
     // }
     // console.log('expirationdate', expirationDate)
+=======
+  selectExpiration: function(e) {
+    var expirationDate = e.target.value;
+>>>>>>> 91588dac89f9ae46ad3c466ec370066f82272ea6
     var exp = parseInt(expirationDate)
     this.props.updateExpiration(exp)
   },
@@ -422,6 +554,26 @@ var ExpirationDropdown = React.createClass({
     );
   }
 });
+
+var SearchBar = React.createClass({
+   filterByProximity: function(e) {
+    // console.log('here')
+    e.preventDefault();
+    var startingPoint = $('#address').val()
+    // console.log(startingPoint)
+    this.props.filterByProximity(startingPoint)
+  },
+
+  render: function() {
+    return (
+      <form className='searchBar' onSubmit={this.filterByProximity} >
+        <input type='text' name='address' id='address'></input>
+        <input type='submit' className='searchButton' value='search'></input>
+      </form>
+      )
+  }
+
+})
 
 
 const customStyles = {
@@ -442,12 +594,23 @@ const customStyles = {
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '50px'
+<<<<<<< HEAD
 
+=======
+>>>>>>> 91588dac89f9ae46ad3c466ec370066f82272ea6
   }
 };
 
 module.exports = AllDeals;
 
+<<<<<<< HEAD
 //have a filter results function that listens to user input on the dropdown
 //and then filters this.props.data and then re-renders
 //(how to re-render? forceUpdate? componentDidUpdate? )
+=======
+//grab the input from the search bar
+//call a function in deal list with that value
+//makes a call to distance api
+
+
+>>>>>>> 91588dac89f9ae46ad3c466ec370066f82272ea6

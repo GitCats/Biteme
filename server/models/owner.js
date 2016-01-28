@@ -12,7 +12,6 @@ Owner.validPassword = function(attemptedPass, correctPass){
 	return bcrypt.compareSync(attemptedPass, correctPass);
 }
 //selects and returns all deals for the specified restaurant
-//only if they are not yet expired
 Owner.allDeals = function(url) {
 	var id = url.substr(url.lastIndexOf("/")+1);
 	console.log('id: ', id)
@@ -29,7 +28,8 @@ Owner.allDeals = function(url) {
 Owner.signup = function(body){
 	var newUser = body.username;
 	var newPass = body.password;
-	return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)});
+	return db('restaurants')
+	.insert({username: newUser, password: Owner.generateHash(newPass)});
 }
 //this will check to see if the username is in the restaurant table
 //if it isn't it will return an error
@@ -47,19 +47,20 @@ Owner.create = function(body) {
 	.insert({restaurant_id: body.restaurant_id, description: body.description, expiration: body.expiration, month: body.month, day: body.day, year: body.year})
 }
 
-Owner.genToken = function(user) {
+Owner.genToken = function(req) {
   var expires = Owner.expiresIn(3600000); // 1 hour in milliseconds
   var token = jwt.encode({
     exp: expires
   }, require('../config/secret')());
- 
+
   return {
     token: token,
     expires: expires,
-    user: user
+    user: req.username,
+    restaurant_id: req.restaurant_id
   };
 }
- 
+
 Owner.expiresIn = function(numMs) {
   var dateObj = new Date();
   return dateObj.setTime(dateObj.getTime() + numMs);
@@ -69,7 +70,7 @@ Owner.getProfile = function(url){
 	var id = url.substr(url.lastIndexOf("/")+1);
 	return db('restaurants')
 	.where('restaurant_id', id)
-	.select('cuisine_id', 'image_name', 'description', 'url', 'address')
+	.select('name', 'phone_number', 'cuisine_id', 'image_name', 'res_description', 'url', 'address')
 }
 
 //**NEED TO CHECK FOR SIGN IN**
@@ -78,11 +79,13 @@ Owner.update = function(body){
 	.where('restaurant_id', body.restaurant_id)
 	.update('cuisine_id', body.cuisine_id)
 	.update('image_name', body.image_name)
-	.update('description', body.description)
+	.update('res_description', body.res_description)
 	.update('url', body.url)
 	.update('address', body.address)
+  .update('phone_number', body.phone_number)
+  .update('name', body.name)
   .then(function(){
-    return db('restaurants').select('cuisine_id', 'image_name', 'name', 'description', 'url', 'address')
+    return db('restaurants').select('cuisine_id', 'phone_number', 'image_name', 'name', 'res_description', 'url', 'address')
       .where('restaurant_id', body.restaurant_id)
     })
 }
