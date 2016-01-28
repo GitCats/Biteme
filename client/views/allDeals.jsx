@@ -107,7 +107,6 @@ var Deal = React.createClass({
     }
     var displayCuisine = cuisineMap[this.props.cuisine];
 
-console.log('props', this.props)
     return (
       <div>
       <a onClick={this.openModal}>
@@ -387,22 +386,7 @@ var DealList = React.createClass({
         }
       }
     }
-
-    var verifyAddress = function(array) {
-      var count;
-      for(var i=0; i<array.length; i++) {
-        var regex = array[i]; 
-        if(address.test(regex)) {
-          count++;
-        }
-      }
-      if(count >=3) {
-        return true;
-      } else {
-        return false; 
-      }
-    }
-
+    
     var dealNodes = dealsToUse.map(function(deal) {
       return (
         <Deal {...this.props}
