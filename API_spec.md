@@ -49,4 +49,4 @@ GET /api/owner/getalldeals/* => this gets all the info from the database accordi
 
 POST /api/owner/updateProfile=> updates the restaurant owner's profile information. All of these fields must be specified: restaurant_id, name, cuisine_id, image_name, res_description, phone_number, url, address. If any particular property is not specified in the request body, it will be overwritten with a blank value in the db. Also, this POST request returns all of the restaurant's info
 
-POST /api/userprefs/phone needs a request body that has the user_id and a phone in the following format “555-555-5555” (a string)- it will update the user table to include the phone number where the user_id matches
+POST /api/userprefs/phone needs a request body that has the user_id and a phone in the following format “+14158675311” (a string)- it will update the user table to include the phone number where the user_id matches
