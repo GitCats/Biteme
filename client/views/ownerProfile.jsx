@@ -624,6 +624,7 @@ var Deal = React.createClass({
           <img src={this.props.image_name} className="dealLogo" />
           <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
         </div>
+
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
             {this.props.description}
@@ -638,7 +639,8 @@ var Deal = React.createClass({
           <div className="dealExpiration">
             {displayDate} {displayTime}
           </div>
-        </div>  
+        </div>
+
       </div>
     );
   }

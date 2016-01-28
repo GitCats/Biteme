@@ -16,9 +16,13 @@ Owner.allDeals = function(url) {
 	var id = url.substr(url.lastIndexOf("/")+1);
 	console.log('id: ', id)
 	return db('deals')
+  .orderBy('year', 'asc')
+  .orderBy('month', 'asc')
+  .orderBy('day', 'asc')
+  .orderBy('expiration', 'asc')
 	.join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
   .select('restaurants.name', 'restaurants.image_name', 'restaurants.cuisine_id', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
-    .where ('deals.restaurant_id', id)
+   .where ('deals.restaurant_id', id)
 };
 
 Owner.signup = function(body){
@@ -47,7 +51,7 @@ Owner.genToken = function(req) {
   var token = jwt.encode({
     exp: expires
   }, require('../config/secret')());
- 
+
   return {
     token: token,
     expires: expires,
@@ -55,7 +59,7 @@ Owner.genToken = function(req) {
     restaurant_id: req.restaurant_id
   };
 }
- 
+
 Owner.expiresIn = function(numMs) {
   var dateObj = new Date();
   return dateObj.setTime(dateObj.getTime() + numMs);
