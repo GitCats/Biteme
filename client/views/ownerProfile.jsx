@@ -1,23 +1,31 @@
-var $ = require('jquery');
-var Link = require('react-router').Link;
-var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var Datetime = require('react-datetime');
+var $ = require("jquery");
+var Link = require("react-router").Link;
+var Modal = require("react-modal");
+var LinkedStateMixin = require("react-addons-linked-state-mixin");
+var Datetime = require("react-datetime");
+var ReactTabs = require("react-tabs");
+var Tab = ReactTabs.Tab;
+var Tabs = ReactTabs.Tabs;
+var TabList = ReactTabs.TabList;
+var TabPanel = ReactTabs.TabPanel;
 
-//OWNER PROFILE PAGE
+const customStyles = {
+  content : {
+    top                   : "50%",
+    left                  : "50%",
+    right                 : "auto",
+    bottom                : "auto",
+    marginRight           : "-50%",
+    transform             : "translate(-50%, -50%)"
+  }
+};
+
+//OWNER PROFILE PAGE TO-DO LIST:
 //
+//ORDER THE CURRENT & EXPIRED DEALS WITH SOONEST/MOST RECENT TO EXPIRE AT TOP
 //**EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
-//**Place the following 3 sections in tabs:
-//
-//Creating new deals <CreateDeal />:
-//-make this a modal that is called with a button onClick from any tab
-//-should put allDeals view on a setInterval to update with this info
-//
-//Displaying & Updating the restaurant profile <OwnerForm />:
-//-this should be its own tab
-//
-//Displaying past deals <CurrentDealList /> & <ExpiredDealList />:
-//-Place each in their own tab
-//-add "Delete Deal" button with AJAX request on current deals to expire them
+//**FIX DEAL DISPLAY WHERE PROPS SPILL OUT OF DIV (TRY DIFFERENT LOGOS, RESIZING WINDOWS)
+//**add "Delete Deal" button with AJAX request on current deals to expire them
 
 
 //Note about this module: the AJAX request in OwnerForm and its state-setting could 
@@ -51,7 +59,16 @@ var OwnerProfile = React.createClass({
     }
   },
 
+  handleClick: function() {
+    window.scrollTo(0, 0);
+  },
+
+  handleSelect: function(index, last) {
+    console.log("Selected tab: " + index + ", Last tab: " + last);
+  },
+
   loadDealsFromServer: function() {
+    console.log("AJAX request called")
     $.ajax({
       url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
       dataType: "json",
@@ -69,24 +86,34 @@ var OwnerProfile = React.createClass({
       return (
         <div>
           <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
-          <OwnerForm updateParent={this.state.getProps} />
-          <div className="dealBox">
-            <h1>Current Deals</h1>
-            <br/>
-            <CurrentDealList deals={this.state.deals} updateDeals={this.state.updateDeals} />
-            <br/>
-            <h1>Expired Deals</h1>
-            <br/>
-            <ExpiredDealList deals={this.state.deals} />
+          
+          <Tabs onSelect={this.handleSelect}>
+            <TabList>
+              <Tab>Restaurant Profile</Tab>
+              <Tab>Current Deals</Tab>
+              <Tab>Expired Deals</Tab>
+            </TabList>
+            <TabPanel>
+              <OwnerForm updateParent={this.state.getProps} />
+            </TabPanel>
+            <TabPanel>
+              <CurrentDealList deals={this.state.deals} updateDeals={this.state.updateDeals} />
+            </TabPanel>
+            <TabPanel>
+              <ExpiredDealList deals={this.state.deals} />
+            </TabPanel>
+          </Tabs>
+          <br/>
+          <div>
+            <a onClick={this.handleClick} className="text" style={{display: "inline-block", width: "10%", marginLeft: "45.5%"}} >Go to Top of Page</a><br/><br/>
           </div>
-          <Link to={"/"} className="dealSubmit text">Go to Main Page</Link><br/><br/>
         </div>
       );
     } else {
       return (
         <div>
           <h1>YOU ARE NOT LOGGED IN AS A RESTAURANT OWNER</h1>
-          <p className="text">
+          <p className="text" >
             If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
           </p>
         </div>
@@ -100,8 +127,17 @@ var CreateDeal = React.createClass({
 
   mixins: [LinkedStateMixin],
 
+  openModal: function() {
+    this.setState({modalIsOpen: true});
+  },
+ 
+  closeModal: function() {
+    this.setState({modalIsOpen: false});
+  },
+
   getInitialState: function() {
     return {
+      modalIsOpen: false,
       description: "",
       totalExpiration: new Date(),
       expiration: "",
@@ -167,6 +203,7 @@ var CreateDeal = React.createClass({
                       });
         //Call bound function from OwnerProfile to run AJAX request to update past deals.
         this.props.updateDeals();
+        this.closeModal();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -176,7 +213,7 @@ var CreateDeal = React.createClass({
   },
 
   render: function() {
-    var yesterday = Datetime.moment().subtract(1,'day');
+    var yesterday = Datetime.moment().subtract(1, "day");
     var valid = function(current) {
       return current.isAfter( yesterday );
     };
@@ -185,18 +222,29 @@ var CreateDeal = React.createClass({
         this.props.initialData.address && this.props.initialData.phone_number) {
       return (
         <div>
-          <h1>Create a Deal for {this.props.initialData.name}</h1>
-          <br/>
-          <form onSubmit={this.postDeal} >
-            <p className="text">Describe your deal in a few words: </p>
-              <input type="text" valueLink={this.linkState("description")} className="dealSubmit" size="40" maxLength="35" />
+          <div style={{margin: "auto", width: "7.5%"}}>
             <br/><br/>
-            <p className="text">When will your deal expire?</p>
-            <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            <input type="submit" className="dealSubmit" value="Post My Deal!" />
-            <br/><br/>
-          </form>
+            <button onClick={this.openModal}>Create a Deal</button>
+          </div>
+          <Modal
+            isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
+            onRequestClose={this.closeModal}  //native to react-modal
+            style={customStyles} >
+            <h1>Create a Deal for {this.props.initialData.name}</h1>
+            <br/>
+            <form onSubmit={this.postDeal} style={{marginLeft: "100px"}}>
+              <p>Describe your deal in a few words: </p>
+              <input valueLink={this.linkState("description")} size="40" maxLength="35" />
+              <br/><br/>
+              <p>When will your deal expire?</p>
+              <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
+              <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+              <input type="submit" style={{marginLeft: "20%"}} value="Post My Deal!" />
+              <br/><br/><br/>
+              <button onClick={this.closeModal}>Close</button>
+            </form>
+          </Modal>
+          <br/><br/>
         </div>
       )
     } else {
@@ -327,7 +375,7 @@ var OwnerForm = React.createClass({
           Restaurant name: <input type="text" valueLink={this.linkState("name")} />
           <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
           Enter a new URL to update your logo: <input type="text" valueLink={this.linkState("logo")} size="70" />
-          <div className="dealSubmit text">
+          <div className="text">
             Street Address: <input type="text" valueLink={this.linkState("address")} /> 
             City: <input type="text" valueLink={this.linkState("city")} /> 
             State: <input type="text" valueLink={this.linkState("state")} /> 
@@ -397,7 +445,6 @@ var CurrentDealList = React.createClass({
 
   render: function() {
     var dealsToUse = this.props.deals.filter(this.filterByExpiration);
-    console.log("Current Deals:", dealsToUse);
     var dealNodes = dealsToUse.map(function(deal) {
       return (
         <Deal 
@@ -418,7 +465,7 @@ var CurrentDealList = React.createClass({
       );
     });
     return (
-      <div className="dealList">
+      <div className="dealList" style={{height: "100%"}} >
         {dealNodes}
       </div>
     );
@@ -450,7 +497,6 @@ var ExpiredDealList = React.createClass({
 
   render: function() {
     var dealsToUse = this.props.deals.filter(this.filterByExpiration);
-    console.log("Expired Deals:", dealsToUse);
     var dealNodes = dealsToUse.map(function(deal) {
       return (
         <Deal 
@@ -508,29 +554,29 @@ var Deal = React.createClass({
     } else {
       var displayDate =  month + " " + this.props.day + ", " + this.props.year;
     } 
-      //formatting time
-      var num = this.props.expiration
-      var minutes = num.toString().slice(-2);
-      if(num.toString().length === 4) {
-        var hours = num.toString().slice(0, 2);
-      } else {
-        var hours = num.toString().slice(0, 1);
+    //formatting time
+    var num = this.props.expiration
+    var minutes = num.toString().slice(-2);
+    if(num.toString().length === 4) {
+      var hours = num.toString().slice(0, 2);
+    } else {
+      var hours = num.toString().slice(0, 1);
+    }
+    var period;
+    if(hours < 12) {
+      if(hours === "0") {
+        hours = "12";
       }
-      var period;
-      if(hours < 12) {
-        if(hours === "0") {
-          hours = "12";
-        }
+      period = "am";
+    }
+    if(hours >= 12) {
+      if(hours === "12") {
         period = "am";
-      }
-      if(hours >= 12) {
-        if(hours === "12") {
-          period = "am";
-        } else {
-          hours = hours - 12;
-          period = "pm";
-        } 
-      }
+      } else {
+        hours = hours - 12;
+        period = "pm";
+      } 
+    }
     var displayTime = hours + ":" + minutes + period;
     return (
       <div className="deal col-md-6 col-sm-12" >
