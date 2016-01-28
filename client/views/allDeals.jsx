@@ -402,21 +402,6 @@ var DealList = React.createClass({
 
     var dealNodes = dealsToUse.map(function(deal) {
       return (
-<<<<<<< HEAD
-        <Deal res_description={deal.res_description}
-              cuisine={deal.cuisine_id}
-              day={deal.day}
-              year={deal.year}
-              month={deal.month}
-              name={deal.name}
-              url={deal.url}
-              address={deal.address}
-              description={deal.description}
-              expiration={deal.expiration}
-              image_name={deal.image_name}
-              name={deal.name}
-              key={deal.deal_id}>
-=======
         <Deal {...this.props}
         res_description={deal.res_description}
               cuisine={deal.cuisine_id}
@@ -432,7 +417,6 @@ var DealList = React.createClass({
               name={deal.name}
               key={deal.deal_id}
               distance={deal.distance}>
->>>>>>> 91588dac89f9ae46ad3c466ec370066f82272ea6
         </Deal>
       );
     });
@@ -488,56 +472,8 @@ var CuisineDropdown = React.createClass({
 
 var ExpirationDropdown = React.createClass({
 
-<<<<<<< HEAD
-  // getInitialState: function() {
-  //   //do I need an initialstate?
-  //   var today = new Date();
-  //   var month = today.getMonth() + 1;
-  //   var date = today.getDate();
-  //   var year = today.getFullYear();
-  //   var fullDate = '' + month + date + year;
-  //   console.log('fulldate', fullDate)
-  //   console.log('month', month)
-  //   console.log('date', date)
-  //   console.log('year', year)
-
-  //   return {expiration: fullDate};
-  // },
-
   selectExpiration: function(e) {
     var expirationDate = e.target.value;
-    // var getToday = new Date();
-    // var month = getToday.getMonth() + 1;
-    // var date = getToday.getDate();
-    // var year = getToday.getFullYear();
-    // var today = '' + month + date + year;
-    // var tomorrow = '' + month + (date + 1) + year;
-
-    // var today = Date.now();
-    // var tomorrow = Date.now() + 86400000;
-
-    // var expirationDate;
-    // if(exp === '1') {
-    //   expirationDate = today;
-    // }
-    // if(exp === '2') {
-    //   expirationDate = tomorrow;
-    // }
-    // if(exp === '3') {
-    //   var todayInMilliseconds = Date.now();
-    //   var oneWeekOutInMilliseconds = todayInMilliseconds + 604800000;
-    //   var oneWeekOutConverter = new Date(oneWeekOutInMilliseconds);
-    //   var oneWeekOutMonth = oneWeekOutConverter.getMonth() + 1;
-    //   var oneWeekOutDate = oneWeekOutConverter.getDate();
-    //   var oneWeekOutYear = oneWeekOutConverter.getFullYear();
-    //   var oneWeekOut = '' + oneWeekOutMonth + oneWeekOutDate + oneWeekOutYear;
-    //   expirationDate = oneWeekOut;
-    // }
-    // console.log('expirationdate', expirationDate)
-=======
-  selectExpiration: function(e) {
-    var expirationDate = e.target.value;
->>>>>>> 91588dac89f9ae46ad3c466ec370066f82272ea6
     var exp = parseInt(expirationDate)
     this.props.updateExpiration(exp)
   },
@@ -594,23 +530,11 @@ const customStyles = {
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '50px'
-<<<<<<< HEAD
-
-=======
->>>>>>> 91588dac89f9ae46ad3c466ec370066f82272ea6
   }
 };
 
 module.exports = AllDeals;
 
-<<<<<<< HEAD
-//have a filter results function that listens to user input on the dropdown
-//and then filters this.props.data and then re-renders
-//(how to re-render? forceUpdate? componentDidUpdate? )
-=======
 //grab the input from the search bar
 //call a function in deal list with that value
 //makes a call to distance api
-
-
->>>>>>> 91588dac89f9ae46ad3c466ec370066f82272ea6
