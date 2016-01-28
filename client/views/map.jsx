@@ -4,9 +4,6 @@
 // var canUseDom = require('can-use-dom')
 
 
-
-//change address to this.props.address in getMap Coordinates
-
 var React = require('react');
 // var Gmaps = require('../../gmaps.js')
 
@@ -55,15 +52,13 @@ var Map = React.createClass({
   				}
     			if (status === 'OK') {
       				var latlng = results[0].geometry.location;
-      				console.log('lat', latlng.lat())
-      				console.log('long', latlng.lng())
-      				    			}
+    			}
 
 			var map = new GMaps({
     			el: '#map',
     			lat: latlng.lat(),
     			lng: latlng.lng(),
-    			zoom: 15,
+    			zoom: 17,
     			zoomControl : true,
     			zoomControlOpt: {
         			style : 'SMALL',

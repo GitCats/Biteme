@@ -1,4 +1,6 @@
 var db = require('../db/index.js');
+var $ = require('jquery')
+var http = require('https')
 
 var Deal = module.exports
 
@@ -64,3 +66,4 @@ Deal.update = function(body){
       .where('deal_id', body.deal_id)
     })
 }
+
