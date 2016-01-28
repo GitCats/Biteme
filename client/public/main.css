@@ -1,87 +1,11 @@
-/*COPIED FROM REACT TUTORIAL*/
-body {
-  background: #000000;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.7;
-  margin: 0;
-  padding: 30px;
-  color: #050091 !important;
-}
-
-a {
-  color: #050091;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-
-code {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  font-family: "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
-  font-size: 12px;
-  margin: 0 2px;
-  padding: 0 5px;
-}
-
-h1, h2, h3, h4 {
-  color: #050091;
-  font-weight: bold;
-  margin: 0 0 15px;
-  padding: 0;
-}
-
-h1 {
-  border-bottom: 1px solid #ddd;
-  font-size: 2.5em;
-  font-weight: bold;
-  margin: 0 0 15px;
-  padding: 0;
-  text-align: center;
-}
-
-h2 {
-  border-bottom: 1px solid #eee;
-  font-size: 2em;
-}
-
-h3 {
-  font-size: 1.5em;
-}
-
-h4 {
-  font-size: 1.2em;
-}
-
-p, ul {
-  margin: 15px 0;
-}
-
-ul {
-  padding-left: 30px;
-}
-
- KAYLA'S CSS 
-
-** Generic **
+<<<<<<< HEAD
+/* KAYLA'S CSS */
 
 body {
   margin: 0px;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
-  background-color: #000;
-  background-image: url("../assets/checker.jpg");
-background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)), url("../assets/checker.jpg");
-}
   background-color: #000000;
-  background-image: url("../assets/checker.jpg");
-background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)), url("../assets/checker.jpg");
 }
 
 .bluePlateLogo {
@@ -106,12 +30,9 @@ background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)), 
   width: 100%;
   height: 225px;
   border: 2px solid #ddd;
-  border-radius: 5%;
-  border: 2px solid #ddd;
   display: inline-block;
   display: flex;
   background-color: #fff;
-  box-shadow: 5px 5px 5px #666;
 }
 
 .dealExpiration {
@@ -119,10 +40,6 @@ background-image: linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)), 
   font-weight: bold;
   font-size: 30px;
 }
-
-
-
-
 
 .dealLogoDiv {
   width: 175px;
@@ -188,12 +105,11 @@ color: #050091;
 
 .today {
   display: block;
-  margin-top: 0px;
+/*  margin-top: 0px;
   margin-left: auto;
   margin-right: auto;
-  width: 30%;
+  width: 33%;*/
   font-size: 30px;
-  font-family: 'chalkboard';
 }
 
 .dealBox {
@@ -201,6 +117,13 @@ color: #050091;
   color: black;
   padding-bottom: 5px;
   padding-top: 5px;
+}
+
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline;
 }
 
 .singleDealLogo {
@@ -213,4 +136,3 @@ color: #050091;
 .singleDealLogoDiv {
   height: 50px;
 }
-
