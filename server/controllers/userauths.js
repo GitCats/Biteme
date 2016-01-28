@@ -13,6 +13,8 @@ module.exports = router;
 router.post('/signin', function (req, res) {
 	Auth.signin(req.body)
 	.then(function (data) {
+		console.log('reqbody:', req.body)
+		console.log('data', data)
 		if(Auth.validPassword(req.body.password, data[0].password)){
 		res.json(Auth.genToken(req.body.email)).status(200)
 		} else {

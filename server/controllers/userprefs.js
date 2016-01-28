@@ -42,3 +42,10 @@ router.post('/updateCuis', function(req, res){
 			res.sendStatus(201);
 		})
 })
+
+router.post('/phone', function(req, res){
+	UserPref.phone(req.body)
+	.then(function(){
+		res.sendStatus(201);
+	})
+})

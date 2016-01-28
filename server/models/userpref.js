@@ -60,3 +60,10 @@ UserPref.updateCuis = function(obj) {
 			return db('cuisine_prefs').whereIn('cuisine_id', del).andWhere('user_id', obj.user_id).del()
 		})
 }
+
+UserPref.phone = function(body){
+	var phoneNum = body.phone;
+	return db('users')
+	.where('user_id', body.user_id)
+	.update('phone', phoneNum)
+}
