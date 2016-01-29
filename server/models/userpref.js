@@ -67,7 +67,16 @@ UserPref.allRestaurants = function() {
 
 UserPref.phone = function(body){
 	var phoneNum = body.phone;
+  var newPhone = '';
+  var counter = 0;
+  phoneNum.forEach(function(letter){
+    if(letter==='(' || letter===')' || letter==='-' || letter==='+'){}
+    else{newPhone += letter; counter++;}
+  });
+  if(counter===10){newPhone = '+1' + newPhone;}
+  else{newPhone = '+' + newPhone;}
+
 	return db('users')
 	.where('user_id', body.user_id)
-	.update('phone', phoneNum)
+	.update('phone', newPhone)
 }
