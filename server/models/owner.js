@@ -43,7 +43,7 @@ Owner.create = function(body) {
 }
 
 Owner.genToken = function(req) {
-  var expires = Owner.expiresIn(3600000); // 1 hour in milliseconds
+  var expires = Owner.expiresIn(60000); // 1 minute in milliseconds
   var token = jwt.encode({
     exp: expires
   }, require('../config/secret')());
