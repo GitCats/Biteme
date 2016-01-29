@@ -77,7 +77,7 @@ var CuisineForm = React.createClass({
 
     return (
     <div className="cuisineform">
-      <h3>Get udpates for these cuisines:</h3>
+      <h3>Get notifications for these cuisines:</h3>
       <form onSubmit={this.handleSubmit}>
         {options}
         <input type="submit" value="Save Changes" className="cuisineButton" />
@@ -106,7 +106,7 @@ var RestaurantForm = React.createClass({
 
     return (
       <div className="restaurantform">
-        <h3>Get updates for these restaurants:</h3>
+        <h3>Get notifications for these restaurants:</h3>
         <form onSubmit={this.handleSubmit}>
           {options}
           <input type="submit" value="Save Changes" className="restaurantButton" />
@@ -138,7 +138,7 @@ var PhoneForm = React.createClass({
   render: function() {
     return (
       <div className="phoneNumberEntry">
-        <span><h4>Enter your phone number to receive text updates:</h4>
+        <span><h4>Enter your phone number to receive text notifications:</h4>
         <p>(Please include area code)</p>
         <form onSubmit={this.handleSubmit}>
           <input type="text" placeholder="+15121234567" value={this.state.number} onChange={this.handleNumberChange} />

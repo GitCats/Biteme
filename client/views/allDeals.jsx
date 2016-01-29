@@ -123,7 +123,7 @@ var Deal = React.createClass({
             {this.props.address.split(",", 1)}
           </div>
           <div className="dealExpiration">
-            <h3>{displayTime}</h3>
+            <h4>{displayTime}</h4>
           </div>
           <div>
             {this.props.destination}
