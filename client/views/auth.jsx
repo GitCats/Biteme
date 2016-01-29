@@ -5,15 +5,15 @@ var Modal = require('react-modal');
 
 /*
 By default the modal is anchored to document.body. All of the following overrides are available.
- 
+
 * element
 Modal.setAppElement(appElement);
- 
+
 * query selector - uses the first element found if you pass in a class.
 Modal.setAppElement('#your-app-element');
- 
+
 */
- 
+
 const customStyles = {
   content : {
     top                   : '50%',
@@ -24,18 +24,18 @@ const customStyles = {
     transform             : 'translate(-50%, -50%)'
   }
 };
- 
- 
+
+
 var UserSignup = React.createClass({
- 
+
   getInitialState: function() {
     return { modalIsOpen: false };
   },
- 
+
   openModal: function() {
     this.setState({modalIsOpen: true});
   },
- 
+
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
@@ -69,7 +69,7 @@ var UserSignup = React.createClass({
         localStorage.setItem("expires", response.expires);
         console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
-        window.location = '#ownerprofile';
+        window.location = '#userprofile';
       }.bind(this),
       error: function(xhr, status, err) {
         console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
@@ -78,7 +78,7 @@ var UserSignup = React.createClass({
       }.bind(this)
     });
   },
- 
+
   render: function() {
     return (
       <span>
@@ -87,21 +87,23 @@ var UserSignup = React.createClass({
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
           style={customStyles} >
+          <br/>
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <br/>
           <h2>Sign Up for Notifications</h2>
           <form className='signupForm' onSubmit={this.signUp}>
-            Email: <input 
-                    className='email' 
-                    value={this.state.email} 
+            Email: <input
+                    className='email'
+                    value={this.state.email}
                     onChange={this.handleEmailChange}
                     /><br/>
-            Password: <input 
-                      className='password' 
-                      value={this.state.password} 
+            Password: <input
+                      className='password'
+                      value={this.state.password}
                       onChange={this.handlePasswordChange}
-                      type='password' 
+                      type='password'
                       /><br/><br/>
-            <input type='submit' value='Sign Up!' /><br/><br/>
-            <button onClick={this.closeModal}>Close this Box</button>
+            <input type='submit' value='Sign Up' /><br/><br/>
           </form>
         </Modal>
       </span>
@@ -110,15 +112,15 @@ var UserSignup = React.createClass({
 });
 
 var UserLogin = React.createClass({
- 
+
   getInitialState: function() {
     return { modalIsOpen: false };
   },
- 
+
   openModal: function() {
     this.setState({modalIsOpen: true});
   },
- 
+
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
@@ -148,11 +150,11 @@ var UserLogin = React.createClass({
       success: function(res) {
         var response = JSON.parse(res);
         localStorage.setItem("user", loginRequest.email);
+        localStorage.setItem("user_id", response.user);
         localStorage.setItem("token", response.token);
         localStorage.setItem("expires", response.expires);
-        console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
-        window.location = '#ownerprofile';
+        window.location = '#userprofile';
       }.bind(this),
       error: function(xhr, status, err) {
         console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
@@ -161,7 +163,7 @@ var UserLogin = React.createClass({
       }.bind(this)
     });
   },
- 
+
   render: function() {
     return (
       <span>
@@ -170,21 +172,23 @@ var UserLogin = React.createClass({
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
           style={customStyles} >
+          <br/>
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <br/>
           <h2>Log In to Manage Notifications</h2>
           <form className='loginForm' onSubmit={this.login}>
-            Email: <input 
-                    className='email' 
-                    value={this.state.email} 
+            Email: <input
+                    className='email'
+                    value={this.state.email}
                     onChange={this.handleEmailChange}
                     /><br/>
-            Password: <input 
-                      className='password' 
-                      value={this.state.password} 
-                      type='password' 
+            Password: <input
+                      className='password'
+                      value={this.state.password}
+                      type='password'
                       onChange={this.handlePasswordChange}
                       /><br/><br/>
             <input type='submit' value='Log In' /><br/><br/>
-            <button onClick={this.closeModal}>Close this Box</button>
           </form>
         </Modal>
       </span>
@@ -193,19 +197,19 @@ var UserLogin = React.createClass({
 });
 
 var OwnerSignup = React.createClass({   //Prompt only, no AJAX request
- 
+
   getInitialState: function() {
     return { modalIsOpen: false };
   },
- 
+
   openModal: function() {
     this.setState({modalIsOpen: true});
   },
- 
+
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
- 
+
   render: function() {
     return (
       <span>
@@ -214,6 +218,7 @@ var OwnerSignup = React.createClass({   //Prompt only, no AJAX request
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
           style={customStyles} >
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
           <h2>Call us at (512)-555-5555 to register an account.</h2>
         </Modal>
       </span>
@@ -222,15 +227,15 @@ var OwnerSignup = React.createClass({   //Prompt only, no AJAX request
 });
 
 var OwnerLogin = React.createClass({
- 
+
   getInitialState: function() {
     return { modalIsOpen: false };
   },
- 
+
   openModal: function() {
     this.setState({modalIsOpen: true});
   },
- 
+
   closeModal: function() {
     this.setState({modalIsOpen: false});
   },
@@ -275,7 +280,7 @@ var OwnerLogin = React.createClass({
       }.bind(this)
     });
   },
- 
+
   render: function() {
     return (
       <span>
@@ -284,21 +289,23 @@ var OwnerLogin = React.createClass({
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
           style={customStyles} >
+          <br/>
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <br/>
           <h2>Log In to Manage Deals</h2>
           <form className='loginForm' onSubmit={this.ownerLogin}>
-            Email: <input 
-                    className='email' 
-                    value={this.state.email} 
+            Email: <input
+                    className='email'
+                    value={this.state.email}
                     onChange={this.handleEmailChange}
                     /><br/>
-            Password: <input 
-                      className='password' 
-                      value={this.state.password} 
-                      type='password' 
+            Password: <input
+                      className='password'
+                      value={this.state.password}
+                      type='password'
                       onChange={this.handlePasswordChange}
                       /><br/><br/>
             <input type='submit' value='Log In' /><br/><br/>
-            <button onClick={this.closeModal}>Close this Box</button>
           </form>
         </Modal>
       </span>

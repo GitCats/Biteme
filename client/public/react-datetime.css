@@ -80,6 +80,10 @@
   cursor: not-allowed;
 }
 
+.rdtday {
+  cursor: pointer;
+}
+
 .rdtPicker td span.rdtOld {
   color: #999999;
 }

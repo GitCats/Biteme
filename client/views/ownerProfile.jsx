@@ -22,10 +22,9 @@ const customStyles = {
 
 //OWNER PROFILE PAGE TO-DO LIST:
 //
-//ORDER THE CURRENT & EXPIRED DEALS WITH SOONEST/MOST RECENT TO EXPIRE AT TOP
+//**add "Delete Deal" button with AJAX request on current deals to expire them
 //**EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
 //**FIX DEAL DISPLAY WHERE PROPS SPILL OUT OF DIV (TRY DIFFERENT LOGOS, RESIZING WINDOWS)
-//**add "Delete Deal" button with AJAX request on current deals to expire them
 
 
 //Note about this module: the AJAX request in OwnerForm and its state-setting could 
@@ -43,8 +42,9 @@ var OwnerProfile = React.createClass({
       this.setState({settings: data[0]});
     };
     //Here, passDeals uses the same principle to update the state of this parent component, 
-    //thus updating props in PastDeals and thence DealList and finally Deal from CreateDeal 
-    //by calling the GET request here.
+    //thus updating props in CurrentDealList and ExpiredDealList, and finally the Deal 
+    //component, all triggered by creating deals and re-rendering Current Deals by calling 
+    //the GET request here.
     var passDeals = function() {
       this.loadDealsFromServer();
     };
@@ -59,16 +59,15 @@ var OwnerProfile = React.createClass({
     }
   },
 
+  componentDidMount: function() {
+    this.loadDealsFromServer();
+  },
+
   handleClick: function() {
     window.scrollTo(0, 0);
   },
 
-  handleSelect: function(index, last) {
-    console.log("Selected tab: " + index + ", Last tab: " + last);
-  },
-
   loadDealsFromServer: function() {
-    console.log("AJAX request called")
     $.ajax({
       url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
       dataType: "json",
@@ -97,9 +96,13 @@ var OwnerProfile = React.createClass({
               <OwnerForm updateParent={this.state.getProps} />
             </TabPanel>
             <TabPanel>
+              <h1>Current Deals</h1>
+              <br/>
               <CurrentDealList deals={this.state.deals} updateDeals={this.state.updateDeals} />
             </TabPanel>
             <TabPanel>
+              <h1>Expired Deals</h1>
+              <br/>
               <ExpiredDealList deals={this.state.deals} />
             </TabPanel>
           </Tabs>
@@ -223,13 +226,15 @@ var CreateDeal = React.createClass({
       return (
         <div>
           <div style={{margin: "auto", width: "7.5%"}}>
-            <br/><br/>
-            <button onClick={this.openModal}>Create a Deal</button>
+            <button onClick={this.openModal} style={{width:"110px", height:"35px", fontWeight: "bolder", fontSize: "1em"}}>Create a Deal</button>
           </div>
           <Modal
             isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
             onRequestClose={this.closeModal}  //native to react-modal
             style={customStyles} >
+            <br/>
+            <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+            <br/>
             <h1>Create a Deal for {this.props.initialData.name}</h1>
             <br/>
             <form onSubmit={this.postDeal} style={{marginLeft: "100px"}}>
@@ -241,7 +246,6 @@ var CreateDeal = React.createClass({
               <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
               <input type="submit" style={{marginLeft: "20%"}} value="Post My Deal!" />
               <br/><br/><br/>
-              <button onClick={this.closeModal}>Close</button>
             </form>
           </Modal>
           <br/><br/>
@@ -311,7 +315,7 @@ var OwnerForm = React.createClass({
   },
 
   updateProfile: function(e) {
-    e.preventDefault;
+    e.preventDefault();
     var name = this.state.name.trim();
     var logo = this.state.logo.trim();
     var address = this.state.address.trim();
@@ -374,17 +378,17 @@ var OwnerForm = React.createClass({
         <form onSubmit={this.updateProfile}>
           Restaurant name: <input type="text" valueLink={this.linkState("name")} />
           <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
-          Enter a new URL to update your logo: <input type="text" valueLink={this.linkState("logo")} size="70" />
+          Enter a new URL to update your logo: <input type="text" valueLink={this.linkState("logo")} size="60" />
           <div className="text">
-            Street Address: <input type="text" valueLink={this.linkState("address")} /> 
-            City: <input type="text" valueLink={this.linkState("city")} /> 
-            State: <input type="text" valueLink={this.linkState("state")} /> 
-            ZIP: <input type="text" valueLink={this.linkState("zip")} maxLength="5" /> 
+            Street Address: <input type="text" valueLink={this.linkState("address")} />{" "}
+            City: <input type="text" valueLink={this.linkState("city")} />{" "}
+            State: <input type="text" valueLink={this.linkState("state")} />{" "}
+            ZIP: <input type="text" valueLink={this.linkState("zip")} maxLength="5" />
             <br/><br/>
-            Phone number (which customers should use to call the restaurant): 
-            <input type="text" valueLink={this.linkState("phone")} maxLength="14" />
-            Business website: <input type="text" valueLink={this.linkState("website")} />
-            <br/><br/>Select the cuisine that best matches your restaurant:
+            Phone number (which customers should use to call the restaurant):{" "}
+            <input type="text" valueLink={this.linkState("phone")} maxLength="14" />{" "}
+            Business website:{" "}<input type="text" valueLink={this.linkState("website")} />
+            <br/><br/>Select the cuisine that best matches your restaurant:{" "}
             <select valueLink={this.linkState("cuisine")} >
               <option value="">-Choose your cuisine-</option>
               <option value="1">Mexican</option>
@@ -429,8 +433,7 @@ var CurrentDealList = React.createClass({
     if(value.expiration.length === 4) {
       expHour = value.expiration.substr(0, 2);
       expMin = value.expiration.slice(-2);
-    }
-    if(value.expiration.length === 3) {
+    } else {
       expHour = parseInt(value.expiration.substr(0, 1));
       expMin = parseInt(value.expiration.slice(-2));
     }
@@ -443,9 +446,29 @@ var CurrentDealList = React.createClass({
     }
   },
 
+//////////////////DELETE DEAL BUTTON
+
   render: function() {
     var dealsToUse = this.props.deals.filter(this.filterByExpiration);
-    var dealNodes = dealsToUse.map(function(deal) {
+    var dealNodes = dealsToUse.sort(function(a, b) {
+      if(a.expiration.length === 4) {
+        expHourA = a.expiration.substr(0, 2);
+        expMinA = a.expiration.slice(-2);
+      } else {
+        expHourA = parseInt(a.expiration.substr(0, 1));
+        expMinA = parseInt(a.expiration.slice(-2));
+      }
+      if(b.expiration.length === 4) {
+        expHourB = b.expiration.substr(0, 2);
+        expMinB = b.expiration.slice(-2);
+      } else {
+        expHourB = parseInt(b.expiration.substr(0, 1));
+        expMinB = parseInt(b.expiration.slice(-2));
+      }
+      var dateA = +new Date(a.year, a.month-1, a.day, expHourA, expMinA, 59);
+      var dateB = +new Date(b.year, b.month-1, b.day, expHourB, expMinB, 59);
+      return dateA-dateB;
+    }).map(function(deal) {
       return (
         <Deal 
           res_description={deal.res_description} 
@@ -481,8 +504,7 @@ var ExpiredDealList = React.createClass({
     if(value.expiration.length === 4) {
       expHour = value.expiration.substr(0, 2);
       expMin = value.expiration.slice(-2);
-    }
-    if(value.expiration.length === 3) {
+    } else {
       expHour = parseInt(value.expiration.substr(0, 1));
       expMin = parseInt(value.expiration.slice(-2));
     }
@@ -497,7 +519,25 @@ var ExpiredDealList = React.createClass({
 
   render: function() {
     var dealsToUse = this.props.deals.filter(this.filterByExpiration);
-    var dealNodes = dealsToUse.map(function(deal) {
+    var dealNodes = dealsToUse.sort(function(a, b) {
+      if(a.expiration.length === 4) {
+        expHourA = a.expiration.substr(0, 2);
+        expMinA = a.expiration.slice(-2);
+      } else {
+        expHourA = parseInt(a.expiration.substr(0, 1));
+        expMinA = parseInt(a.expiration.slice(-2));
+      }
+      if(b.expiration.length === 4) {
+        expHourB = b.expiration.substr(0, 2);
+        expMinB = b.expiration.slice(-2);
+      } else {
+        expHourB = parseInt(b.expiration.substr(0, 1));
+        expMinB = parseInt(b.expiration.slice(-2));
+      }
+      var dateA = +new Date(a.year, a.month-1, a.day, expHourA, expMinA, 59);
+      var dateB = +new Date(b.year, b.month-1, b.day, expHourB, expMinB, 59);
+      return dateA-dateB;
+    }).map(function(deal) {
       return (
         <Deal 
           res_description={deal.res_description} 
@@ -584,6 +624,7 @@ var Deal = React.createClass({
           <img src={this.props.image_name} className="dealLogo" />
           <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
         </div>
+
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
             {this.props.description}
@@ -594,10 +635,12 @@ var Deal = React.createClass({
           <div className="dealAddress">
             {this.props.address.split(",")}
           </div>
+          <span style={{marginRight: "45%", fontWeight: "bold"}}>Expiration:</span>
           <div className="dealExpiration">
             {displayDate} {displayTime}
           </div>
-        </div>  
+        </div>
+
       </div>
     );
   }
