@@ -20,7 +20,7 @@ router.get('/getAll', function (req, res) {
 router.post('/update', function(req, res){
   Deal.update(req.body)
     .then(function(result){
-      res.status(200).send(data);
+      res.status(200).send(result);
     })
 })
 

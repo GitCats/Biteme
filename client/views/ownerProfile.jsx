@@ -239,7 +239,7 @@ var CreateDeal = React.createClass({
             <br/>
             <form onSubmit={this.postDeal} style={{marginLeft: "100px"}}>
               <p>Describe your deal in a few words: </p>
-              <input valueLink={this.linkState("description")} size="40" maxLength="35" />
+              <input valueLink={this.linkState("description")} size="34" maxLength="35" />
               <br/><br/>
               <p>When will your deal expire?</p>
               <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
@@ -446,10 +446,10 @@ var CurrentDealList = React.createClass({
     }
   },
 
-//////////////////DELETE DEAL BUTTON
 
   render: function() {
     var dealsToUse = this.props.deals.filter(this.filterByExpiration);
+    var currentDealContext = this;
     var dealNodes = dealsToUse.sort(function(a, b) {
       if(a.expiration.length === 4) {
         expHourA = a.expiration.substr(0, 2);
@@ -469,6 +469,8 @@ var CurrentDealList = React.createClass({
       var dateB = +new Date(b.year, b.month-1, b.day, expHourB, expMinB, 59);
       return dateA-dateB;
     }).map(function(deal) {
+      //In this context, "this" is the Window object.
+      //dealKey is used below because "key" is not easily grabbed like other props.
       return (
         <Deal 
           res_description={deal.res_description} 
@@ -482,13 +484,15 @@ var CurrentDealList = React.createClass({
           description={deal.description} 
           expiration={deal.expiration} 
           image_name={deal.image_name} 
-          name={deal.name} 
-          key={deal.deal_id}>
+          name={deal.name}
+          key={deal.deal_id}
+          dealKey={deal.deal_id}
+          updateDeals={currentDealContext.props.updateDeals}>
         </Deal>
       );
     });
     return (
-      <div className="dealList" style={{height: "100%"}} >
+      <div className="dealList">
         {dealNodes}
       </div>
     );
@@ -567,6 +571,35 @@ var ExpiredDealList = React.createClass({
 
 var Deal = React.createClass({
 
+  expireDeal: function(e) {
+    e.preventDefault();
+    var dealToDelete = {
+      deal_id: this.props.dealKey,
+      expiration: "001",
+      day: new Date().getDate(),
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear()
+    };
+    this.submitExpiration(dealToDelete);
+  },
+
+  submitExpiration: function(deletedDeal) {
+    $.ajax({
+      url: "api/deals/update",
+      dataType: "text",
+      type: "POST",
+      data: deletedDeal,
+      success: function(res) {
+        this.props.updateDeals();
+        alert("Your deal has been expired!");
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+        alert("There was an error processing your request.");
+      }.bind(this)
+    });
+  },
+
   render: function() {
     //formatting date 
     var calendarMonths = {
@@ -595,7 +628,7 @@ var Deal = React.createClass({
       var displayDate =  month + " " + this.props.day + ", " + this.props.year;
     } 
     //formatting time
-    var num = this.props.expiration
+    var num = this.props.expiration;
     var minutes = num.toString().slice(-2);
     if(num.toString().length === 4) {
       var hours = num.toString().slice(0, 2);
@@ -618,31 +651,56 @@ var Deal = React.createClass({
       } 
     }
     var displayTime = hours + ":" + minutes + period;
-    return (
-      <div className="deal col-md-6 col-sm-12" >
-        <div className="dealLogoDiv">
-          <img src={this.props.image_name} className="dealLogo" />
-          <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
+    if (+new Date(this.props.year, this.props.month-1, this.props.day) > Date.now()) {
+      return (
+        <div className="deal col-md-6 col-sm-12" >
+          <div className="dealLogoDiv">
+            <img src={this.props.image_name} className="dealLogo" />
+            <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
+          </div>
+          <div className="dealInfoDiv">
+            <h3 className="dealDescription">
+              {this.props.description}
+            </h3>
+            <div className="dealUrl">
+              {this.props.url}
+            </div>
+            <div className="dealAddress">
+              {this.props.address.split(",")}
+            </div>
+            <span style={{marginRight: "45%", fontWeight: "bold"}}>Expiration:</span>
+            <div className="dealExpiration">
+              {displayDate} {displayTime}
+            </div>
+          </div>
+          <button onClick={this.expireDeal} className="expireButton">Expire this Deal</button>
         </div>
-
-        <div className="dealInfoDiv">
-          <h3 className="dealDescription">
-            {this.props.description}
-          </h3>
-          <div className="dealUrl">
-            {this.props.url}
+      );
+    } else {
+      return (
+        <div className="deal col-md-6 col-sm-12" >
+          <div className="dealLogoDiv">
+            <img src={this.props.image_name} className="dealLogo" />
+            <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
           </div>
-          <div className="dealAddress">
-            {this.props.address.split(",")}
-          </div>
-          <span style={{marginRight: "45%", fontWeight: "bold"}}>Expiration:</span>
-          <div className="dealExpiration">
-            {displayDate} {displayTime}
+          <div className="dealInfoDiv">
+            <h3 className="dealDescription">
+              {this.props.description}
+            </h3>
+            <div className="dealUrl">
+              {this.props.url}
+            </div>
+            <div className="dealAddress">
+              {this.props.address.split(",")}
+            </div>
+            <span style={{marginRight: "45%", fontWeight: "bold"}}>Expiration:</span>
+            <div className="dealExpiration">
+              {displayDate} {displayTime}
+            </div>
           </div>
         </div>
-
-      </div>
-    );
+      );
+    }
   }
 });
 
