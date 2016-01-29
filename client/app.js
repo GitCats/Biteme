@@ -1,5 +1,3 @@
-// var $ = require('jquery');
-// var React = require('react');
 var ReactDOM = require('react-dom');
 var Router = require('react-router').Router;
 var Route = require('react-router').Route;
@@ -9,18 +7,11 @@ var App = require('./views/main.jsx');
 var AllDeals = require('./views/allDeals.jsx');
 var OwnerProfile = require('./views/ownerProfile.jsx');
 var UserProfile = require('./views/userProfile.jsx');
-// var Map = require('./views/map.jsx');
+
 
 //top level route will always be in view -- acts as a shell so needs a
 //this.props.children where the other views will be switched in and out
 //indexroute is the default view - what you'd see if you just went to that URL
-// var UserProfileWrapper = React.createClass({
-//   render: function () {
-//     return (
-//       <UserProfile url="api/userprefs/cuisines" />
-//       );
-//   }
-// });
 
 ReactDOM.render((
   <Router>
