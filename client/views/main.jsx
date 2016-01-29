@@ -3,7 +3,7 @@ var Signup = require('./auth.jsx').signup;
 var Login = require('./auth.jsx').login;
 var OwnerSignup = require('./auth.jsx').ownerSignup;
 var OwnerLogin = require('./auth.jsx').ownerLogin;
-var Link = require('react-router').Link
+var Link = require('react-router').Link;
 
 
 var App = React.createClass({

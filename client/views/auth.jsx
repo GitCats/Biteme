@@ -87,6 +87,9 @@ var UserSignup = React.createClass({
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
           style={customStyles} >
+          <br/>
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <br/>
           <h2>Sign Up for Notifications</h2>
           <form className='signupForm' onSubmit={this.signUp}>
             Email: <input
@@ -100,8 +103,7 @@ var UserSignup = React.createClass({
                       onChange={this.handlePasswordChange}
                       type='password'
                       /><br/><br/>
-            <input type='submit' value='Sign Up!' /><br/><br/>
-            <button onClick={this.closeModal}>Close this Box</button>
+            <input type='submit' value='Sign Up' /><br/><br/>
           </form>
         </Modal>
       </span>
@@ -170,6 +172,9 @@ var UserLogin = React.createClass({
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
           style={customStyles} >
+          <br/>
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <br/>
           <h2>Log In to Manage Notifications</h2>
           <form className='loginForm' onSubmit={this.login}>
             Email: <input
@@ -184,7 +189,6 @@ var UserLogin = React.createClass({
                       onChange={this.handlePasswordChange}
                       /><br/><br/>
             <input type='submit' value='Log In' /><br/><br/>
-            <button onClick={this.closeModal}>Close this Box</button>
           </form>
         </Modal>
       </span>
@@ -214,6 +218,7 @@ var OwnerSignup = React.createClass({   //Prompt only, no AJAX request
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
           style={customStyles} >
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
           <h2>Call us at (512)-555-5555 to register an account.</h2>
         </Modal>
       </span>
@@ -284,6 +289,9 @@ var OwnerLogin = React.createClass({
           isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
           onRequestClose={this.closeModal}  //native to react-modal
           style={customStyles} >
+          <br/>
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <br/>
           <h2>Log In to Manage Deals</h2>
           <form className='loginForm' onSubmit={this.ownerLogin}>
             Email: <input
@@ -298,7 +306,6 @@ var OwnerLogin = React.createClass({
                       onChange={this.handlePasswordChange}
                       /><br/><br/>
             <input type='submit' value='Log In' /><br/><br/>
-            <button onClick={this.closeModal}>Close this Box</button>
           </form>
         </Modal>
       </span>
