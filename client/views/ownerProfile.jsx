@@ -131,7 +131,13 @@ var CreateDeal = React.createClass({
   mixins: [LinkedStateMixin],
 
   openModal: function() {
-    this.setState({modalIsOpen: true});
+    if (this.props && this.props.initialData.name && this.props.initialData.url && 
+      this.props.initialData.res_description && this.props.initialData.image_name && 
+      this.props.initialData.address && this.props.initialData.phone_number) {
+        this.setState({modalIsOpen: true});
+    } else {
+      alert("Please complete your profile to create a deal.")
+    }
   },
  
   closeModal: function() {
@@ -220,45 +226,34 @@ var CreateDeal = React.createClass({
     var valid = function(current) {
       return current.isAfter( yesterday );
     };
-    if (this.props && this.props.initialData.name && this.props.initialData.url && 
-        this.props.initialData.res_description && this.props.initialData.image_name && 
-        this.props.initialData.address && this.props.initialData.phone_number) {
-      return (
-        <div>
-          <div style={{margin: "auto", width: "7.5%"}}>
-            <button onClick={this.openModal} style={{width:"110px", height:"35px", fontWeight: "bolder", fontSize: "1em"}}>Create a Deal</button>
-          </div>
-          <Modal
-            isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
-            onRequestClose={this.closeModal}  //native to react-modal
-            style={customStyles} >
-            <br/>
-            <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
-            <br/>
-            <h1>Create a Deal for {this.props.initialData.name}</h1>
-            <br/>
-            <form onSubmit={this.postDeal} style={{marginLeft: "100px"}}>
-              <p>Describe your deal in a few words: </p>
-              <input valueLink={this.linkState("description")} size="34" maxLength="35" />
-              <br/><br/>
-              <p>When will your deal expire?</p>
-              <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
-              <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-              <input type="submit" style={{marginLeft: "20%"}} value="Post My Deal!" />
-              <br/><br/><br/>
-            </form>
-          </Modal>
-          <br/><br/>
+    return (
+      <div>
+        <div style={{margin: "auto", width: "7.5%"}}>
+          <button onClick={this.openModal} style={{width:"110px", height:"35px", fontWeight: "bolder", fontSize: "1em"}}>Create a Deal</button>
         </div>
-      )
-    } else {
-      return (
-        <div>
-          <h3 className="text">Please Complete Your Profile to Create a Deal</h3>
+        <Modal
+          isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
+          onRequestClose={this.closeModal}  //native to react-modal
+          style={customStyles} >
           <br/>
-        </div>
-      )
-    }
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <br/>
+          <h1>Create a Deal for {this.props.initialData.name}</h1>
+          <br/>
+          <form onSubmit={this.postDeal} style={{marginLeft: "100px"}}>
+            <p>Describe your deal in a few words: </p>
+            <input valueLink={this.linkState("description")} size="33" maxLength="35" />
+            <br/><br/>
+            <p>When will your deal expire?</p>
+            <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <input type="submit" style={{marginLeft: "20%"}} value="Post My Deal!" />
+            <br/><br/><br/>
+          </form>
+        </Modal>
+        <br/><br/>
+      </div>
+    )
   }
 });
 
@@ -409,8 +404,8 @@ var OwnerForm = React.createClass({
               <option value="16">Other</option>
             </select>
             <br/><br/>
-            <p>Describe your restaurant in a few lines:</p>
-            <textarea valueLink={this.linkState("res_description")} rows="3" cols="68" maxLength="200" />
+            <p>Describe your restaurant in a couple of lines:</p>
+            <textarea valueLink={this.linkState("res_description")} rows="2" cols="68" maxLength="150" />
             <br/><br/>
             <input type="submit" value="Update Restaurant Profile" />
           </div>
@@ -656,18 +651,18 @@ var Deal = React.createClass({
         <div className="deal col-md-6 col-sm-12" >
           <div className="dealLogoDiv">
             <img src={this.props.image_name} className="dealLogo" />
-            <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
           </div>
           <div className="dealInfoDiv">
-            <h3 className="dealDescription">
+            <div className="dealDescription">
               {this.props.description}
-            </h3>
+            </div>
             <div className="dealUrl">
               {this.props.url}
             </div>
             <div className="dealAddress">
               {this.props.address.split(",")}
             </div>
+            <br/>
             <span style={{marginRight: "45%", fontWeight: "bold"}}>Expiration:</span>
             <div className="dealExpiration">
               {displayDate} {displayTime}
@@ -681,7 +676,6 @@ var Deal = React.createClass({
         <div className="deal col-md-6 col-sm-12" >
           <div className="dealLogoDiv">
             <img src={this.props.image_name} className="dealLogo" />
-            <div style={{marginLeft: "20", fontStyle: "italic"}}>{this.props.res_description}</div>
           </div>
           <div className="dealInfoDiv">
             <h3 className="dealDescription">
