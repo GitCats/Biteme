@@ -38,17 +38,17 @@ body {
 .dealExpiration {
   font-family: Helvetica;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 15px;
 }
 
 .dealLogoDiv {
-  width: 175px;
-  height: 125px;
+  width: 250px;
+  height: 200px;
 }
 
 .dealLogo {
-  margin-top: 10%;
-  margin-bottom: 25%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   max-width: 250px;
   max-height: 200px;
 }
@@ -61,7 +61,7 @@ body {
 .dealInfoDiv {
   width: 50%;
   float: right;
-  padding: 5px 0px 0px 100px;
+  padding: 10px 5px 0px 10px;
   color: black;
   text-align: center;
   position: relative;
@@ -99,7 +99,7 @@ color: #050091;
 }
 
 .dealDescription {
-  font-size: 25px;
+  font-size: 20px;
   margin-top: 10px;
 }
 
@@ -134,5 +134,13 @@ color: #050091;
 
 .singleDealLogoDiv {
   height: 50px;
+}
+
+.expireButton {
+  float: right;
+  height: 45px;
+  margin: 14px 0 0 5px;
+  border: 1px solid #286090;
+  border-radius: 8px;
 }
 

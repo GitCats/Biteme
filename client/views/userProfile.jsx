@@ -116,6 +116,40 @@ var RestaurantForm = React.createClass({
   }
 });
 
+var PhoneForm = React.createClass({
+  getInitialState: function() {
+    return {number: ''};
+  },
+
+  handleNumberChange: function(e) {
+    this.setState({number: e.target.value});
+  },
+
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var number = this.state.number.trim();
+    if(!number){
+      return;
+    }
+    this.props.submitphone(number);
+    this.setState({number: ''});
+  },
+
+  render: function() {
+    return (
+      <div className="phoneNumberEntry">
+        <span><h4>Enter your phone number to receive text updates:</h4>
+        <p>(Please include area code)</p>
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" placeholder="+15121234567" value={this.state.number} onChange={this.handleNumberChange} />
+          <input type="submit" value="Submit" />
+        </form>
+        </span>
+      </div>
+    );
+  }
+});
+
 var UserProfile = React.createClass({
 
   loadCuisinesFromServer: function() {
@@ -285,6 +319,23 @@ var UserProfile = React.createClass({
     this.setState({restaurantChanges: holder});
   },
 
+  handlePhoneChange: function(number) {
+    var id = localStorage.getItem('user_id');
+    var sending = {user_id: id, phone: number};
+    $.ajax({
+      url: 'api/userprefs/phone',
+      dataType: 'text',
+      type: 'POST',
+      data: sending,
+      success: function(data) {
+        console.log('return data from phone', data);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error('api/userprefs/phone', status, err.toString());
+      }.bind(this)
+    });
+  },
+
   getInitialState: function() {
     return {
       cuisinePreferences: [],
@@ -303,10 +354,12 @@ var UserProfile = React.createClass({
 
   // onChangeSubmit={this.handleCuisinesChange}
   render: function() {
-    if (localStorage.getItem("token") && localStorage.getItem("restaurant_id") !== "undefined") {
+    if (localStorage.getItem("token") && localStorage.getItem("user_id") !== "undefined") {
+      var user = localStorage.getItem("user");
       return (
         <div className="userprefs">
-          <h2>Hello sir</h2>
+          <h2>Hello {user}</h2>
+          <PhoneForm submitphone={this.handlePhoneChange}/>
           <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
           <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
         </div>
