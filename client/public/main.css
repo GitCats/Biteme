@@ -13,6 +13,14 @@ body {
   display: block;
 }
 
+a, .deal {
+  cursor: pointer;
+}
+
+h1 {
+  text-align: center;
+}
+
 /*** MAIN PAGE - ALL DEALS ***/
 
 .dealList {
@@ -73,19 +81,27 @@ body {
   height: 500px;
 }
 
-.auth {
+#userAuth {
   text-align: center;
   background-color: white;
   color: black;
 }
 
-.ownerAuth{
+#ownerAuth {
   text-align: center;
   background-color: white;
   color: black;
+}
+
+#logout {
+  text-align: center;
 }
 
 .text {
+  text-align: center;
+}
+
+#Links {
   text-align: center;
 }
 

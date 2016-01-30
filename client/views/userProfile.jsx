@@ -77,7 +77,7 @@ var CuisineForm = React.createClass({
 
     return (
     <div className="cuisineform">
-      <h3>Get udpates for these cuisines:</h3>
+      <h3>Get updates for these cuisines:</h3>
       <form onSubmit={this.handleSubmit}>
         {options}
         <input type="submit" value="Save Changes" className="cuisineButton" />
