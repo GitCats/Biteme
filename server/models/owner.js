@@ -109,6 +109,15 @@ Owner.matchRestaurants = function(body){
   .select('users.phone');
 }
 
+// Owner.matchCuisines = function(body) {
+//   var cuisine = body.cuisine;
+//   return db('cuisines')
+//   .where('cuisines.cuisine_type', cuisine)
+//   .join('cuisine_prefs', 'cuisines.cuisine_id', '=', 'cuisine_prefs.cuisine_pref_id')
+//   .leftJoin('user', 'cuisine_prefs.user_id', '=', 'users.user_id')
+//   .select('users.phone');
+// }
+
 // Owner.joinWithUsers = function(query) {
 //   return
 // }

@@ -1,5 +1,6 @@
 var express = require('express')
 var Owner = require('../models/owner');
+var client = require('twilio')('AC396bc879ace8d5ae25ce367daf1cb8bc', '93159cd050ac87c1a1b1e4dca3e9613d');
 
 var router = express.Router();
 module.exports = router;
@@ -68,13 +69,19 @@ router.post('/updatePassword', function(req, res){
 router.post('/create', function (req, res) {
 	Owner.create(req.body).then(function() {
 		Owner.matchRestaurants(req.body).then(function(data){
-			console.log('data back from matching restaurants', data);
+			//data that comes back is an array of objects with only one property, the user phone number
 			data.forEach(function(val){
 				var num = val.phone;
+				client.sendMessage({
+					to: num, //user number
+					from: '15125806884', //number twilio assigns us to send messages from
+					body: restName + 'has made a new deal! Get on BluePlate and check it out'
+				}, function(err, responseData) {if(err){console.log(err);}}
+				);
 			});
 			res.sendStatus(201);
 		});
-	})
+	});
 })
 
 router.get('/getProfile/*', function(req, res){
