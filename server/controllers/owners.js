@@ -17,8 +17,8 @@ router.get('/getAllDeals/*', function (req, res) {
 })
 
 //SIGN UP (POST)
-//when owner inputs a new username, this will check against the database 
-//to see if it already exists if it doesn't then it will create it and 
+//when owner inputs a new username, this will check against the database
+//to see if it already exists if it doesn't then it will create it and
 //save the password associated with it (after hashing) to the restaurants database
 //then send back 201 (created) response
 router.post('/signup', function (req, res){
@@ -67,7 +67,13 @@ router.post('/updatePassword', function(req, res){
 //it to add a new deal to the database
 router.post('/create', function (req, res) {
 	Owner.create(req.body).then(function() {
-		res.sendStatus(201);
+		Owner.matchRestaurants(req.body).then(function(data){
+			console.log('data back from matching restaurants', data);
+			data.forEach(function(val){
+				var num = val.phone;
+			});
+			res.sendStatus(201);
+		});
 	})
 })
 

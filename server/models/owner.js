@@ -100,6 +100,21 @@ Owner.logout = function(){
 	$window.localStorage.delete();
 }
 
+Owner.matchRestaurants = function(body){
+  var id = body.restaurant_id;
+  return db('restaurants')
+  .where('restaurants.restaurant_id', id)
+  .join('res_prefs', 'restaurants.restaurant_id', '=', 'res_prefs.restaurant_id')
+  .leftJoin('users', 'res_prefs.user_id', '=', 'users.user_id')
+  .select('users.phone');
+}
+
+// Owner.joinWithUsers = function(query) {
+//   return
+// }
+
+// Owner.matchCuisines = function()
+
 //body will be {"restaurant_id": 1, "cuisine_id": 7,
 //"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg",
 //"description": "World Famous Barbecue", "url": "www.franklinbarbecue.com", "address": "900 East 11th Street, Austin, TX"}
