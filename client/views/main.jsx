@@ -15,7 +15,7 @@ var App = React.createClass({
       {/*IF localStorage.getItem("user" or "token"), IT SHOULD DISPLAY LINK TO USER PREFS PAGE*/}
         {/*IF localStorage.getItem("restaurant_id"), IT SHOULD ALSO DISPLAY LINK TO OWNERPROFILE*/}
        
-        <IndexLink to='/'><img src="client/assets/blueplate.png" className="bluePlateLogo  col-md-4 col-md-offset-4" /></IndexLink>
+        <IndexLink to='/'><img src="client/assets/blueplate.png" className="bluePlateLogo" /></IndexLink>
         <div className="auth ">Care to filter by preferences? <Signup /> or <Login /> </div>
         <div className="ownerAuth">Restaurant Owner? <OwnerSignup /> or <OwnerLogin /></div>
         {this.props.children}

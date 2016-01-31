@@ -68,6 +68,9 @@ var Deal = React.createClass({
       }
       var period;
       if(hours < 12) {
+        if(hours == '0') {
+          hours = 12
+        }
         period = 'am'
       }
       if(hours >= 12) {
@@ -205,7 +208,6 @@ var AllDeals = React.createClass({
   render: function() {
     return (
       <div className="dealBox">
-        <h1 className="today col-md-6 col-md-offset-5">Today&#39;s Deals</h1>
         <DealList data={this.state.data} />
       </div>
     );
@@ -387,6 +389,8 @@ var DealList = React.createClass({
         }
       }
     }
+
+    console.log('deals', dealsToUse)
     
     var dealNodes = dealsToUse.map(function(deal) {
       return (
