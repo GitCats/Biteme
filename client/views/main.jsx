@@ -15,6 +15,20 @@ var App = React.createClass({
       {/*IF localStorage.getItem("user" or "token"), IT SHOULD DISPLAY LINK TO USER PREFS PAGE*/}
         {/*IF localStorage.getItem("restaurant_id"), IT SHOULD ALSO DISPLAY LINK TO OWNERPROFILE*/}
        
+
+     <nav class="navbar navbar-default navbar-static-top">
+          <div class="container">
+
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><Link to='/'>Home</Link></li>
+                <li><Link to='/'>Sign Up</Link></li>
+                <li><Link to='/'>Log In</Link></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
         <IndexLink to='/'><img src="client/assets/blueplate.png" className="bluePlateLogo" /></IndexLink>
         <div className="auth ">Care to filter by preferences? <Signup /> or <Login /> </div>
         <div className="ownerAuth">Restaurant Owner? <OwnerSignup /> or <OwnerLogin /></div>

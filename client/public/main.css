@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /* KAYLA'S CSS */
 
 body {
@@ -14,17 +14,16 @@ body {
   margin-right: auto;
   position: relative;
   display: block;
-  padding-top: 15px;
   height: 300px;
   width: 350px;
 }
 
 .logoDiv {
   background: red; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#05018f, #05FF8F); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#05018f, #05FF8F); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#05018f, #05FF8F); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#05018f, #05FF8F); /* Standard syntax */
+    background: -webkit-linear-gradient(#05018f, #07FEFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#05018f, #07FEFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#05018f, #07FEFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#05018f, #07FEFF); /* Standard syntax */
 }
 
 /*** MAIN PAGE - ALL DEALS ***/
@@ -52,15 +51,16 @@ body {
   font-family: Helvetica;
   font-weight: bold;
   font-size: 30px;
-  position: relative;
-  margin-left: 200px;
-  margin-top: 30px;
-  font-color: ##07008F;
+  position: absolute;
+  margin-left: 140px;
+  margin-top: 40px;
+  color: #07008F;
 }
 
 .dealLogoDiv {
   width: 175px;
   height: 125px;
+  position: absolute;
 }
 
 .dealLogo {
@@ -76,7 +76,7 @@ body {
   padding: 5px 0px 0px 100px;
   color: black;
   text-align: center;
-  position: relative;
+  position: absolute;
   display: inline-block;
 } 
 
@@ -153,3 +153,34 @@ color: #050091;
 .singleDealLogoDiv {
   height: 50px;
 }
+
+.navbar-default {
+  background-color: #2e3192;
+  background-image: none;
+  border: none;
+}
+
+#navbar ul {
+  padding-top: 20px;
+}
+#navbar li {
+  list-style: none;
+  display: inline;
+  padding-top: 120px;
+}
+
+#navbar li a {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 10px;
+}
+
+#navbar li a:hover {
+  background-color: white;
+  color: 07008f;
+  border-radius: 5px;
+}
+
+
+
