@@ -1,4 +1,4 @@
-var $ = require("jquery");
+var React = require("react");
 var Link = require("react-router").Link;
 var Modal = require("react-modal");
 var LinkedStateMixin = require("react-addons-linked-state-mixin");
@@ -81,6 +81,7 @@ var OwnerProfile = React.createClass({
 
   render: function() {
     if (localStorage.getItem("token") && localStorage.getItem("restaurant_id")) {
+      localStorage.setItem("dontShowOwnerLink", true);
       return (
         <div>
           <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
@@ -106,7 +107,7 @@ var OwnerProfile = React.createClass({
           </Tabs>
           <br/>
           <div>
-            <a onClick={this.handleClick} className="text" style={{display: "inline-block", width: "10%", marginLeft: "45.5%"}} >Go to Top of Page</a><br/><br/>
+            <a onClick={this.handleClick} id="top" >Go to Top of Page</a><br/><br/>
           </div>
         </div>
       );

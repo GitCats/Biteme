@@ -1,13 +1,8 @@
-//might not need all of these - only $ react, reactdom, auth, link from SO
-var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
-// var Router = require('react-router').Router;
-// var Route = require('react-router').Route;
-// var IndexRoute = require('react-router').IndexRoute;
 var Link = require('react-router').Link;
 var Modal = require('react-modal');
-// var Maps = require('google-maps')
+var Maps = require('react-google-maps');
 var Map = require('./map.jsx');
 var Yelp = require('./yelpinfo.jsx');
 
@@ -67,6 +62,9 @@ var Deal = React.createClass({
       }
       var period;
       if(hours < 12) {
+        if(hours === "0") {
+          hours = "12";
+        }
         period = 'am'
       }
       if(hours >= 12) {
@@ -325,13 +323,6 @@ var DealList = React.createClass({
         var distances = results.rows[0].elements;
         var destinations = results.destination_addresses
         var destinationsArray;
-        // for(var i=0; i<distances.length; i++) {
-        //   for(var key in distances[i]) {
-        //     console.log('key', distances[i].distance.text)
-        //   }
-        // }
-        // console.log('distances', distances)
-        // console.log('destinations', destinations)
         for(var i=0; i<destinations.length; i++) {
           var x=destinations[i];
           for(var j=i; j<distances.length; j++) {
@@ -533,6 +524,6 @@ const customStyles = {
 
 module.exports = AllDeals;
 
-//grab the input from the search bar
+//grab the address input from the search bar
 //call a function in deal list with that value
 //makes a call to distance api

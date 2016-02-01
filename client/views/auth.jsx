@@ -1,4 +1,3 @@
-var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('react-modal');
@@ -318,7 +317,6 @@ var OwnerLogin = React.createClass({
       type: 'POST',
       data: ownerLoginRequest,
       success: function(res) {
-        console.log("Owner Login Response:", res);
         var response = JSON.parse(res);
         localStorage.setItem("user", ownerLoginRequest.username);
         localStorage.setItem("restaurant_id", response.restaurant_id);
@@ -378,7 +376,6 @@ var OwnerLogin = React.createClass({
 var Links = React.createClass({
 
   render: function() {
-    console.log("Links class re-rendered")
     if (this.props.ownerLink && !this.props.userLink) {
       return (
         <Link to="/ownerprofile" onClick={this.props.undoLink}>Restaurant Profile</Link>
@@ -399,14 +396,13 @@ var Logout = React.createClass({
 
   signout: function() {
     localStorage.clear();
-    window.location = '#';
     this.props.setLogoutUpdate();
   },
 
   render: function() {
     if (this.props.logoutLink) {
       return (
-        <a onClick={this.signout}>Logout</a>
+        <Link to='/' onClick={this.signout}>Logout</Link>
       )
     } else {
       return (

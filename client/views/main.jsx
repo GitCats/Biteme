@@ -1,3 +1,4 @@
+var React = require('react');
 var IndexLink = require('react-router').IndexLink;
 var Link = require('react-router').Link;
 var Auth = require('./auth.jsx').auth;
@@ -11,10 +12,16 @@ var App = React.createClass({
       this.setState({ userAuth: true, ownerAuth: true, userLink: false, ownerLink: false, logoutLink: false });
     //If logged in as a user:
     } else if (localStorage.getItem("token") && !localStorage.getItem("restaurant_id")) {
-      this.setState({ userAuth: false, ownerAuth: false, userLink: true, ownerLink: false, logoutLink: true });
+      this.setState({ userAuth: false, ownerAuth: false, logoutLink: true });
+      if (!localStorage.getItem("dontShowUserLink")) {
+        this.setState({ userLink: true, ownerLink: false });
+      }
     //If logged in as an owner:
     } else {
-      this.setState({ userAuth: false, ownerAuth: false, userLink: false, ownerLink: true, logoutLink: true });
+      this.setState({ userAuth: false, ownerAuth: false, logoutLink: true });
+      if (!localStorage.getItem("dontShowOwnerLink")) {
+        this.setState({ userLink: false, ownerLink: true });
+      }
     }
   },
 
@@ -40,10 +47,11 @@ var App = React.createClass({
 
   navToHome: function() {
     if (localStorage.getItem("token") && !localStorage.getItem("restaurant_id")) {
-      console.log("navToHome being called from BluePlateLogo")
       this.setState({ userLink: true, ownerLink: false });
+      localStorage.setItem("dontShowUserLink", false);
     } else if (localStorage.getItem("token") && localStorage.getItem("restaurant_id")) {
       this.setState({ ownerLink: true, userLink: false });
+      localStorage.setItem("dontShowOwnerLink", false);
     }
   },
 
