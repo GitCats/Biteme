@@ -17,7 +17,7 @@ var CountdownTimer = require('./timer.jsx');
 var Deal = React.createClass({
   getInitialState: function() {
     return { modalIsOpen: false,
-             date: ''
+             date: '',
            };
   },
 
@@ -131,6 +131,7 @@ var Deal = React.createClass({
           <div className="dealAddress">
             {this.props.address.split(",", 1)}
           </div>
+          <span className='expiration'>Expiration</span>
           <div className="dealExpiration">
             {displayTime}
           </div>
@@ -139,7 +140,7 @@ var Deal = React.createClass({
           </div>
           <div>
             {this.props.distance}
-          </div>
+          </div> 
         </div>  
       </div> 
       </a>
@@ -151,8 +152,8 @@ var Deal = React.createClass({
           <div className="singleDealLogoDiv">
             <img src={this.props.image_name} className="singleDealLogo" />
           </div>
-          <div className="dealInfoDiv">
-            <h3 className="dealDescription">
+          <div className="singleDealInfoDiv">
+            <h3 className="singleDealDescription">
               {this.props.description}
             </h3>
             <div className="restaurantName">
@@ -221,7 +222,7 @@ var Deal = React.createClass({
           <div className="singleDealLogoDiv">
             <img src={this.props.image_name} className="singleDealLogo" />
           </div>
-          <div className="dealInfoDiv">
+          <div className="singleDealInfoDiv">
             <h3 className="dealDescription">
               {this.props.description}
             </h3>
@@ -231,10 +232,10 @@ var Deal = React.createClass({
             <div className='resDescription'>
               {this.props.res_description}
             </div> 
-            <div className="dealUrl">
+            <div className="singleDealUrl">
               <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
             </div>
-            <div className="dealAddress">
+            <div className="singleDealAddress">
               {this.props.address.split(',', 1)}
             </div>
             <div className="cuisineType">
@@ -294,9 +295,9 @@ var DealList = React.createClass({
     return {
       cuisine_id: '',
       expirationDate: 1,
-      startingPoint: '',
+      startLat: '',
+      startLon: '',
       destinations: '',
-      startingPoint: '',
       updateCuisineId: function(id) {
         this.setState({ cuisine_id: id})
       },
@@ -375,11 +376,7 @@ var DealList = React.createClass({
   },
 
  filterByProximity: function(startingPoint) {
-  console.log('sp', startingPoint)
-
   this.setState({ startingPoint: startingPoint })
-
-  console.log('state', this.state)
 
   var array = [];
   var destinations = function(obj) {
@@ -410,13 +407,6 @@ var DealList = React.createClass({
         var distances = results.rows[0].elements;
         var destinations = results.destination_addresses
         var destinationsArray;
-        // for(var i=0; i<distances.length; i++) {
-        //   for(var key in distances[i]) {
-        //     console.log('key', distances[i].distance.text)
-        //   }
-        // }
-        // console.log('distances', distances)
-        // console.log('destinations', destinations)
         for(var i=0; i<destinations.length; i++) {
           var x=destinations[i];
           for(var j=i; j<distances.length; j++) {
@@ -433,8 +423,21 @@ var DealList = React.createClass({
         console.log('Error:', err)
       }.bind(this)
     })
+
+    GMaps.geocode({
+      address: startingPoint,
+      callback: function(results, status) {
+        if(status !== 'OK') {
+          console.log('error with gmaps')
+        }
+        if(status === 'OK') {
+          startingPoint = results[0].geometry.location;
+        }
+        var startingPointLat = startingPoint.lat();
+        var startingPointLon = startingPoint.lng();
+      }
+    })
   },
- 
 
   render: function() {
     var dealsToUse;
@@ -465,6 +468,9 @@ var DealList = React.createClass({
 
     console.log('deals', dealsToUse)
     console.log('state', this.state.startingPoint)
+
+    var startingPointLat = this.state.startingPointLat;
+    var startingPointLon = this.state.startingPointLon;
     
     var dealNodes = dealsToUse.map(function(deal) {
       return (
@@ -482,7 +488,9 @@ var DealList = React.createClass({
               image_name={deal.image_name} 
               name={deal.name} 
               key={deal.deal_id}
-              distance={deal.distance}>
+              distance={deal.distance}
+              startingPointLat={startingPointLat}
+              startingPointLon={startingPointLon} >
         </Deal>
       );
     });
@@ -589,7 +597,7 @@ const customStyles = {
     left                       : '120px',
     right                      : '120px',
     bottom                     : '120px',
-    border                     : '10px solid #3300CF',
+    border                     : '10px solid #05018f',
     background                 : '#fff',
     overflow                   : 'auto',
     WebkitOverflowScrolling    : 'touch',
