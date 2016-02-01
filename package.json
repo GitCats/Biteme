@@ -51,6 +51,7 @@
     "react-addons-transition-group": "^0.14.6",
     "react-addons-update": "^0.14.6",
     "react-bootstrap": "^0.28.2",
+    "react-count-down": "^1.0.1",
     "react-datetime": "^2.0.2",
     "react-dom": "^0.14.6",
     "react-gmaps": "^1.2.2",

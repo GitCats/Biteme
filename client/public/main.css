@@ -47,6 +47,10 @@ body {
   border-radius: 15px;
 }
 
+.deal:hover {
+  box-shadow: 6px 6px 6px #05018f;
+}
+
 .dealExpiration {
   font-family: Helvetica;
   font-weight: bold;
@@ -181,6 +185,3 @@ color: #050091;
   color: 07008f;
   border-radius: 5px;
 }
-
-
-

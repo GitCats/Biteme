@@ -70,6 +70,14 @@ var Map = React.createClass({
 				lat: latlng.lat(),
 				lng: latlng.lng()
 			})
+			map.drawRoute({
+				origin: [30.268866, -97.740456],
+				destination: [30.268671, -97.740950],
+				travelMode: 'driving',
+				strokeColor: '#131540',
+				strokeOpacity: 0.6,
+				strokeWeight: 6
+			});
 		}
 		});
 	},
