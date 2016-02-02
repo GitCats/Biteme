@@ -106,7 +106,7 @@ Owner.matchRestaurants = function(body){
   .where('restaurants.restaurant_id', id)
   .join('res_prefs', 'restaurants.restaurant_id', '=', 'res_prefs.restaurant_id')
   .leftJoin('users', 'res_prefs.user_id', '=', 'users.user_id')
-  .select('users.phone', 'users.email', 'restaurants.name');
+  .select('users.phone', 'users.email', 'users.phone_notify', 'users.email_notify', 'restaurants.name');
 }
 
 // Owner.matchCuisines = function(body) {
