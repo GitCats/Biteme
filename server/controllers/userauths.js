@@ -21,9 +21,9 @@ router.post('/signin', function (req, res) {
      	res.status(400).send({reason: "Password incorrect"});
 		}
 	})
-  // .catch(function(err){
-  //   res.status(400).send({reason: "User not found"});
-  // });
+  .catch(function(err){
+    res.status(400).send({reason: "User not found"});
+  });
 });
 
 //SIGN UP (POST)
