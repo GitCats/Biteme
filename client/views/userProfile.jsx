@@ -64,7 +64,7 @@ var RadioButton = React.createClass({
   render: function() {
     return (
       <p style={{display: "inline", marginRight: 30}}>
-        {this.props.commdevice}
+        {this.props.commdevice}&nbsp;
         <input type="checkbox" checked={this.props.OnOff} onChange={this.handleChange} />
       </p>
     );
@@ -155,6 +155,7 @@ var PhoneForm = React.createClass({
         <p>(Please include area code)</p>
         <form onSubmit={this.handleSubmit}>
           <input type="text" placeholder="+15121234567" value={this.state.number} onChange={this.handleNumberChange} />
+          <p style={{display: "inline", margin: 30}}></p>
           <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Phone"} key={1} OnOff={this.props.phoneOnOff} />
           <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Email"} key={2} OnOff={this.props.emailOnOff} />
           <input type="submit" value="Save Changes" />
@@ -279,6 +280,7 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": changes},
       success: function(data) {
+        alert("You're changes have been saved!");
         this.setState({cuisineViewAltered: false});
         this.setState({cuisineChanges: {}});
       }.bind(this),
@@ -298,6 +300,7 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": changes},
       success: function(data) {
+        alert("You're changes have been saved!");
         this.setState({resViewAltered: false});
         this.setState({restaurantChanges: {}});
       }.bind(this),
@@ -369,6 +372,7 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": sending},
       success: function(data) {
+        alert("You're changes have been saved!");
         console.log('return data from phone', data);
       }.bind(this),
       error: function(xhr, status, err) {
@@ -412,8 +416,8 @@ var UserProfile = React.createClass({
         <div className="userprefs">
           <h2>Hello {user}</h2>
           <PhoneForm submitphone={this.handlePhoneChange} onRadioChange={this.handleRadioChange} phoneOnOff={this.state.phoneOnOff} emailOnOff={this.state.emailOnOff}/>
-          <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
           <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
+          <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
         </div>
       );
     } else {
