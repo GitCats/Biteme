@@ -65,7 +65,7 @@ Owner.expiresIn = function(numMs) {
   return dateObj.setTime(dateObj.getTime() + numMs);
 }
 
-Owner.getProfile = function(url){
+Owner.getProfile = function(url){ 
 	var id = url.substr(url.lastIndexOf("/")+1);
 	return db('restaurants')
 	.where('restaurant_id', id)
