@@ -1,4 +1,4 @@
-var $ = require('jquery');
+var React = require('react');
 var Link = require('react-router').Link;
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
@@ -77,7 +77,7 @@ var CuisineForm = React.createClass({
 
     return (
     <div className="cuisineform">
-      <h3>Get udpates for these cuisines:</h3>
+      <h3>Get updates for these cuisines:</h3>
       <form onSubmit={this.handleSubmit}>
         {options}
         <input type="submit" value="Save Changes" className="cuisineButton" />
@@ -151,6 +151,10 @@ var PhoneForm = React.createClass({
 });
 
 var UserProfile = React.createClass({
+
+  componentWillMount: function() {
+    window.linkState = false;
+  },
 
   loadCuisinesFromServer: function() {
     var user_id = localStorage.getItem("user_id");
@@ -355,6 +359,7 @@ var UserProfile = React.createClass({
   // onChangeSubmit={this.handleCuisinesChange}
   render: function() {
     if (localStorage.getItem("token") && localStorage.getItem("user_id") !== "undefined") {
+      localStorage.setItem("dontShowUserLink", true);
       var user = localStorage.getItem("user");
       return (
         <div className="userprefs">
@@ -367,7 +372,7 @@ var UserProfile = React.createClass({
     } else {
       return (
       <div className="userprefs">
-        <h1>YOU ARE NOT LOGGED IN AS A USER. STOP HACKING</h1>
+        <h1>YOU ARE NOT LOGGED IN AS A USER. STOP HACKING.</h1>
         <p className="text" >
         If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
         </p>

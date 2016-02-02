@@ -1,7 +1,7 @@
-var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('react-modal');
+var Link = require('react-router').Link;
 
 /*
 By default the modal is anchored to document.body. All of the following overrides are available.
@@ -25,6 +25,40 @@ const customStyles = {
   }
 };
 
+
+var Auth = React.createClass({
+
+  render: function() {
+    return (
+      <div>
+        <br/>
+        <div id="userAuth">
+          <UserSignup userAuth={this.props.userAuth} 
+                      setUserAuthState={this.props.setUserAuthState} 
+                      history={this.props.history} />
+          <UserLogin  userAuth={this.props.userAuth} 
+                      setUserAuthState={this.props.setUserAuthState} 
+                      history={this.props.history} />
+        </div>
+        <div id="ownerAuth">
+          <OwnerSignup ownerAuth={this.props.ownerAuth} />
+          <OwnerLogin ownerAuth={this.props.ownerAuth} 
+                      setOwnerAuthState={this.props.setOwnerAuthState}
+                      history={this.props.history} />
+        </div>
+        <div id="Links">
+          <Links userLink={this.props.userLink} 
+                 ownerLink={this.props.ownerLink} 
+                 undoLink={this.props.undoLink} />
+        </div>
+        <div id="logout">
+          <Logout logoutLink={this.props.logoutLink} 
+                  setLogoutUpdate={this.props.setLogoutUpdate} />
+        </div>
+      </div>
+    )
+  }
+});
 
 var UserSignup = React.createClass({
 
@@ -69,7 +103,8 @@ var UserSignup = React.createClass({
         localStorage.setItem("expires", response.expires);
         console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
-        window.location = '#userprofile';
+        this.props.setUserAuthState();
+        this.props.history.push('/userprofile');
       }.bind(this),
       error: function(xhr, status, err) {
         console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
@@ -80,34 +115,40 @@ var UserSignup = React.createClass({
   },
 
   render: function() {
-    return (
-      <span>
-        <a onClick={this.openModal}>Sign Up</a>
-        <Modal
-          isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
-          onRequestClose={this.closeModal}  //native to react-modal
-          style={customStyles} >
-          <br/>
-          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
-          <br/>
-          <h2>Sign Up for Notifications</h2>
-          <form className='signupForm' onSubmit={this.signUp}>
-            Email: <input
-                    className='email'
-                    value={this.state.email}
-                    onChange={this.handleEmailChange}
-                    /><br/>
-            Password: <input
-                      className='password'
-                      value={this.state.password}
-                      onChange={this.handlePasswordChange}
-                      type='password'
-                      /><br/><br/>
-            <input type='submit' value='Sign Up' /><br/><br/>
-          </form>
-        </Modal>
-      </span>
-    );
+    if (this.props.userAuth) {
+      return (
+        <span>
+          Care to filter by preferences? <a onClick={this.openModal}>Sign Up</a>
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onRequestClose={this.closeModal}
+            style={customStyles} >
+            <br/>
+            <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+            <br/>
+            <h2>Sign Up for Notifications</h2>
+            <form className='signupForm' onSubmit={this.signUp}>
+              Email: <input
+                      className='email'
+                      value={this.state.email}
+                      onChange={this.handleEmailChange}
+                      /><br/>
+              Password: <input
+                        className='password'
+                        value={this.state.password}
+                        onChange={this.handlePasswordChange}
+                        type='password'
+                        /><br/><br/>
+              <input type='submit' value='Sign Up' /><br/><br/>
+            </form>
+          </Modal>
+        </span>
+      )
+    } else {
+      return (
+        <span />
+      )
+    }
   }
 });
 
@@ -154,7 +195,8 @@ var UserLogin = React.createClass({
         localStorage.setItem("token", response.token);
         localStorage.setItem("expires", response.expires);
         this.closeModal();
-        window.location = '#userprofile';
+        this.props.setUserAuthState();
+        this.props.history.push('/userprofile');
       }.bind(this),
       error: function(xhr, status, err) {
         console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
@@ -165,38 +207,44 @@ var UserLogin = React.createClass({
   },
 
   render: function() {
-    return (
-      <span>
-        <a onClick={this.openModal}>Sign In</a>
-        <Modal
-          isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
-          onRequestClose={this.closeModal}  //native to react-modal
-          style={customStyles} >
-          <br/>
-          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
-          <br/>
-          <h2>Log In to Manage Notifications</h2>
-          <form className='loginForm' onSubmit={this.login}>
-            Email: <input
-                    className='email'
-                    value={this.state.email}
-                    onChange={this.handleEmailChange}
-                    /><br/>
-            Password: <input
-                      className='password'
-                      value={this.state.password}
-                      type='password'
-                      onChange={this.handlePasswordChange}
-                      /><br/><br/>
-            <input type='submit' value='Log In' /><br/><br/>
-          </form>
-        </Modal>
-      </span>
-    );
+    if (this.props.userAuth) {
+      return (
+        <span>
+          {" "}or <a onClick={this.openModal}>Sign In</a>
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onRequestClose={this.closeModal}
+            style={customStyles} >
+            <br/>
+            <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+            <br/>
+            <h2>Log In to Manage Notifications</h2>
+            <form className='loginForm' onSubmit={this.login}>
+              Email: <input
+                      className='email'
+                      value={this.state.email}
+                      onChange={this.handleEmailChange}
+                      /><br/>
+              Password: <input
+                        className='password'
+                        value={this.state.password}
+                        type='password'
+                        onChange={this.handlePasswordChange}
+                        /><br/><br/>
+              <input type='submit' value='Log In' /><br/><br/>
+            </form>
+          </Modal>
+        </span>
+      )
+    } else {
+      return (
+        <span />
+      )
+    }
   }
 });
 
-var OwnerSignup = React.createClass({   //Prompt only, no AJAX request
+var OwnerSignup = React.createClass({   //Prompt only, no AJAX request.
 
   getInitialState: function() {
     return { modalIsOpen: false };
@@ -211,18 +259,24 @@ var OwnerSignup = React.createClass({   //Prompt only, no AJAX request
   },
 
   render: function() {
-    return (
-      <span>
-        <a onClick={this.openModal}>Sign Up</a>
-        <Modal
-          isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
-          onRequestClose={this.closeModal}  //native to react-modal
-          style={customStyles} >
-          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
-          <h2>Call us at (512)-555-5555 to register an account.</h2>
-        </Modal>
-      </span>
-    );
+    if (this.props.ownerAuth) {
+      return (
+        <span>
+          Restaurant Owner? <a onClick={this.openModal}>Sign Up</a>
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onRequestClose={this.closeModal}
+            style={customStyles} >
+            <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+            <h2>Call us at (512)-555-5555 to register an account.</h2>
+          </Modal>
+        </span>
+      )
+    } else {
+      return (
+        <span />
+      )
+    }
   }
 });
 
@@ -263,7 +317,6 @@ var OwnerLogin = React.createClass({
       type: 'POST',
       data: ownerLoginRequest,
       success: function(res) {
-        console.log("Owner Login Response:", res);
         var response = JSON.parse(res);
         localStorage.setItem("user", ownerLoginRequest.username);
         localStorage.setItem("restaurant_id", response.restaurant_id);
@@ -271,7 +324,8 @@ var OwnerLogin = React.createClass({
         localStorage.setItem("expires", response.expires);
         console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
-        window.location = '#ownerprofile';
+        this.props.setOwnerAuthState();
+        this.props.history.push('/ownerprofile');
       }.bind(this),
       error: function(xhr, status, err) {
         console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
@@ -282,12 +336,13 @@ var OwnerLogin = React.createClass({
   },
 
   render: function() {
-    return (
-      <span>
-        <a onClick={this.openModal}>Sign In</a>
+    if (this.props.ownerAuth) {
+      return (
+        <span>
+        {" "}or <a onClick={this.openModal}>Sign In</a>
         <Modal
-          isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
-          onRequestClose={this.closeModal}  //native to react-modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
           style={customStyles} >
           <br/>
           <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
@@ -306,16 +361,56 @@ var OwnerLogin = React.createClass({
                       onChange={this.handlePasswordChange}
                       /><br/><br/>
             <input type='submit' value='Log In' /><br/><br/>
-          </form>
-        </Modal>
-      </span>
-    );
+            </form>
+          </Modal>
+        </span>
+      )
+    } else {
+      return (
+        <span />
+      )
+    }
   }
 });
 
-module.exports.signup = UserSignup;
-module.exports.login = UserLogin;
-module.exports.ownerSignup = OwnerSignup;
-module.exports.ownerLogin = OwnerLogin;
+var Links = React.createClass({
 
+  render: function() {
+    if (this.props.ownerLink && !this.props.userLink) {
+      return (
+        <Link to="/ownerprofile" onClick={this.props.undoLink}>Restaurant Profile</Link>
+      )
+    } else if (this.props.userLink && !this.props.ownerLink) {
+      return (
+        <Link to="/userprofile" onClick={this.props.undoLink}>Go to Notification Preferences</Link>
+      )
+    } else {
+      return (
+        <span />
+      )
+    }
+  }
+});
+
+var Logout = React.createClass({
+
+  signout: function() {
+    localStorage.clear();
+    this.props.setLogoutUpdate();
+  },
+
+  render: function() {
+    if (this.props.logoutLink) {
+      return (
+        <Link to='/' onClick={this.signout}>Logout</Link>
+      )
+    } else {
+      return (
+        <span />
+      )
+    }
+  }
+});
+
+module.exports.auth = Auth;
 

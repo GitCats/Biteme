@@ -1,7 +1,7 @@
-var express = require('express')
+var express = require('express');
 var Deal = require('../models/deal.js');
 var bodyParser = require('body-parser');
-var http = require('https')
+var http = require('https');
 
 var router = express.Router();
 module.exports = router;

@@ -95,12 +95,11 @@ Owner.updatePassword = function(body){
 	.update('password', Owner.generateHash(body.password));
 }
 
+//This should be changed to simply clear the jwt token from the db then linked to
+//an AJAX request from the logout button
 Owner.logout = function(){
 	// $window.localStorage.removeItem('jwtToken');
 	$window.localStorage.delete();
 }
 
-//body will be {"restaurant_id": 1, "cuisine_id": 7,
-//"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg",
-//"description": "World Famous Barbecue", "url": "www.franklinbarbecue.com", "address": "900 East 11th Street, Austin, TX"}
 

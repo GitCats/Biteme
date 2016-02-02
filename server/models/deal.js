@@ -1,8 +1,6 @@
 var db = require('../db/index.js');
-var $ = require('jquery')
-var http = require('https')
 
-var Deal = module.exports
+var Deal = module.exports;
 
 //this function grabs all the deals from the database
 //it should also sort to remove expired deals before returning

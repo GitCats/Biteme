@@ -15,8 +15,8 @@ routes.use(express.static(assetFolder))
 
 //Get browserify file:
 routes.get('/app-bundle.js',
-// Tell browserify to use reactify as it's JSX compiler
 browserify('./client/app.js', {
+// Tell browserify to use reactify as it's JSX compiler (JSX => JS conversion)
   transform: [require('reactify')]
 }))
 
@@ -39,7 +39,7 @@ app.use(require('body-parser').urlencoded({
   //middleware - executes on any client and server interaction trade
   //marks the request and time on console
 app.use(morgan('dev'));
-app.use('/', routes)
+app.use('/', routes);
 app.set('jwtTokenSecret', 'YOUR_SECRET_STRING');
 
 // Start the server!

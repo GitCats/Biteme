@@ -1,3 +1,5 @@
+var React = require('react');
+
 var YelpBox = React.createClass({ 
 	getInitialState: function() {
 		return { data: [] }

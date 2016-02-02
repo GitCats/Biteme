@@ -2,7 +2,9 @@ body {
   margin: 0px;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
-  background-color: #000;
+  background-image: url(../assets/Blue-Ray-Background.jpg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
  }
 
 .bluePlateLogo {
@@ -11,6 +13,14 @@ body {
   margin-right: auto;
   position: relative;
   display: block;
+}
+
+a, .deal {
+  cursor: pointer;
+}
+
+h1 {
+  text-align: center;
 }
 
 /*** MAIN PAGE - ALL DEALS ***/
@@ -73,19 +83,27 @@ body {
   height: 500px;
 }
 
-.auth {
+#userAuth {
   text-align: center;
-  background-color: white;
+  /*background-color: white;*/
   color: black;
 }
 
-.ownerAuth{
+#ownerAuth {
   text-align: center;
-  background-color: white;
+  /*background-color: white;*/
   color: black;
+}
+
+#logout {
+  text-align: center;
 }
 
 .text {
+  text-align: center;
+}
+
+#Links {
   text-align: center;
 }
 
@@ -119,7 +137,7 @@ color: #050091;
 }
 
 .dealBox {
-  background-color: white;
+  /*background-color: white;*/
   color: black;
   padding-bottom: 5px;
   padding-top: 5px;
@@ -142,5 +160,13 @@ color: #050091;
   margin: 14px 0 0 5px;
   border: 1px solid #286090;
   border-radius: 8px;
+}
+
+#top {
+  display: inline-block;
+  width: 10%;
+  margin-left: 45.5%;
+  color: pink;
+  text-align: center;
 }
 
