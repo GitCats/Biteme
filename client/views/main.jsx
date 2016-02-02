@@ -66,6 +66,18 @@ var App = React.createClass({
   render: function() {
     return (
       <div className='logoDiv'>
+      <nav class="navbar navbar-default navbar-static-top">
+          <div class="container">
+
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><Link to='/'>Home</Link></li>
+                <li><Link to='/'>Sign Up</Link></li>
+                <li><Link to='/'>Log In</Link></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
         <br/>
         <div id='auth'>
           <Auth  userAuth={this.state.userAuth} 

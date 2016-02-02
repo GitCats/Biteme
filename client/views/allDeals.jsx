@@ -5,7 +5,6 @@ var Modal = require('react-modal');
 var Maps = require('react-google-maps');
 var Map = require('./map.jsx');
 var Yelp = require('./yelpinfo.jsx');
-var SingleDeal = require('./singleDeal.jsx');
 var CountdownTimer = require('./timer.jsx');
 
 
@@ -293,6 +292,7 @@ var DealList = React.createClass({
       startLat: '',
       startLon: '',
       destinations: '',
+      startingPoint: '',
       updateCuisineId: function(id) {
         this.setState({ cuisine_id: id})
       },
@@ -371,6 +371,7 @@ var DealList = React.createClass({
   },
 
  filterByProximity: function(startingPoint) {
+  console.log('sp', startingPoint)
   this.setState({ startingPoint: startingPoint })
 
   var array = [];
@@ -418,7 +419,7 @@ var DealList = React.createClass({
         console.log('Error:', err)
       }.bind(this)
     })
-
+    var startingPointLat;
     GMaps.geocode({
       address: startingPoint,
       callback: function(results, status) {
@@ -428,7 +429,7 @@ var DealList = React.createClass({
         if(status === 'OK') {
           startingPoint = results[0].geometry.location;
         }
-        var startingPointLat = startingPoint.lat();
+        startingPointLat = startingPoint.lat();
         var startingPointLon = startingPoint.lng();
       }
     })
@@ -475,9 +476,11 @@ var DealList = React.createClass({
         return false;
       }
     }
-
+    var startingPoint = this.state.startingPoint;
     var startingPointLat = this.state.startingPointLat;
     var startingPointLon = this.state.startingPointLon;
+    console.log('deallat', startingPointLat)
+    console.log('props', this.props)
     
     var dealNodes = dealsToUse.map(function(deal) {
       return (
@@ -497,7 +500,8 @@ var DealList = React.createClass({
               key={deal.deal_id}
               distance={deal.distance}
               startingPointLat={startingPointLat}
-              startingPointLon={startingPointLon} >
+              startingPointLon={startingPointLon}
+              startingPoint={startingPoint} >
         </Deal>
       );
     });
@@ -573,10 +577,8 @@ var ExpirationDropdown = React.createClass({
 
 var SearchBar = React.createClass({
    filterByProximity: function(e) {
-    // console.log('here')
     e.preventDefault();
     var startingPoint = $('#address').val()
-    // console.log(startingPoint)
     this.props.filterByProximity(startingPoint)
   },
 

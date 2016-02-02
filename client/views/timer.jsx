@@ -1,25 +1,5 @@
 var React = require('react');
 
-// Generic Countdown Timer UI component
-//
-// https://github.com/uken/react-countdown-timer
-//
-// props:
-//   - initialTimeRemaining: Number
-//       The time remaining for the countdown (in ms).
-//
-//   - interval: Number (optional -- default: 1000ms)
-//       The time between timer ticks (in ms).
-//
-//   - formatFunc(timeRemaining): Function (optional)
-//       A function that formats the timeRemaining.
-//
-//   - tickCallback(timeRemaining): Function (optional)
-//       A function to call each tick.
-//
-//   - completeCallback(): Function (optional)
-//       A function to call when the countdown completes.
-//
 var CountdownTimer = React.createClass({
   displayName: 'CountdownTimer',
 
@@ -40,8 +20,6 @@ var CountdownTimer = React.createClass({
   },
 
   getInitialState: function() {
-    // Normally an anti-pattern to use this.props in getInitialState,
-    // but these are all initializations (not an anti-pattern).
 
     var expHour;
     var expMin;
@@ -56,11 +34,8 @@ var CountdownTimer = React.createClass({
     console.log('expiration', this.props.expiration)
     //milliseconds of when deal will expire
     var date = +new Date(this.props.year, this.props.month-1, this.props.day, expHour, expMin, 59)
-    console.log('date', date)
     var todayinMS = Date.now()
-    console.log('todayinms', todayinMS)
     var timeLeft = date - todayinMS;
-    console.log('timeleft', timeLeft)
     return {
       timeRemaining: timeLeft,
       timeoutId: null,
@@ -126,7 +101,6 @@ var CountdownTimer = React.createClass({
     if (this.props.formatFunc) {
       return this.props.formatFunc(milliseconds);
     }
-    console.log('ms', milliseconds)
     var totalSeconds = Math.round(milliseconds / 1000);
 
     var seconds = parseInt(totalSeconds % 60, 10);
@@ -136,9 +110,6 @@ var CountdownTimer = React.createClass({
     seconds = seconds < 10 ? '0' + seconds : seconds;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     hours = hours < 10 ? '0' + hours : hours;
-    console.log('seconds', seconds)
-    console.log('minutes', minutes)
-    console.log('hours', hours)
     return hours + ':' + minutes + ':' + seconds;
   },
 

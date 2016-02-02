@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/GitCats/BluePlate"
   },
-  "author": "Salman Oskooi <soskooi@gmail.com>, Kayla Handy <>, Kayla Matteo <kaylamatteo@gmail.com>, Garrett Brustkern <gbrustkern@gmail.com>",
+  "author": "Salman Oskooi <soskooi@gmail.com>, Kayla Handy <kayla.j.handy@gmail.com>, Kayla Matteo <kaylamatteo@gmail.com>, Garrett Brustkern <gbrustkern@gmail.com>",
   "license": "CC-BY-4.0",
   "homepage": "https://github.com/GitCats/BluePlate#readme",
   "bugs": {
@@ -49,11 +49,6 @@
     "react-addons-shallow-compare": "^0.14.6",
     "react-addons-transition-group": "^0.14.6",
     "react-addons-update": "^0.14.6",
-<<<<<<< HEAD
-    "react-bootstrap": "^0.28.2",
-    "react-count-down": "^1.0.1",
-=======
->>>>>>> f4878e5287522630f2c4ad07f56c6314413edca1
     "react-datetime": "^2.0.2",
     "react-dom": "^0.14.6",
     "react-gmaps": "^1.2.2",

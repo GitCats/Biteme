@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
   margin: 0px;
   padding: 0px;
@@ -238,7 +239,6 @@ color: #050091;
 /* DROPDOWNS */
 
 .filterByExpiration select {
-  background-color: #05018f;
   width: 200px;
   height: 25px;
   font-color: white;
@@ -248,4 +248,5 @@ color: #050091;
   font-color: green;
   background-color: white;
 }
+
 
