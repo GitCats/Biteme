@@ -1,13 +1,8 @@
-//might not need all of these - only $ react, reactdom, auth, link from SO
-var $ = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
-// var Router = require('react-router').Router;
-// var Route = require('react-router').Route;
-// var IndexRoute = require('react-router').IndexRoute;
 var Link = require('react-router').Link;
 var Modal = require('react-modal');
-// var Maps = require('google-maps')
+var Maps = require('react-google-maps');
 var Map = require('./map.jsx');
 var Yelp = require('./yelpinfo.jsx');
 var SingleDeal = require('./singleDeal.jsx');
@@ -31,7 +26,7 @@ var Deal = React.createClass({
 
   render: function() {
 
-    //formatting date 
+    //formatting date
     var calendarMonths = {
       1: 'January',
       2: 'February',
@@ -46,18 +41,18 @@ var Deal = React.createClass({
       11: 'November',
       12: 'December'
     }
-    //getting the year. if the deal year is also the current year, won't display. If it's next year 
-    //(like if an owner puts in a deal in December for January), then it will display. 
+    //getting the year. if the deal year is also the current year, won't display. If it's next year
+    //(like if an owner puts in a deal in December for January), then it will display.
 
     //grab the current year
-    var currentYear = new Date().getFullYear(); 
+    var currentYear = new Date().getFullYear();
 
     var month = calendarMonths[this.props.month];
     if(this.props.year === currentYear) {
       var displayDate = month + ' ' + this.props.day;
     } else {
       var displayDate =  month + ' ' + this.props.day + ', ' + this.props.year;
-    } 
+    }
 
       //formatting time
       var num = this.props.expiration
@@ -80,7 +75,7 @@ var Deal = React.createClass({
             period = 'am'
           } else {
             period = 'pm'
-          } 
+          }
           if(hours === 00) {
             hours = 12;
           }
@@ -133,7 +128,7 @@ var Deal = React.createClass({
           </div>
           <span className='expiration'>Expiration</span>
           <div className="dealExpiration">
-            {displayTime}
+            <h3>{displayTime}</h3>
           </div>
           <div>
             {this.props.destination}
@@ -158,10 +153,10 @@ var Deal = React.createClass({
             </h3>
             <div className="restaurantName">
               {this.props.name}
-            </div> 
+            </div>
             <div className='resDescription'>
               {this.props.res_description}
-            </div> 
+            </div>
             <div className="dealUrl">
               <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
             </div>
@@ -324,17 +319,17 @@ var DealList = React.createClass({
 
   filterByExpiration: function(value) {
     //find milliseconds of today at midnight
-    var temptoday = new Date(); 
+    var temptoday = new Date();
     var year = temptoday.getFullYear();
     var month = temptoday.getMonth();
     var date = temptoday.getDate();
     var today = +new Date(year, month, date, 23, 59, 59)
 
     //find milliseconds of tomorrow at midnight
-    var tomorrowInMilliseconds = today + 86400000; 
+    var tomorrowInMilliseconds = today + 86400000;
 
     //find milliseconds of 7 days from now at midnight
-    var oneWeekInMilliseconds = today + 604800000; 
+    var oneWeekInMilliseconds = today + 604800000;
 
     //getting the time expiration of the deals
     var expHour;
@@ -397,7 +392,7 @@ var DealList = React.createClass({
   }
 
   var results;
-  $.ajax({ 
+  $.ajax({
       url: 'api/deals/filterByProximity',
       type: 'POST',
       data: data,
@@ -466,8 +461,20 @@ var DealList = React.createClass({
       }
     }
 
-    console.log('deals', dealsToUse)
-    console.log('state', this.state.startingPoint)
+    var verifyAddress = function(array) {
+      var count;
+      for(var i=0; i<array.length; i++) {
+        var regex = array[i];
+        if(address.test(regex)) {
+          count++;
+        }
+      }
+      if(count >=3) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     var startingPointLat = this.state.startingPointLat;
     var startingPointLon = this.state.startingPointLon;
@@ -545,7 +552,6 @@ var CuisineDropdown = React.createClass({
 });
 
 var ExpirationDropdown = React.createClass({
-
   selectExpiration: function(e) {
     var expirationDate = e.target.value;
     var exp = parseInt(expirationDate)
@@ -565,7 +571,7 @@ var ExpirationDropdown = React.createClass({
   }
 });
 
-var SearchBar = React.createClass({ 
+var SearchBar = React.createClass({
    filterByProximity: function(e) {
     // console.log('here')
     e.preventDefault();
@@ -609,6 +615,6 @@ const customStyles = {
 
 module.exports = AllDeals;
 
-//grab the input from the search bar
+//grab the address input from the search bar
 //call a function in deal list with that value
 //makes a call to distance api

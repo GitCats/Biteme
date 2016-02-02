@@ -1,12 +1,11 @@
-
-/* KAYLA'S CSS */
-
 body {
   margin: 0px;
   padding: 0px;
   font-family: 'Open Sans', sans-serif;
-  background-color: #000000;
-}
+  background-image: url(../assets/Blue-Ray-Background.jpg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+ }
 
 .bluePlateLogo {
   width: 33%;
@@ -26,6 +25,14 @@ body {
     background: linear-gradient(#05018f, #07FEFF); /* Standard syntax */
 }
 
+a, .deal {
+  cursor: pointer;
+}
+
+h1 {
+  text-align: center;
+}
+
 /*** MAIN PAGE - ALL DEALS ***/
 
 .dealList {
@@ -39,6 +46,8 @@ body {
   margin-left: 5px;
   width: 100%;
   height: 225px;
+  border: 2px solid #ddd;
+  border-radius: 5%;
   border: 2px solid #ddd;
   display: inline-block;
   display: flex;
@@ -54,6 +63,7 @@ body {
 .dealExpiration {
   font-family: Helvetica;
   font-weight: bold;
+<<<<<<< HEAD
   font-size: 32px;
   position: absolute;
   margin-left: 145px;
@@ -68,40 +78,53 @@ body {
 }
 
 .dealLogo {
-  margin-top: 10%;
-  margin-bottom: 25%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   max-width: 250px;
   max-height: 200px;
+}
+
+.resCheckBoxPic {
+  max-width: 150px;
+  max-height: 100px;
 }
 
 .dealInfoDiv {
   width: 50%;
   float: right;
-  padding: 5px 0px 0px 100px;
+  padding: 10px 5px 0px 10px;
   color: black;
   text-align: center;
   position: absolute;
   display: inline-block;
-} 
+}
 
 #map {
   width: 500px;
   height: 500px;
 }
 
-.auth {
+#userAuth {
   text-align: center;
-  background-color: white;
+  /*background-color: white;*/
   color: black;
 }
 
-.ownerAuth{
+#ownerAuth {
   text-align: center;
-  background-color: white;
+  /*background-color: white;*/
   color: black;
+}
+
+#logout {
+  text-align: center;
 }
 
 .text {
+  text-align: center;
+}
+
+#Links {
   text-align: center;
 }
 
@@ -115,7 +138,7 @@ color: #050091;
 }
 
 .dealDescription {
-  font-size: 25px;
+  font-size: 20px;
   margin-top: 10px;
 }
 
@@ -126,15 +149,16 @@ color: #050091;
 
 .today {
   display: block;
-/*  margin-top: 0px;
+  margin-top: 0px;
   margin-left: auto;
   margin-right: auto;
-  width: 33%;*/
+  width: 30%;
   font-size: 30px;
+  font-family: 'chalkboard';
 }
 
 .dealBox {
-  background-color: white;
+  /*background-color: white;*/
   color: black;
   padding-bottom: 5px;
   padding-top: 5px;
@@ -224,3 +248,4 @@ color: #050091;
   font-color: green;
   background-color: white;
 }
+

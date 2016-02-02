@@ -42,12 +42,11 @@ UserPref.updateRes = function(obj) {
 
 //this function will replace all of the values in the cuisine prefs table
 UserPref.updateCuis = function(obj) {
-	var ids = obj.cuisine_id;
+	var ids = obj["cuisine_id"];
 	var add = [];
 	var del = [];
 	for(var k in ids) {
 		if(ids[k] === 1){
-			console.log("ids[k]:", ids[k])
 			add.push({user_id: obj.user_id, cuisine_id: Number(k)});
 		} else {
 			del.push(Number(k))
@@ -59,4 +58,25 @@ UserPref.updateCuis = function(obj) {
 		.then(function() {
 			return db('cuisine_prefs').whereIn('cuisine_id', del).andWhere('user_id', obj.user_id).del()
 		})
+}
+
+UserPref.allRestaurants = function() {
+  return db('restaurants')
+    .select('name', 'restaurant_id', 'image_name')
+}
+
+UserPref.phone = function(body){
+	var phoneNum = body.phone;
+  var newPhone = '';
+  var counter = 0;
+  phoneNum.forEach(function(letter){
+    if(letter==='(' || letter===')' || letter==='-' || letter==='+'){}
+    else{newPhone += letter; counter++;}
+  });
+  if(counter===10){newPhone = '+1' + newPhone;}
+  else{newPhone = '+' + newPhone;}
+
+	return db('users')
+	.where('user_id', body.user_id)
+	.update('phone', newPhone)
 }

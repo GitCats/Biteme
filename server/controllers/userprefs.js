@@ -4,14 +4,13 @@ var UserPref = require('../models/userpref.js');
 var router = express.Router();
 module.exports = router;
 
-//POST stored preferences from database
+//Obtain stored preferences from database
 //and send them along with a 200 response
 router.post('/restaurants', function (req, res) {
 	console.log("req body: ", req.body)
 	UserPref.allRes(req.body.user_id)
 		.then(function(result){
-			res.send(result);
-			res.status(200);
+			res.status(200).send(result);
 		})
 })
 
@@ -27,18 +26,36 @@ router.post('/cuisines', function (req, res) {
 //(replaces previous data)
 //sends 201 status
 router.post('/updateRes', function(req, res){
-	UserPref.updateRes(req.body)
+	var reqParsed = JSON.parse(req.body["a"]);
+	console.log('this is parsed', reqParsed);
+	UserPref.updateRes(reqParsed)
 		.then(function(result){
-			res.sendStatus(201);
+			res.status(201).json({});
 		})
 })
 
-//POST to update stored cuisine preferences 
+//POST to update stored cuisine preferences
 //(replaces previous data)
 //sends 201 status
 router.post('/updateCuis', function(req, res){
-	UserPref.updateCuis(req.body)
+	var reqParsed = JSON.parse(req.body["a"]);
+	console.log('this is parsed', reqParsed);
+	UserPref.updateCuis(reqParsed)
 		.then(function(result){
-			res.sendStatus(201);
+			res.status(201).json({});
 		})
+})
+
+router.get('/allRestaurants', function(req, res){
+	UserPref.allRestaurants()
+		.then(function(result){
+			res.status(200).send(result);
+		})
+})
+
+router.post('/phone', function(req, res){
+	UserPref.phone(req.body)
+	.then(function(){
+		res.sendStatus(201);
+	})
 })

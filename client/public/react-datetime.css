@@ -10,7 +10,7 @@
 .rdtPicker {
   display: none;
   position: absolute;
-  width: 250px;
+  width: 240px;
   padding: 4px;
   margin-top: 1px;
   z-index: 99999 !important;
@@ -78,6 +78,10 @@
   background: none;
   color: #999999;
   cursor: not-allowed;
+}
+
+.rdtday {
+  cursor: pointer;
 }
 
 .rdtPicker td span.rdtOld {

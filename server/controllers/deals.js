@@ -1,7 +1,7 @@
-var express = require('express')
+var express = require('express');
 var Deal = require('../models/deal.js');
 var bodyParser = require('body-parser');
-var http = require('https')
+var http = require('https');
 
 var router = express.Router();
 module.exports = router;
@@ -20,7 +20,7 @@ router.get('/getAll', function (req, res) {
 router.post('/update', function(req, res){
   Deal.update(req.body)
     .then(function(result){
-      res.status(200).send(data);
+      res.status(200).send(result);
     })
 })
 
