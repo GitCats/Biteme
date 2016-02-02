@@ -1,0 +1,226 @@
+
+/* KAYLA'S CSS */
+
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #000000;
+}
+
+.bluePlateLogo {
+  width: 33%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: block;
+  height: 300px;
+  width: 350px;
+}
+
+.logoDiv {
+  background: red; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#05018f, #07FEFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#05018f, #07FEFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#05018f, #07FEFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#05018f, #07FEFF); /* Standard syntax */
+}
+
+/*** MAIN PAGE - ALL DEALS ***/
+
+.dealList {
+  width: 80%;
+  margin: auto;
+}
+
+.deal {
+  margin: 12px auto;
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 100%;
+  height: 225px;
+  border: 2px solid #ddd;
+  display: inline-block;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 5px 5px 5px #666;
+  border-radius: 15px;
+}
+
+.deal:hover {
+  box-shadow: 6px 6px 6px #05018f;
+}
+
+.dealExpiration {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 32px;
+  position: absolute;
+  margin-left: 145px;
+  margin-top: 50px;
+  color: #07008F;
+}
+
+.dealLogoDiv {
+  width: 175px;
+  height: 125px;
+  position: absolute;
+}
+
+.dealLogo {
+  margin-top: 10%;
+  margin-bottom: 25%;
+  max-width: 250px;
+  max-height: 200px;
+}
+
+.dealInfoDiv {
+  width: 50%;
+  float: right;
+  padding: 5px 0px 0px 100px;
+  color: black;
+  text-align: center;
+  position: absolute;
+  display: inline-block;
+} 
+
+#map {
+  width: 500px;
+  height: 500px;
+}
+
+.auth {
+  text-align: center;
+  background-color: white;
+  color: black;
+}
+
+.ownerAuth{
+  text-align: center;
+  background-color: white;
+  color: black;
+}
+
+.text {
+  text-align: center;
+}
+
+.links {
+color: #050091;
+}
+
+.deal {
+  width: 48% !important;
+  margin: 7px;
+}
+
+.dealDescription {
+  font-size: 25px;
+  margin-top: 10px;
+}
+
+.dropdown {
+  margin-left: 40%;
+  color: black;
+}
+
+.today {
+  display: block;
+/*  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 33%;*/
+  font-size: 30px;
+}
+
+.dealBox {
+  background-color: white;
+  color: black;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+
+.navbar-default {
+  background-color: #2e3192;
+  background-image: none;
+  border: none;
+}
+
+#navbar ul {
+  padding-top: 20px;
+}
+#navbar li {
+  list-style: none;
+  display: inline;
+  padding-top: 120px;
+}
+
+#navbar li a {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 10px;
+}
+
+#navbar li a:hover {
+  background-color: white;
+  color: 07008f;
+  border-radius: 5px;
+}
+
+.expiration {
+  display: block;
+  position: absolute;
+  padding-top: 88px;
+  padding-left: 85px;
+  font-family: Arial;
+}
+
+.dealAddress {
+  font-family: Arial;
+  font-size: 16px;
+  font-color: gray;
+}
+
+.dealUrl {
+  font-family: Arial;
+  font-size: 16px;
+}
+
+/* SINGLE DEAL MODAL */
+
+.singleDealLogo {
+  max-width: 250px;
+  max-height: 250px;
+  padding-top: -125px;
+}
+
+.singleDealLogoDiv {
+  height: 50px;
+}
+
+.singleDealInfoDiv {
+  position: relative;
+  float: right;
+}
+
+/* DROPDOWNS */
+
+.filterByExpiration select {
+  background-color: #05018f;
+  width: 200px;
+  height: 25px;
+  font-color: white;
+}
+
+.expirationButton {
+  font-color: green;
+  background-color: white;
+}
