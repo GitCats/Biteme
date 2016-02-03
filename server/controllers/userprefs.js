@@ -36,7 +36,6 @@ router.post('/updateRes', function(req, res){
 //sends 201 status
 router.post('/updateCuis', function(req, res){
 	var reqParsed = JSON.parse(req.body["a"]);
-	console.log('this is parsed', reqParsed);
 	UserPref.updateCuis(reqParsed)
 		.then(function(result){
 			res.status(201).json({});
@@ -62,9 +61,17 @@ router.get('/allRestaurants', function(req, res){
 })
 
 router.post('/phone', function(req, res){
-	UserPref.phone(req.body)
+	var reqParsed = JSON.parse(req.body["a"]);
+	UserPref.phone(reqParsed)
 	.then(function(){
-		res.sendStatus(201);
+		res.status(201).json({});
+	})
+})
+
+router.post('/notifications', function(req, res){
+	UserPref.notifications(req.body)
+	.then(function(result){
+		res.status(200).send(result);
 	})
 })
 
