@@ -71,7 +71,6 @@ router.post('/create', function (req, res) {
 	Owner.create(req.body).then(function() {
 		Owner.matchRestaurants(req.body).then(function(data){
 			//data that comes back is an array of objects with only one property, the user phone number\
-			console.log('data from create', data);
 			data.forEach(function(val){
 				var num = val.phone;
 				var email = val.email;
