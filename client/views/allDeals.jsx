@@ -143,38 +143,42 @@ var Deal = React.createClass({
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={customStyles} >
-          <div className="singleDealLogoDiv">
-            <img src={this.props.image_name} className="singleDealLogo" />
-          </div>
-          <div className="singleDealInfoDiv">
-            <h3 className="singleDealDescription">
-              {this.props.description}
-            </h3>
-            <div className="restaurantName">
-              {this.props.name}
-            </div>
-            <div className='resDescription'>
-              {this.props.res_description}
-            </div>
-            <div className="dealUrl">
-              <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
-            </div>
-            <div className="dealAddress">
-              {this.props.address.split(',', 1)}
-            </div>
-            <div className="cuisineType">
-              {displayCuisine}
-            </div>
-            <div className="dealDate">
-              {displayDate}
-            </div>
-            <div className="dealExpiration">
-              {displayTime}
-            </div>
+            <div className="singleDeal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <div className="singleDealInfoDiv">
+              <img src={this.props.image_name} className="singleDealLogo" />
+              <h3 className="singleDealDescription">
+                {this.props.description}
+              </h3>
+              <div className='singleDealMetaData'>
+              <div className="restaurantName">
+                {this.props.name}
+              </div>
+              <span className='singleCuisine'>Cuisine: </span>
+              <span className="cuisineType">
+                {displayCuisine}
+              </span>
+              <div className="dealUrl">
+                <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
+              </div>
+              <div className="dealAddress">
+                {this.props.address.split(',', 1)}
+              </div>
+              </div>
+              <Yelp {...this.props} />
+              </div>
+            <div className="singleDealExpDiv">
             <Map {...this.props} />
-            <Yelp {...this.props} />
+            <span className='singleExpiration'>Expiration: </span>
+              <span className="dealDate">
+                {displayDate}
+              </span>
+              <span> at </span>
+              <span className="singleDealExpiration">
+                {displayTime}
+              </span>
             <CountdownTimer {...this.props} />
-          </div>
+            </div>
+           </div> 
         </Modal>
       </div>
     );
@@ -588,19 +592,17 @@ var SearchBar = React.createClass({
 
 const customStyles = {
    overlay : {
-    position          : 'fixed',
+    position: 'fixed',
     opacity: '30%'
   },
   content : {
     position                   : 'absolute',
-    top                        : '120px',
-    left                       : '120px',
-    right                      : '120px',
-    bottom                     : '120px',
+    top                        : '100px',
+    left                       : '250px',
+    right                      : '250px',
+    bottom                     : '150px',
     border                     : '10px solid #05018f',
     background                 : '#fff',
-    overflow                   : 'auto',
-    WebkitOverflowScrolling    : 'touch',
     borderRadius               : '4px',
     outline                    : 'none',
     padding                    : '50px'
