@@ -31,10 +31,15 @@ Auth.signup = function(body){
 Auth.create = function(body){
 	var newUser = body.email;
 	var newPass = body.password;
-	return db('users').insert({email: newUser, password: Auth.generateHash(newPass)});
+	return db('users').insert({email: newUser, password: Auth.generateHash(newPass), phone_notify: 'no', email_notify: 'no'})
+  .then(function(){
+    return db('users')
+    .where('email', newUser)
+    .select('user_id');
+  });
 }
 
-Auth.genToken = function(user) {
+Auth.genToken = function(user, id) {
   var expires = Auth.expiresIn(7); // 7 days
   var token = jwt.encode({
     exp: expires
@@ -43,7 +48,8 @@ Auth.genToken = function(user) {
   return {
     token: token,
     expires: expires,
-    user: user
+    user: user,
+    id: id
   };
 }
 

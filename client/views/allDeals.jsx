@@ -127,7 +127,7 @@ var Deal = React.createClass({
           </div>
           <span className='expiration'>Expiration</span>
           <div className="dealExpiration">
-            <h3>{displayTime}</h3>
+            <h4>{displayTime}</h4>
           </div>
           <div>
             {this.props.destination}

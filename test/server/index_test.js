@@ -19,13 +19,13 @@ describe("The Server", function(){
     })
   })
 
+ var deal_id; //this will be used later to delete a deal
   describe('Deals', function(){
-    var deal_id; //this will be used later to delete a deal
     it_('successfully posts a new deal', function * (){
 
       yield request(app)
         .post('/api/owner/create')
-        .send({"restaurant_id": 1, "description": "the sweetest deal ever - testing", "expiration": 2200, "month": 1, "day": 23, "year": 2016})
+        .send({"restaurant_id": 1, "description": "the sweetest deal ever - testing", "expiration": 2200, "month": 5, "day": 23, "year": 2016})
         .expect(201)
 
       yield request(app)
@@ -40,15 +40,32 @@ describe("The Server", function(){
           expect(target).to.have.property('description', 'the sweetest deal ever - testing')
         })
     })
+  })
 
-    it('will delete a deal', function(){
-      return request(app)
-      .post('/api/deals/delete')
-      .send({deal_id: deal_id})
-      .expect(200)
-      .expect('Deleted')
+  describe('Expire', function(){
+    it_('will manually expire a deal', function * (){
+
+      yield request(app)
+        .post('/api/deals/update')
+        .send({deal_id: deal_id, expiration: "001", day: 23, month: 1, year: 2016})
+        .expect(200)
+
+      yield request(app)
+        .get('/api/deals/getAll')
+        .expect(200)
+        .expect(function(response){
+          var dealsArray = response.body;
+          var target = 0;
+          dealsArray.forEach(function(value){
+            if(value["deal_id"] === deal_id){target++;}
+          })
+          console.log('target', target);
+          expect(target).to.eql(0)
+        })
+
+      yield request(app)
+
     })
-
   })
 
   describe('Owner', function(){
