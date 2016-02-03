@@ -1,9 +1,6 @@
 var express = require('express')
 var Auth = require('../models/userauth.js');
-// var db = require('../db/index.js');
-
 var router = express.Router();
-module.exports = router;
 
 //SIGN IN (POST)
 //when the user submits their username and password
@@ -13,17 +10,15 @@ module.exports = router;
 router.post('/signin', function (req, res) {
 	Auth.signin(req.body)
 	.then(function (data) {
-		console.log('reqbody:', req.body)
-		console.log('data', data)
 		if(Auth.validPassword(req.body.password, data[0].password)){
-		res.json(Auth.genToken(data[0].user_id)).status(200)
+			res.json(Auth.genToken(data[0].user_id)).status(200);
 		} else {
      	res.status(400).send({reason: "Password incorrect"});
 		}
 	})
-  // .catch(function(err){
-  //   res.status(400).send({reason: "User not found"});
-  // });
+  .catch(function(err){
+    res.status(400).send({reason: "User not found"});
+  });
 });
 
 //SIGN UP (POST)
@@ -51,3 +46,5 @@ router.get('/logout', function (req, res) {
 	res.sendStatus(200);
 	})
 });
+
+module.exports = router;

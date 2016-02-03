@@ -5,12 +5,13 @@ var Modal = require('react-modal');
 var Maps = require('react-google-maps');
 var Map = require('./map.jsx');
 var Yelp = require('./yelpinfo.jsx');
+var CountdownTimer = require('./timer.jsx');
 
 
 var Deal = React.createClass({
   getInitialState: function() {
     return { modalIsOpen: false,
-             date: ''
+             date: '',
            };
   },
 
@@ -62,8 +63,8 @@ var Deal = React.createClass({
       }
       var period;
       if(hours < 12) {
-        if(hours === "0") {
-          hours = "12";
+        if(hours == '0') {
+          hours = 12
         }
         period = 'am'
       }
@@ -102,15 +103,19 @@ var Deal = React.createClass({
       15: 'Indian',
       16: 'Other'
     }
-    var displayCuisine = cuisineMap[this.props.cuisine];
 
+    var displayCuisine = cuisineMap[this.props.cuisine];
+    var today = new Date();
+    var todaysDate = today.getDate();
+    if(this.props.day === todaysDate) {
     return (
+      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <a onClick={this.openModal}>
-      <div className="deal col-md-6 col-sm-12 col-xs-12" >
+      <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
         <div className="dealLogoDiv">
           <img src={this.props.image_name} className="dealLogo" />
         </div>
-        <div className="dealInfoDiv">
+        <div className="dealInfoDiv col-md-6 col-sm-12">
           <h3 className="dealDescription">
             {this.props.description}
           </h3>
@@ -120,6 +125,7 @@ var Deal = React.createClass({
           <div className="dealAddress">
             {this.props.address.split(",", 1)}
           </div>
+          <span className='expiration'>Expiration</span>
           <div className="dealExpiration">
             <h3>{displayTime}</h3>
           </div>
@@ -128,9 +134,10 @@ var Deal = React.createClass({
           </div>
           <div>
             {this.props.distance}
-          </div>
-        </div>
-      </div>
+          </div> 
+        </div>  
+      </div> 
+      </a>
 
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -139,8 +146,8 @@ var Deal = React.createClass({
           <div className="singleDealLogoDiv">
             <img src={this.props.image_name} className="singleDealLogo" />
           </div>
-          <div className="dealInfoDiv">
-            <h3 className="dealDescription">
+          <div className="singleDealInfoDiv">
+            <h3 className="singleDealDescription">
               {this.props.description}
             </h3>
             <div className="restaurantName">
@@ -150,7 +157,7 @@ var Deal = React.createClass({
               {this.props.res_description}
             </div>
             <div className="dealUrl">
-              <a href={this.props.url}>{this.props.url}</a>
+              <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
             </div>
             <div className="dealAddress">
               {this.props.address.split(',', 1)}
@@ -166,11 +173,82 @@ var Deal = React.createClass({
             </div>
             <Map {...this.props} />
             <Yelp {...this.props} />
+            <CountdownTimer {...this.props} />
           </div>
         </Modal>
+      </div>
+    );
+} else {
+  return (
+      <div>
+      <a onClick={this.openModal}>
+      <div className="deal col-md-6 col-sm-12" >
+        <div className="dealLogoDiv col-md-6 col-sm-12">
+          <img src={this.props.image_name} className="dealLogo" />
+        </div>
+        <div className="dealInfoDiv col-md-6 col-sm-12">
+          <h3 className="dealDescription">
+            {this.props.description}
+          </h3>
+          <div className="dealUrl">
+            {this.props.url}
+          </div>
+          <div className="dealAddress">
+            {this.props.address.split(",", 1)}
+          </div>
+          <div className="dealExpiration">
+            {displayTime}
+          </div>
+          <div>
+            {this.props.destination}
+          </div>
+          <div>
+            {this.props.distance}
+          </div>
+        </div>  
+      </div> 
       </a>
+
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles} >
+          <div className="singleDealLogoDiv">
+            <img src={this.props.image_name} className="singleDealLogo" />
+          </div>
+          <div className="singleDealInfoDiv">
+            <h3 className="dealDescription">
+              {this.props.description}
+            </h3>
+            <div className="restaurantName">
+              {this.props.name}
+            </div> 
+            <div className='resDescription'>
+              {this.props.res_description}
+            </div> 
+            <div className="singleDealUrl">
+              <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
+            </div>
+            <div className="singleDealAddress">
+              {this.props.address.split(',', 1)}
+            </div>
+            <div className="cuisineType">
+              {displayCuisine}
+            </div>
+            <div className="dealDate">
+              {displayDate}
+            </div>
+            <div className="dealExpiration">
+              {displayTime}
+            </div>
+            <Map {...this.props} />
+            <Yelp {...this.props} />
+          </div>
+        </Modal>
+      </div>
     );
   }
+}
 });
 
 var AllDeals = React.createClass({
@@ -184,7 +262,7 @@ var AllDeals = React.createClass({
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error("Error:", this.props.url, status, err.toString());
+        console.error('Error:', 'api/deals/getAll', status, err.toString());
       }.bind(this)
     });
   },
@@ -211,8 +289,8 @@ var DealList = React.createClass({
     return {
       cuisine_id: '',
       expirationDate: 1,
-      startingPoint: '',
       destinations: '',
+      startingPoint: '',
       updateCuisineId: function(id) {
         this.setState({ cuisine_id: id})
       },
@@ -291,6 +369,8 @@ var DealList = React.createClass({
   },
 
  filterByProximity: function(startingPoint) {
+  console.log('sp', startingPoint)
+  this.setState({ startingPoint: startingPoint })
 
   var array = [];
   var destinations = function(obj) {
@@ -317,8 +397,6 @@ var DealList = React.createClass({
       data: data,
       success: function(data) {
         results = JSON.parse(data)
-        console.log('results', results)
-        console.log('test', allDestinations)
         var distancesToDestinationsMap = {};
         var distances = results.rows[0].elements;
         var destinations = results.destination_addresses
@@ -339,8 +417,21 @@ var DealList = React.createClass({
         console.log('Error:', err)
       }.bind(this)
     })
+    var startingPointLat;
+    GMaps.geocode({
+      address: startingPoint,
+      callback: function(results, status) {
+        if(status !== 'OK') {
+          console.log('error with gmaps')
+        }
+        if(status === 'OK') {
+          startingPoint = results[0].geometry.location;
+        }
+        startingPointLat = startingPoint.lat();
+        var startingPointLon = startingPoint.lng();
+      }
+    })
   },
-
 
   render: function() {
     var dealsToUse;
@@ -355,19 +446,13 @@ var DealList = React.createClass({
     if(this.state.destinations !== ''){
       for(var key in this.state.destinations) {
         var x = key.substr(0, key.length-5);
-        console.log('x', x)
-        console.log('google maps address', x)
-        console.log('currently displayed deals', dealsToUse)
-        console.log('deals from database', this.props)
         for(var i=0; i<dealsToUse.length; i++) {
           var address = dealsToUse[i].address;
           var addressSplit = address.split(' ')
           var streetNumber = new RegExp(addressSplit[0]);
           var zipCode = new RegExp(address.split[address.length-1]);
-          console.log('streetnumber', streetNumber)
-          console.log('input address', address)
+
           if(streetNumber.test(x) && zipCode.test(x)) {
-            console.log('match')
             dealsToUse[i].distance = this.state.destinations[key]
 
           }
@@ -389,24 +474,26 @@ var DealList = React.createClass({
         return false;
       }
     }
-
+    var startingPoint = this.state.startingPoint;
+    
     var dealNodes = dealsToUse.map(function(deal) {
       return (
         <Deal {...this.props}
-        res_description={deal.res_description}
-              cuisine={deal.cuisine_id}
-              day={deal.day}
-              year={deal.year}
-              month={deal.month}
-              name={deal.name}
-              url={deal.url}
-              address={deal.address}
-              description={deal.description}
-              expiration={deal.expiration}
-              image_name={deal.image_name}
-              name={deal.name}
+              res_description={deal.res_description} 
+              cuisine={deal.cuisine_id} 
+              day={deal.day} 
+              year={deal.year} 
+              month={deal.month} 
+              name={deal.name} 
+              url={deal.url} 
+              address={deal.address} 
+              description={deal.description} 
+              expiration={deal.expiration} 
+              image_name={deal.image_name} 
+              name={deal.name} 
               key={deal.deal_id}
-              distance={deal.distance}>
+              distance={deal.distance}
+              startingPoint={startingPoint} >
         </Deal>
       );
     });
@@ -471,9 +558,9 @@ var ExpirationDropdown = React.createClass({
     return (
       <form className="filterByExpiration">
         <select onChange={this.selectExpiration}>
-          <option value="1">Today</option>
-          <option value="2">Tomorrow</option>
-          <option value="3">This Week</option>
+          <option className='expirationButton' value="1">Today</option>
+          <option className='expirationButton' value="2">Tomorrow</option>
+          <option className='expirationButton' value="3">This Week</option>
         </select>
       </form>
     );
@@ -482,10 +569,8 @@ var ExpirationDropdown = React.createClass({
 
 var SearchBar = React.createClass({
    filterByProximity: function(e) {
-    // console.log('here')
     e.preventDefault();
     var startingPoint = $('#address').val()
-    // console.log(startingPoint)
     this.props.filterByProximity(startingPoint)
   },
 
@@ -512,7 +597,7 @@ const customStyles = {
     left                       : '120px',
     right                      : '120px',
     bottom                     : '120px',
-    border                     : '10px solid #3300CF',
+    border                     : '10px solid #05018f',
     background                 : '#fff',
     overflow                   : 'auto',
     WebkitOverflowScrolling    : 'touch',

@@ -130,6 +130,7 @@ var UserSignup = React.createClass({
             <form className='signupForm' onSubmit={this.signUp}>
               Email: <input
                       className='email'
+                      type='email'
                       value={this.state.email}
                       onChange={this.handleEmailChange}
                       /><br/>
@@ -210,30 +211,31 @@ var UserLogin = React.createClass({
     if (this.props.userAuth) {
       return (
         <span>
-          {" "}or <a onClick={this.openModal}>Sign In</a>
-          <Modal
-            isOpen={this.state.modalIsOpen}
-            onRequestClose={this.closeModal}
-            style={customStyles} >
-            <br/>
-            <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
-            <br/>
-            <h2>Log In to Manage Notifications</h2>
-            <form className='loginForm' onSubmit={this.login}>
-              Email: <input
-                      className='email'
-                      value={this.state.email}
-                      onChange={this.handleEmailChange}
-                      /><br/>
-              Password: <input
-                        className='password'
-                        value={this.state.password}
-                        type='password'
-                        onChange={this.handlePasswordChange}
-                        /><br/><br/>
-              <input type='submit' value='Log In' /><br/><br/>
-            </form>
-          </Modal>
+        {" "}or <a onClick={this.openModal}>Sign In</a>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customStyles} >
+          <br/>
+          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <br/>
+          <h2>Log In to Manage Notifications</h2>
+          <form className='loginForm' onSubmit={this.login}>
+            Email: <input
+                    className='email'
+                    type='email'
+                    value={this.state.email}
+                    onChange={this.handleEmailChange}
+                    /><br/>
+            Password: <input
+                      className='password'
+                      value={this.state.password}
+                      type='password'
+                      onChange={this.handlePasswordChange}
+                      /><br/><br/>
+            <input type='submit' value='Log In' /><br/><br/>
+          </form>
+        </Modal>
         </span>
       )
     } else {
@@ -352,6 +354,7 @@ var OwnerLogin = React.createClass({
             Email: <input
                     className='email'
                     value={this.state.email}
+                    type='email'
                     onChange={this.handleEmailChange}
                     /><br/>
             Password: <input
@@ -361,8 +364,8 @@ var OwnerLogin = React.createClass({
                       onChange={this.handlePasswordChange}
                       /><br/><br/>
             <input type='submit' value='Log In' /><br/><br/>
-            </form>
-          </Modal>
+          </form>
+        </Modal>
         </span>
       )
     } else {
