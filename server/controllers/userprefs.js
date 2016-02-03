@@ -1,13 +1,11 @@
-var express = require('express')
+var express = require('express');
 var UserPref = require('../models/userpref.js');
-
+var jwt = require ('jwt-simple');
 var router = express.Router();
-module.exports = router;
 
 //Obtain stored preferences from database
 //and send them along with a 200 response
 router.post('/restaurants', function (req, res) {
-	console.log("req body: ", req.body)
 	UserPref.allRes(req.body.user_id)
 		.then(function(result){
 			res.status(200).send(result);
@@ -15,7 +13,6 @@ router.post('/restaurants', function (req, res) {
 })
 
 router.post('/cuisines', function (req, res) {
-	console.log("req body: ", req.body)
 	UserPref.allCuis(req.body.user_id)
 		.then(function(result){
 			res.send(result);
@@ -47,10 +44,21 @@ router.post('/updateCuis', function(req, res){
 })
 
 router.get('/allRestaurants', function(req, res){
-	UserPref.allRestaurants()
-		.then(function(result){
-			res.status(200).send(result);
-		})
+	var token = req.headers['x-access-token'];
+  var decoded = jwt.decode(token, require('../config/secret')());
+  //The 'exp' property of the decoded token comes from when it was encoded (see userauth.js).
+  console.log("Token still valid:", decoded.exp >= Date.now());
+  if (decoded.exp >= Date.now()) {
+		UserPref.allRestaurants()
+			.then(function(result){
+				res.status(200).send(result);
+			})
+			.catch(function(err){
+	    	res.status(400).send({"Error": err});
+	  })
+	} else {
+		res.sendStatus(403);
+	}
 })
 
 router.post('/phone', function(req, res){
@@ -59,3 +67,5 @@ router.post('/phone', function(req, res){
 		res.sendStatus(201);
 	})
 })
+
+module.exports = router;

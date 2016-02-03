@@ -2,6 +2,7 @@ var React = require('react');
 var IndexLink = require('react-router').IndexLink;
 var Link = require('react-router').Link;
 var Auth = require('./auth.jsx').auth;
+var jwt = require ('jwt-simple');
 
 
 var App = React.createClass({
@@ -48,10 +49,10 @@ var App = React.createClass({
   navToHome: function() {
     if (localStorage.getItem("token") && !localStorage.getItem("restaurant_id")) {
       this.setState({ userLink: true, ownerLink: false });
-      localStorage.setItem("dontShowUserLink", false);
+      localStorage.setItem("dontShowUserLink", "");
     } else if (localStorage.getItem("token") && localStorage.getItem("restaurant_id")) {
       this.setState({ ownerLink: true, userLink: false });
-      localStorage.setItem("dontShowOwnerLink", false);
+      localStorage.setItem("dontShowOwnerLink", "");
     }
   },
 
