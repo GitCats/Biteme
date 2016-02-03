@@ -106,7 +106,7 @@ var Deal = React.createClass({
 
     return (
       <a onClick={this.openModal}>
-      <div className="deal col-md-6 col-sm-12" >
+      <div className="deal col-md-6 col-sm-12 col-xs-12" >
         <div className="dealLogoDiv">
           <img src={this.props.image_name} className="dealLogo" />
         </div>
