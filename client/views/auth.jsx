@@ -101,7 +101,7 @@ var UserSignup = React.createClass({
         localStorage.setItem("user", signUpRequest.email);
         localStorage.setItem("token", response.token);
         localStorage.setItem("expires", response.expires);
-        console.log("Logged in as:", localStorage.getItem("user"));
+        localStorage.setItem("user_id", response.id);
         this.closeModal();
         this.props.setUserAuthState();
         this.props.history.push('/userprofile');

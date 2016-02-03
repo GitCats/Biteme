@@ -41,7 +41,7 @@ POST /api/owner/updatePassword => this will update the restaurant table where th
 
 POST /api/owner/login => this will take the inputed username and password and compare the username to the database if found, it will compare the passwords and if they match it will send a 200 response
 
-POST/api/owner/create => this will take user inputed information and use it to add a new deal to the database
+POST/api/owner/create => this will take user inputed information and use it to add a new deal to the database. Also, users that have this restaurant 'checked' under their preferences will receive a text message, being notifies that this restaurant has made a new deal
 
 GET /api/owner/getalldeals/* => this gets all the info from the database according to restaurant id that is related to the specific restaurant
 
