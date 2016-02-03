@@ -1,4 +1,4 @@
-var $ = require('jquery');
+var React = require('react');
 var Link = require('react-router').Link;
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
@@ -198,54 +198,56 @@ var UserProfile = React.createClass({
   },
 
   loadRestaurants: function() {
-    var user_id = localStorage.getItem("user_id");
-    $.ajax({
-      url: 'api/userprefs/allRestaurants',
-      dataType: 'json',
-      cache: false,
+    var token = localStorage.getItem("token");
+    if (token) {
+      var user_id = localStorage.getItem("user_id");
+      $.ajax({
+        url: 'api/userprefs/allRestaurants',
+        dataType: 'json',
+        cache: false,
+        headers: { "x-access-token": token },
 
-      success: function(data) {
-        var restaurants = [];
-        data.forEach(function(row){
-          restaurants.push(row);
-        }.bind(this));
-        this.setState({restaurantPreferences: restaurants});
-        //nested ajax call to get stored preferences
-        $.ajax({
-          url: 'api/userprefs/restaurants',
-          dataType: 'json',
-          type: 'POST',
-          data: {"user_id": user_id},
-          success: function(data) {
-            var checkedRes = [];
-            // var temp = [];
-            data.forEach(function(row){
-              checkedRes.push(row["name"]);
-            }.bind(this));
+        success: function(data) {
+          var restaurants = [];
+          data.forEach(function(row){
+            restaurants.push(row);
+          }.bind(this));
+          this.setState({restaurantPreferences: restaurants});
+          //nested ajax call to get stored preferences
+          $.ajax({
+            url: 'api/userprefs/restaurants',
+            dataType: 'json',
+            type: 'POST',
+            data: {"user_id": user_id},
+            success: function(data) {
+              var checkedRes = [];
+              // var temp = [];
+              data.forEach(function(row){
+                checkedRes.push(row["name"]);
+              }.bind(this));
+              this.state.restaurantPreferences.forEach(function(row){
+                if(checkedRes.indexOf(row.name) > -1){
+                  row["checked"] = true;
+                }
+                else{
+                  row["checked"] = false;
+                }
+              }.bind(this));
+              this.forceUpdate();
+            }.bind(this),
+            error: function(xhr, status, err) {
+              console.error('api/userprefs/cuisines', status, err.toString());
+            }.bind(this)
+          });
+        }.bind(this), //first success closer
 
-            this.state.restaurantPreferences.forEach(function(row){
-              if(checkedRes.indexOf(row.name) > -1){
-                row["checked"] = true;
-              }
-              else{
-                row["checked"] = false;
-              }
-            }.bind(this));
-            this.forceUpdate();
-
-          }.bind(this),
-
-          error: function(xhr, status, err) {
-            console.error('api/userprefs/cuisines', status, err.toString());
-          }.bind(this)
-        });
-
-      }.bind(this), //first success closer
-
-      error: function(xhr, status, err) {
-        console.error('api/userprefs/allRestaurants', status, err.toString());
-      }.bind(this)
-    });
+        error: function(xhr, status, err) {
+          localStorage.clear();
+          console.error('api/userprefs/allRestaurants', status, err.toString());
+          location.reload(true);
+        }.bind(this)
+      });
+    }
   },
 
   loadUserPrefs: function() {
@@ -410,7 +412,8 @@ var UserProfile = React.createClass({
 
   // onChangeSubmit={this.handleCuisinesChange}
   render: function() {
-    if (localStorage.getItem("token") && localStorage.getItem("user_id") !== "undefined") {
+    if (localStorage.getItem("token") && localStorage.getItem("user_id")) {
+      localStorage.setItem("dontShowUserLink", true);
       var user = localStorage.getItem("user");
       return (
         <div className="userprefs">
@@ -423,7 +426,7 @@ var UserProfile = React.createClass({
     } else {
       return (
       <div className="userprefs">
-        <h1>YOU ARE NOT LOGGED IN AS A USER. STOP HACKING</h1>
+        <h1>YOU ARE NOT LOGGED IN AS A USER</h1>
         <p className="text" >
         If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
         </p>

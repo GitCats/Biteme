@@ -1,6 +1,6 @@
 var db = require('../db/index.js');
 
-var UserPref = module.exports
+var UserPref = module.exports;
 
 //this function grabs all the user prefs from the database
 //it should return all columns and a boolean value if user selects or not

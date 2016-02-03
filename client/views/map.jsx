@@ -1,16 +1,10 @@
-// var GoogleMap = require('react-google-maps').GoogleMap;
-// var GoogleMapLoader = require('react-google-maps').GoogleMapLoader;
-// var GoogleMapMarker = require('react-google-maps').GoogleMapMarker;
-// var canUseDom = require('can-use-dom')
-
-
 var React = require('react');
-// var Gmaps = require('../../gmaps.js')
 
 
 var Map = React.createClass({ 
 
 	getInitialState: function() {
+		console.log('mapprops', this.props)
 		return {
 			currentAddress: 'Austin, Texas',
 			mapCoordinates: {
@@ -21,28 +15,17 @@ var Map = React.createClass({
 	}, 
 
 	componentDidMount: function() {
+		console.log('props', this.props)
 		this.componentDidUpdate();
 	},
 
-	// getMapCoordinates: function() {
-	// 	GMaps.geocode({
- //  			address: '6102 NW 24th Lane, Gainesville, FL 32606',
- //  			callback: function(results, status) {
- //    			if (status ==='OK') {
- //      				var latlng = results[0].geometry.location;
- //      				this.setState({ 
- //      					currentAddress: results[0].formatted_address,
- //      					mapCoordinates: {
- //     						lat: latlng.lat(),
- //     						lng: latlng.lng()
- //    					}
- //    				})
- //  			}
- //  		}
-	// 	})
-	// },
-
 	componentDidUpdate: function() {
+		console.log('mapprops', this.props)
+		// var startingPoint;
+    var origin = this.props.startingPoint;
+
+    var originlat;
+    var originlng;
 
 		GMaps.geocode({
   			address: this.props.address,
@@ -52,13 +35,14 @@ var Map = React.createClass({
   				}
     			if (status === 'OK') {
       				var latlng = results[0].geometry.location;
+              var lat = latlng.lat();
+              var lng = latlng.lng()
     			}
-
 			var map = new GMaps({
     			el: '#map',
     			lat: latlng.lat(),
     			lng: latlng.lng(),
-    			zoom: 17,
+    			zoom: 12,
     			zoomControl : true,
     			zoomControlOpt: {
         			style : 'SMALL',
@@ -70,9 +54,37 @@ var Map = React.createClass({
 				lat: latlng.lat(),
 				lng: latlng.lng()
 			})
-		}
-		});
-	},
+
+      if(origin) {
+        GMaps.geocode({ 
+          address: origin,
+          callback: function(results, status) {
+            if(status !== 'OK') {
+              console.log('error with gmaps on')
+            }
+            if(status === 'OK') {
+              var origin = results[0].geometry.location;
+              originlat = origin.lat();
+              originlng = origin.lng();
+            }
+            map.addMarker({
+              lat: originlat,
+              lng: originlng
+            })
+            map.drawRoute({
+              origin: [originlat, originlng],
+              destination: [lat, lng],
+              travelMode: 'driving',
+              strokeColor: '#05018f',
+              strokeOpacity: 0.9,
+              strokeWeight: 6
+            })
+          }
+        })
+      }
+    }
+  })
+  },
 
 	render: function() {
 		return (
@@ -83,7 +95,5 @@ var Map = React.createClass({
 		}
 	});
 
-
-	
-
 module.exports = Map;
+

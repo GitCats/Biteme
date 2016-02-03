@@ -13,7 +13,7 @@
     "type": "git",
     "url": "https://github.com/GitCats/BluePlate"
   },
-  "author": "Salman Oskooi <soskooi@gmail.com>, Kayla Handy <>, Kayla Matteo <>, Garrett Brustkern <gbrustkern@gmail.com>",
+  "author": "Salman Oskooi <soskooi@gmail.com>, Kayla Handy <kayla.j.handy@gmail.com>, Kayla Matteo <kaylamatteo@gmail.com>, Garrett Brustkern <gbrustkern@gmail.com>",
   "license": "CC-BY-4.0",
   "homepage": "https://github.com/GitCats/BluePlate#readme",
   "bugs": {
@@ -32,7 +32,6 @@
     "formidable": "^1.0.17",
     "fs-extra": "^0.26.4",
     "history": "^1.17.0",
-    "jquery": "^2.2.0",
     "jwt-simple": "^0.4.1",
     "knex": "^0.9.0",
     "moment": "^2.11.1",

@@ -2,7 +2,7 @@ var db = require('../db/index.js');
 var bcrypt = require('bcrypt');
 var jwt = require ('jwt-simple');
 
-var Owner = module.exports
+var Owner = module.exports;
 
 Owner.generateHash = function(password){
 	return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
@@ -12,7 +12,7 @@ Owner.validPassword = function(attemptedPass, correctPass){
 	return bcrypt.compareSync(attemptedPass, correctPass);
 }
 //selects and returns all deals for the specified restaurant
-Owner.allDeals = function(url) {
+Owner.allDeals = function(url, token) {
 	var id = url.substr(url.lastIndexOf("/")+1);
 	console.log('id: ', id)
 	return db('deals')
@@ -23,7 +23,7 @@ Owner.allDeals = function(url) {
 	.join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
   .select('restaurants.name', 'restaurants.image_name', 'restaurants.cuisine_id', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
    .where ('deals.restaurant_id', id)
-};
+}
 
 Owner.signup = function(body){
 	var newUser = body.username;
@@ -40,18 +40,17 @@ Owner.signin = function(body){
 	.select('password', 'username', 'restaurant_id')
 }
 
-//inserts a new deal into the database
+//Inserts a new deal into the database
 Owner.create = function(body) {
 	return db('deals')
 	.insert({restaurant_id: body.restaurant_id, description: body.description, expiration: body.expiration, month: body.month, day: body.day, year: body.year})
 }
 
 Owner.genToken = function(req) {
-  var expires = Owner.expiresIn(3600000); // 1 hour in milliseconds
+  var expires = Owner.expiresIn(7); // 7 days
   var token = jwt.encode({
     exp: expires
   }, require('../config/secret')());
-
   return {
     token: token,
     expires: expires,
@@ -60,9 +59,9 @@ Owner.genToken = function(req) {
   };
 }
 
-Owner.expiresIn = function(numMs) {
+Owner.expiresIn = function(numDays) {
   var dateObj = new Date();
-  return dateObj.setTime(dateObj.getTime() + numMs);
+  return dateObj.setDate(dateObj.getDate() + numDays);
 }
 
 Owner.getProfile = function(url){
@@ -72,7 +71,7 @@ Owner.getProfile = function(url){
 	.select('name', 'phone_number', 'cuisine_id', 'image_name', 'res_description', 'url', 'address')
 }
 
-//**NEED TO CHECK FOR SIGN IN**
+//Update profile
 Owner.update = function(body){
 	return db('restaurants')
 	.where('restaurant_id', body.restaurant_id)
@@ -118,13 +117,6 @@ Owner.matchRestaurants = function(body){
 //   .select('users.phone');
 // }
 
-// Owner.joinWithUsers = function(query) {
-//   return
-// }
-
-// Owner.matchCuisines = function()
-
 //body will be {"restaurant_id": 1, "cuisine_id": 7,
 //"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg",
 //"description": "World Famous Barbecue", "url": "www.franklinbarbecue.com", "address": "900 East 11th Street, Austin, TX"}
-

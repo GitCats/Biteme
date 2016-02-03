@@ -62,6 +62,9 @@ describe("The Server", function(){
           console.log('target', target);
           expect(target).to.eql(0)
         })
+
+      yield request(app)
+
     })
   })
 

@@ -1,21 +1,31 @@
-var express = require('express')
+var express = require('express');
 var Owner = require('../models/owner');
 var client = require('twilio')('AC396bc879ace8d5ae25ce367daf1cb8bc', '93159cd050ac87c1a1b1e4dca3e9613d');
 var mailer = require('nodemailer');
 
+var jwt = require ('jwt-simple');
 var router = express.Router();
-module.exports = router;
 
-//GET A RESTAURANTS DEALS
+//GET A RESTAURANT'S DEALS
 //this will grab all of the deals from the database
 //for this specific restaurant id
 //and send them along with a 200 response
 router.get('/getAllDeals/*', function (req, res) {
-	console.log('request body:', req.url)
-	Owner.allDeals(req.url)
-		.then(function(result){
-			res.status(200).send(result);
-		})
+	var token = req.headers['x-access-token'];
+  var decoded = jwt.decode(token, require('../config/secret')());
+  //The 'exp' property of the decoded token comes from when it was encoded (see owner.js).
+  console.log("Token still valid:", decoded.exp >= Date.now());
+  if (decoded.exp >= Date.now()) {
+		Owner.allDeals(req.url, token)
+			.then(function(result){
+				res.status(200).send(result);
+			})
+			.catch(function(err){
+	    	res.status(400).send({"Error": err});
+	  })
+	} else {
+		res.sendStatus(403);
+	}
 })
 
 //SIGN UP (POST)
@@ -134,15 +144,4 @@ router.post('/updateProfile', function (req, res) {
 	})
 })
 
-router.get('/logout', function(req,res) {
-	Owner.logout()
-	.then(function(){
-		res.sendStatus(200);
-	})
-})
-
-router.get('/test', function(req, res){
-	res.sendStatus(200);
-})
-
-// router.get('')
+module.exports = router;

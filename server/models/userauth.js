@@ -1,7 +1,8 @@
 var db = require('../db/index.js');
 var bcrypt = require('bcrypt');
 var jwt = require ('jwt-simple');
-var Auth = module.exports
+
+var Auth = module.exports;
 
 Auth.generateHash = function(password){
 	return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
@@ -50,11 +51,6 @@ Auth.genToken = function(user, id) {
     user: user,
     id: id
   };
-}
-
-Auth.logout = function(){
-	// $window.localStorage.removeItem('jwtToken');
-	$window.localStorage.clear();
 }
 
 Auth.expiresIn = function(numDays) {

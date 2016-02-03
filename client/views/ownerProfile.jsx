@@ -1,4 +1,4 @@
-var $ = require("jquery");
+var React = require("react");
 var Link = require("react-router").Link;
 var Modal = require("react-modal");
 var LinkedStateMixin = require("react-addons-linked-state-mixin");
@@ -19,13 +19,6 @@ const customStyles = {
     transform             : "translate(-50%, -50%)"
   }
 };
-
-//OWNER PROFILE PAGE TO-DO LIST:
-//
-//**add "Delete Deal" button with AJAX request on current deals to expire them
-//**EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
-//**FIX DEAL DISPLAY WHERE PROPS SPILL OUT OF DIV (TRY DIFFERENT LOGOS, RESIZING WINDOWS)
-
 
 //Note about this module: the AJAX request in OwnerForm and its state-setting could 
 //have been done in the parent OwnerProfile component. The values had to be state
@@ -68,24 +61,30 @@ var OwnerProfile = React.createClass({
   },
 
   loadDealsFromServer: function() {
-    $.ajax({
-      url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
-      dataType: "json",
-      success: function(deals) {
-        this.setState({ deals: deals });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
+    var token = localStorage.getItem("token");
+    if (token) {
+      $.ajax({
+        url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
+        dataType: "json",
+        headers: { "x-access-token": token },
+        success: function(deals) {
+          this.setState({ deals: deals });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          localStorage.clear();
+          console.error("api/owner/getAllDeals/+restaurant_id", status, err.toString());
+          location.reload(true);
+        }.bind(this)
+      });
+    }
   },
 
   render: function() {
-    if (localStorage.getItem("token") && localStorage.getItem("restaurant_id") !== "undefined") {
+    if (localStorage.getItem("token") && localStorage.getItem("restaurant_id")) {
+      localStorage.setItem("dontShowOwnerLink", true);
       return (
         <div>
           <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
-          
           <Tabs onSelect={this.handleSelect}>
             <TabList>
               <Tab>Restaurant Profile</Tab>
@@ -108,7 +107,7 @@ var OwnerProfile = React.createClass({
           </Tabs>
           <br/>
           <div>
-            <a onClick={this.handleClick} className="text" style={{display: "inline-block", width: "10%", marginLeft: "45.5%"}} >Go to Top of Page</a><br/><br/>
+            <a onClick={this.handleClick} id="top" >Go to Top of Page</a><br/><br/>
           </div>
         </div>
       );
@@ -215,7 +214,7 @@ var CreateDeal = React.createClass({
         this.closeModal();
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error("api/owner/create", status, err.toString());
         alert("There was an error processing your request.");
       }.bind(this)
     });
@@ -232,8 +231,8 @@ var CreateDeal = React.createClass({
           <button onClick={this.openModal} style={{width:"110px", height:"35px", fontWeight: "bolder", fontSize: "1em"}}>Create a Deal</button>
         </div>
         <Modal
-          isOpen={this.state.modalIsOpen}   //isOpen, onRequestClose, & style appear to be
-          onRequestClose={this.closeModal}  //native to react-modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
           style={customStyles} >
           <br/>
           <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
@@ -360,7 +359,7 @@ var OwnerForm = React.createClass({
         this.props.updateParent(this.state.settings);
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error("api/owner/updateprofile", status, err.toString());
         alert("There was an error processing your request.");
       }.bind(this)
     });
@@ -370,19 +369,19 @@ var OwnerForm = React.createClass({
     return (
       <div>
         <h1>Update Your Restaurant Profile</h1>
-        <form onSubmit={this.updateProfile}>
-          Restaurant name: <input type="text" valueLink={this.linkState("name")} />
+        <form onSubmit={this.updateProfile} style={{marginLeft: "1%"}}>
+          <span style={{paddingLeft: "3%"}}>Restaurant name: </span><input type="text" valueLink={this.linkState("name")} />
           <img src={this.state.logo} alt="Your Logo" className="dealLogo" style={{margin: 25}} />
           Enter a new URL to update your logo: <input type="text" valueLink={this.linkState("logo")} size="60" />
           <div className="text">
-            Street Address: <input type="text" valueLink={this.linkState("address")} />{" "}
+            Street Address: <input type="text" valueLink={this.linkState("address")} size="45" />{" "}
             City: <input type="text" valueLink={this.linkState("city")} />{" "}
-            State: <input type="text" valueLink={this.linkState("state")} />{" "}
-            ZIP: <input type="text" valueLink={this.linkState("zip")} maxLength="5" />
+            State: <input type="text" valueLink={this.linkState("state")} size="10" />{" "}
+            ZIP: <input type="text" valueLink={this.linkState("zip")} maxLength="5" size="8" />
             <br/><br/>
             Phone number (which customers should use to call the restaurant):{" "}
-            <input type="text" valueLink={this.linkState("phone")} maxLength="14" />{" "}
-            Business website:{" "}<input type="text" valueLink={this.linkState("website")} />
+            <input type="text" valueLink={this.linkState("phone")} maxLength="14" size="15" />{" "}
+            Business website:{" "}<input type="text" valueLink={this.linkState("website")} size="40" />
             <br/><br/>Select the cuisine that best matches your restaurant:{" "}
             <select valueLink={this.linkState("cuisine")} >
               <option value="">-Choose your cuisine-</option>
@@ -440,7 +439,6 @@ var CurrentDealList = React.createClass({
       return false;
     }
   },
-
 
   render: function() {
     var dealsToUse = this.props.deals.filter(this.filterByExpiration);
@@ -589,7 +587,7 @@ var Deal = React.createClass({
         alert("Your deal has been expired!");
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error("api/deals/update", status, err.toString());
         alert("There was an error processing your request.");
       }.bind(this)
     });
@@ -687,6 +685,7 @@ var Deal = React.createClass({
             <div className="dealAddress">
               {this.props.address.split(",")}
             </div>
+            <br/>
             <span style={{marginRight: "45%", fontWeight: "bold"}}>Expiration:</span>
             <div className="dealExpiration">
               {displayDate} {displayTime}

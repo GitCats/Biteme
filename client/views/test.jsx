@@ -1,3 +1,5 @@
+var React = require('react');
+
 var data = [
       { name: 'Matthew', sex: 'male' },
       { name: 'Amanda', sex: 'female' }

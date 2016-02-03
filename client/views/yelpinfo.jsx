@@ -1,3 +1,5 @@
+var React = require('react');
+
 var YelpBox = React.createClass({ 
 	getInitialState: function() {
 		return { data: [] }
@@ -53,6 +55,7 @@ parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
 		'dataType': 'jsonp',
 		'headers': auth,
 		'success': function(data, textStats, XMLHttpRequest) {
+			console.log('yelpdata', data);
 			this.setState({ data: data.businesses[0] })
 		}.bind(this),
 		error: function(xhr, status, err) {
