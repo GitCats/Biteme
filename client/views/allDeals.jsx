@@ -109,10 +109,10 @@ var Deal = React.createClass({
     var todaysDate = today.getDate();
     if(this.props.day === todaysDate) {
     return (
-      <div>
+      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <a onClick={this.openModal}>
-      <div className="deal col-md-6 col-sm-12" >
-        <div className="dealLogoDiv col-md-6 col-sm-12">
+      <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <div className="dealLogoDiv">
           <img src={this.props.image_name} className="dealLogo" />
         </div>
         <div className="dealInfoDiv col-md-6 col-sm-12">
@@ -289,8 +289,6 @@ var DealList = React.createClass({
     return {
       cuisine_id: '',
       expirationDate: 1,
-      startLat: '',
-      startLon: '',
       destinations: '',
       startingPoint: '',
       updateCuisineId: function(id) {
@@ -477,10 +475,6 @@ var DealList = React.createClass({
       }
     }
     var startingPoint = this.state.startingPoint;
-    var startingPointLat = this.state.startingPointLat;
-    var startingPointLon = this.state.startingPointLon;
-    console.log('deallat', startingPointLat)
-    console.log('props', this.props)
     
     var dealNodes = dealsToUse.map(function(deal) {
       return (
@@ -499,8 +493,6 @@ var DealList = React.createClass({
               name={deal.name} 
               key={deal.deal_id}
               distance={deal.distance}
-              startingPointLat={startingPointLat}
-              startingPointLon={startingPointLon}
               startingPoint={startingPoint} >
         </Deal>
       );
