@@ -184,7 +184,7 @@ var AllDeals = React.createClass({
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error("Error:", this.props.url, status, err.toString());
+        console.error('Error:', 'api/deals/getAll', status, err.toString());
       }.bind(this)
     });
   },

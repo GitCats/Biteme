@@ -20,12 +20,6 @@ const customStyles = {
   }
 };
 
-//OWNER PROFILE PAGE TO-DO LIST:
-//
-//**EVERY AJAX REQUEST ON THIS PAGE SHOULD HAVE A TOKENAUTH HEADER THAT IS VERIFIED ON THE BACKEND
-//**FIX DEAL DISPLAY WHERE PROPS SPILL OUT OF DIV (TRY DIFFERENT LOGOS, RESIZING WINDOWS)
-
-
 //Note about this module: the AJAX request in OwnerForm and its state-setting could 
 //have been done in the parent OwnerProfile component. The values had to be state
 //properties in OwnerForm so as to be mutable and the source of truth, but they probably
@@ -78,7 +72,7 @@ var OwnerProfile = React.createClass({
         }.bind(this),
         error: function(xhr, status, err) {
           localStorage.clear();
-          console.error(this.props.url, status, err.toString());
+          console.error("api/owner/getAllDeals/+restaurant_id", status, err.toString());
           location.reload(true);
         }.bind(this)
       });
@@ -220,7 +214,7 @@ var CreateDeal = React.createClass({
         this.closeModal();
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error("api/owner/create", status, err.toString());
         alert("There was an error processing your request.");
       }.bind(this)
     });
@@ -365,7 +359,7 @@ var OwnerForm = React.createClass({
         this.props.updateParent(this.state.settings);
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error("api/owner/updateprofile", status, err.toString());
         alert("There was an error processing your request.");
       }.bind(this)
     });
@@ -445,7 +439,6 @@ var CurrentDealList = React.createClass({
       return false;
     }
   },
-
 
   render: function() {
     var dealsToUse = this.props.deals.filter(this.filterByExpiration);
@@ -594,7 +587,7 @@ var Deal = React.createClass({
         alert("Your deal has been expired!");
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error("api/deals/update", status, err.toString());
         alert("There was an error processing your request.");
       }.bind(this)
     });

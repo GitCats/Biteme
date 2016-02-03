@@ -8,8 +8,6 @@ var jwt = require ('jwt-simple');
 var App = React.createClass({
 
   componentWillMount: function() {
-    // var decoded = jwt.decode(localStorage.getItem('token'), 'super.super.secret.shhh');
-    // console.log(decoded);
     //If not logged in:
     if (!localStorage.getItem("token")) {
       this.setState({ userAuth: true, ownerAuth: true, userLink: false, ownerLink: false, logoutLink: false });

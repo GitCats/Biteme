@@ -2,7 +2,7 @@ var db = require('../db/index.js');
 var bcrypt = require('bcrypt');
 var jwt = require ('jwt-simple');
 
-var Owner = module.exports
+var Owner = module.exports;
 
 Owner.generateHash = function(password){
 	return bcrypt.hashSync(password, bcrypt.genSaltSync(9));
@@ -40,14 +40,14 @@ Owner.signin = function(body){
 	.select('password', 'username', 'restaurant_id')
 }
 
-//inserts a new deal into the database
+//Inserts a new deal into the database
 Owner.create = function(body) {
 	return db('deals')
 	.insert({restaurant_id: body.restaurant_id, description: body.description, expiration: body.expiration, month: body.month, day: body.day, year: body.year})
 }
 
 Owner.genToken = function(req) {
-  var expires = Owner.expiresIn(3600000); // 1 hour in milliseconds
+  var expires = Owner.expiresIn(7); // 7 days
   var token = jwt.encode({
     exp: expires
   }, require('../config/secret')());
@@ -59,9 +59,9 @@ Owner.genToken = function(req) {
   };
 }
 
-Owner.expiresIn = function(numMs) {
+Owner.expiresIn = function(numDays) {
   var dateObj = new Date();
-  return dateObj.setTime(dateObj.getTime() + numMs);
+  return dateObj.setDate(dateObj.getDate() + numDays);
 }
 
 Owner.getProfile = function(url){
@@ -71,7 +71,7 @@ Owner.getProfile = function(url){
 	.select('name', 'phone_number', 'cuisine_id', 'image_name', 'res_description', 'url', 'address')
 }
 
-//**NEED TO CHECK FOR SIGN IN**
+//Update profile
 Owner.update = function(body){
 	return db('restaurants')
 	.where('restaurant_id', body.restaurant_id)
@@ -93,9 +93,4 @@ Owner.updatePassword = function(body){
 	.where('username', body.username)
 	.update('password', Owner.generateHash(body.password));
 }
-
-// Owner.logout = function(){
-// 	localStorage.clear();
-// }
-
 

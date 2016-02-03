@@ -1,9 +1,7 @@
 var express = require('express');
 var Owner = require('../models/owner');
 var jwt = require ('jwt-simple');
-
 var router = express.Router();
-module.exports = router;
 
 //GET A RESTAURANT'S DEALS
 //this will grab all of the deals from the database
@@ -13,7 +11,7 @@ router.get('/getAllDeals/*', function (req, res) {
 	var token = req.headers['x-access-token'];
   var decoded = jwt.decode(token, require('../config/secret')());
   //The 'exp' property of the decoded token comes from when it was encoded (see owner.js).
-  console.log("Token still valid:", decoded.exp >= Date.now())
+  console.log("Token still valid:", decoded.exp >= Date.now());
   if (decoded.exp >= Date.now()) {
 		Owner.allDeals(req.url, token)
 			.then(function(result){
@@ -97,10 +95,5 @@ router.post('/updateProfile', function (req, res) {
 	})
 })
 
-// router.get('/logout', function(req,res) {
-// 	Owner.logout()
-// 	.then(function(){
-// 		res.sendStatus(200);
-// 	})
-// })
 
+module.exports = router;
