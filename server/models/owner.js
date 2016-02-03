@@ -12,7 +12,7 @@ Owner.validPassword = function(attemptedPass, correctPass){
 	return bcrypt.compareSync(attemptedPass, correctPass);
 }
 //selects and returns all deals for the specified restaurant
-Owner.allDeals = function(url) {
+Owner.allDeals = function(url, token) {
 	var id = url.substr(url.lastIndexOf("/")+1);
 	console.log('id: ', id)
 	return db('deals')
@@ -23,7 +23,7 @@ Owner.allDeals = function(url) {
 	.join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
   .select('restaurants.name', 'restaurants.image_name', 'restaurants.cuisine_id', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year')
    .where ('deals.restaurant_id', id)
-};
+}
 
 Owner.signup = function(body){
 	var newUser = body.username;
@@ -51,7 +51,6 @@ Owner.genToken = function(req) {
   var token = jwt.encode({
     exp: expires
   }, require('../config/secret')());
-
   return {
     token: token,
     expires: expires,
@@ -95,11 +94,8 @@ Owner.updatePassword = function(body){
 	.update('password', Owner.generateHash(body.password));
 }
 
-//This should be changed to simply clear the jwt token from the db then linked to
-//an AJAX request from the logout button
-Owner.logout = function(){
-	// $window.localStorage.removeItem('jwtToken');
-	$window.localStorage.delete();
-}
+// Owner.logout = function(){
+// 	localStorage.clear();
+// }
 
 

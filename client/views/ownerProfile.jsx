@@ -67,16 +67,22 @@ var OwnerProfile = React.createClass({
   },
 
   loadDealsFromServer: function() {
-    $.ajax({
-      url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
-      dataType: "json",
-      success: function(deals) {
-        this.setState({ deals: deals });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
+    var token = localStorage.getItem("token");
+    if (token) {
+      $.ajax({
+        url: "api/owner/getAllDeals/" + localStorage.getItem("restaurant_id"),
+        dataType: "json",
+        headers: { "x-access-token": token },
+        success: function(deals) {
+          this.setState({ deals: deals });
+        }.bind(this),
+        error: function(xhr, status, err) {
+          localStorage.clear();
+          console.error(this.props.url, status, err.toString());
+          location.reload(true);
+        }.bind(this)
+      });
+    }
   },
 
   render: function() {

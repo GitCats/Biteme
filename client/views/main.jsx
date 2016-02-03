@@ -2,11 +2,14 @@ var React = require('react');
 var IndexLink = require('react-router').IndexLink;
 var Link = require('react-router').Link;
 var Auth = require('./auth.jsx').auth;
+var jwt = require ('jwt-simple');
 
 
 var App = React.createClass({
 
   componentWillMount: function() {
+    // var decoded = jwt.decode(localStorage.getItem('token'), 'super.super.secret.shhh');
+    // console.log(decoded);
     //If not logged in:
     if (!localStorage.getItem("token")) {
       this.setState({ userAuth: true, ownerAuth: true, userLink: false, ownerLink: false, logoutLink: false });
@@ -48,10 +51,10 @@ var App = React.createClass({
   navToHome: function() {
     if (localStorage.getItem("token") && !localStorage.getItem("restaurant_id")) {
       this.setState({ userLink: true, ownerLink: false });
-      localStorage.setItem("dontShowUserLink", false);
+      localStorage.setItem("dontShowUserLink", "");
     } else if (localStorage.getItem("token") && localStorage.getItem("restaurant_id")) {
       this.setState({ ownerLink: true, userLink: false });
-      localStorage.setItem("dontShowOwnerLink", false);
+      localStorage.setItem("dontShowOwnerLink", "");
     }
   },
 
