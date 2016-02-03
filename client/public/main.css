@@ -1,47 +1,22 @@
-* {
-  margin: 0;
-  padding: 0;
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Open Sans', sans-serif;
+  background-image: url(../assets/Blue-Ray-Background.jpg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
  }
 
- a, .deal {
-  cursor: pointer;
-}
-
 .bluePlateLogo {
-  margin: auto;
-  display: flex;
-  height: 250px;
-  /*width: 350px;*/
+  width: 33%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: block;
 }
 
-nav {
-  background: transparent !important;
-  border: none !important;
-}
-
-.nav li a {
-  color: white;
-  font-size: 18px;
-  text-decoration: none;
-  padding: 10px;
-}
-
-.nav li a:hover {
-  background-color: white !important;
-  color: #05018f;
-  border-radius: 5px;
-}
-
-.logoDiv {
-    background: #07FEFF; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#05018f, #07FEFF); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#05018f, #07FEFF); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#05018f, #07FEFF); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#05018f, #07FEFF); /* Standard syntax */
-    height: 375px;
-}
-.container-fluid  {
-  background-color: transparent !important;
+a, .deal {
+  cursor: pointer;
 }
 
 h1 {
@@ -49,49 +24,36 @@ h1 {
 }
 
 /*** MAIN PAGE - ALL DEALS ***/
-/** dealList is the container div for dealLogoDiv and dealInfoDiv **/
-/** Within dealInfoDiv is dealDescription, dealUrl, dealAddress, dealExpiration **/
 
 .dealList {
   width: 80%;
   margin: auto;
-  padding-top: 20px;
-}
-
-.dealBox {
-  padding-bottom: 30px;
 }
 
 .deal {
-  margin-bottom: 30px;
-  /*margin-right: 1px;*/
+  margin: 12px auto;
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 100%;
   height: 225px;
+  border: 2px solid #ddd;
   border-radius: 5%;
   border: 2px solid #ddd;
+  display: inline-block;
+  display: flex;
   background-color: #fff;
   box-shadow: 5px 5px 5px #666;
-  border-radius: 15px;
-  overflow: hidden;
-  display: inline;
 }
 
-.deal:hover {
-  box-shadow: 6px 6px 6px #05018f;
+.dealExpiration {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 15px;
 }
 
 .dealLogoDiv {
-  width: 40%;
-  float: left;
-}
-
-.dealInfoDiv {
-  width: 60%;
-  float: right;
-  color: black;
-/*  text-align: center;
-  position: absolute;
-  display: inline-block;*/
-  padding-left: 100px;
+  width: 250px;
+  height: 200px;
 }
 
 .dealLogo {
@@ -101,41 +63,19 @@ h1 {
   max-height: 200px;
 }
 
-
-/** These are all within a single dealInfoDiv **/
-
-.dealExpiration {
-  font-family: Helvetica;
-  font-weight: bold;
-  font-size: 32px;
-  position: absolute;
-  margin-left: 145px;
-  margin-top: 50px;
-  color: #07008F;
+.resCheckBoxPic {
+  max-width: 150px;
+  max-height: 100px;
 }
 
-.dealDescription {
-  font-size: 20px;
-  margin-top: 10px;
-}
-
-.expiration {
-  display: block;
-  position: absolute;
-  padding-top: 88px;
-  padding-left: 85px;
-  font-family: Arial;
-}
-
-.dealAddress {
-  font-family: Arial;
-  font-size: 16px;
-  font-color: gray;
-}
-
-.dealUrl {
-  font-family: Arial;
-  font-size: 16px;
+.dealInfoDiv {
+  width: 50%;
+  float: right;
+  padding: 10px 5px 0px 10px;
+  color: black;
+  text-align: center;
+  position: relative;
+  display: inline-block;
 }
 
 #map {
@@ -181,6 +121,11 @@ color: #050091;
   margin-top: 10px;
 }
 
+/*.dropdown {
+  margin-left: 40%;
+  color: black;
+}*/
+
 .today {
   display: block;
   margin-top: 0px;
@@ -190,70 +135,38 @@ color: #050091;
   font-size: 30px;
   font-family: 'chalkboard';
 }
-/*
-.nav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: inline;
-}
 
-.navbar-default {
-  background-color: #2e3192;
-  background-image: none;
-  border: none;
+.dealBox {
+  /*background-color: white;*/
+  color: black;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
-
-#navbar ul {
-  padding-top: 20px;
-}
-#navbar li {
-  list-style: none;
-  display: inline;
-  padding-top: 120px;
-}
-
-#navbar li a {
-  color: white;
-  font-size: 18px;
-  text-decoration: none;
-  padding: 10px;
-}
-
-#navbar li a:hover {
-  background-color: white;
-  color: #05018f;
-  border-radius: 5px;
-}
-*/
-/* SINGLE DEAL MODAL */
 
 .singleDealLogo {
+  margin-top: 10%;
+  margin-bottom: 25%;
   max-width: 250px;
-  max-height: 250px;
-  padding-top: -125px;
+  max-height: 200px;
 }
 
 .singleDealLogoDiv {
   height: 50px;
 }
 
-.singleDealInfoDiv {
-  position: relative;
+.expireButton {
   float: right;
+  height: 45px;
+  margin: 14px 0 0 5px;
+  border: 1px solid #286090;
+  border-radius: 8px;
 }
 
-/* DROPDOWNS */
-
-.filterByExpiration select {
-  width: 200px;
-  height: 25px;
-  font-color: white;
+#top {
+  display: inline-block;
+  width: 10%;
+  margin-left: 45.5%;
+  color: pink;
+  text-align: center;
 }
-
-.expirationButton {
-  font-color: green;
-  background-color: white;
-}
-
 
