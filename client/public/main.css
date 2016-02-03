@@ -14,22 +14,25 @@
   /*width: 350px;*/
 }
 
+
+/* NAV BAR */ 
+
 nav {
   background: transparent !important;
   border: none !important;
 }
 
-.nav li a {
-  color: white;
+.nav li a, .glyphicon {
+  color: white !important;
   font-size: 18px;
   text-decoration: none;
   padding: 10px;
 }
 
-.nav li a:hover {
+.nav li a:hover, .glyphicon:hover {
   background-color: white !important;
-  color: #05018f;
-  border-radius: 5px;
+  color: #05018f !important;
+  border-radius: 5px !important;
 }
 
 .logoDiv {
@@ -40,12 +43,10 @@ nav {
     background: linear-gradient(#05018f, #07FEFF); /* Standard syntax */
     height: 375px;
 }
+
+
 .container-fluid  {
   background-color: transparent !important;
-}
-
-h1 {
-  text-align: center;
 }
 
 /*** MAIN PAGE - ALL DEALS ***/
@@ -56,10 +57,13 @@ h1 {
   width: 80%;
   margin: auto;
   padding-top: 20px;
+  height: 1500px;
 }
 
 .dealBox {
   padding-bottom: 30px;
+   /*background-color: white !important;*/
+   height: 1500px;
 }
 
 .deal {
@@ -67,7 +71,7 @@ h1 {
   /*margin-right: 1px;*/
   height: 225px;
   border-radius: 5%;
-  border: 2px solid #ddd;
+  border: 3px solid #ddd;
   background-color: #fff;
   box-shadow: 5px 5px 5px #666;
   border-radius: 15px;
