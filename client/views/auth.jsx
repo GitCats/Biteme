@@ -101,7 +101,6 @@ var UserSignup = React.createClass({
         localStorage.setItem("user", signUpRequest.email);
         localStorage.setItem("token", response.token);
         localStorage.setItem("expires", response.expires);
-        console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
         this.props.setUserAuthState();
         this.props.history.push('/userprofile');
@@ -324,7 +323,6 @@ var OwnerLogin = React.createClass({
         localStorage.setItem("restaurant_id", response.restaurant_id);
         localStorage.setItem("token", response.token);
         localStorage.setItem("expires", response.expires);
-        console.log("Logged in as:", localStorage.getItem("user"));
         this.closeModal();
         this.props.setOwnerAuthState();
         this.props.history.push('/ownerprofile');
