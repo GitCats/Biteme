@@ -30,19 +30,19 @@ Deal.all = function() {
   var time = dateArray[4];
   time = time.replace(/\:/g, ''); //removes the ':' from the current time
   time = time.slice(0, 4); //time is now in form 2300 (military)
-  time = Number(time);
+  // time = Number(time);
   return db('deals')
     .where(function(){ //case where it is the same month, but later in the month
       this.where('month', month).andWhere('day', '>', day).andWhere('year', year)
     })
     .orWhere(function(){ //case where it is anytime after this month
-      this.where('month', '>', month).andWhere('year', '>=', year)
+      this.where('month', '>', month).andWhere('year', year)
     })
     .orWhere(function(){ //case where it is next year or anytime after
       this.where('year', '>', year)
     })
     .orWhere(function(){ //case where it is the exact day
-      this.where('month', month).andWhere('day', day).andWhere('year', year).andWhere('expiration', '>', time)
+      this.where('expiration', '>', time).andWhere('day', day).andWhere('month', month).andWhere('year', year)
     })
     .orderBy('year', 'asc')
     .orderBy('month', 'asc')
@@ -63,5 +63,10 @@ Deal.update = function(body){
     return db('deals').select('deal_id', 'expiration', 'day', 'month', 'year', 'month')
       .where('deal_id', body.deal_id)
     })
+}
+
+Deal.remove = function(body){
+  return db('deals')
+  .where('deal_id', body.deal_id).del()
 }
 

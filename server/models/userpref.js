@@ -71,10 +71,11 @@ UserPref.phone = function(body){
   	var phoneNum = body.phone;
     var newPhone = '';
     var counter = 0;
-    phoneNum.forEach(function(letter){
+    for(var i = 0; i<phoneNum.length; i++){
+      var letter = phoneNum[i];
       if(letter==='(' || letter===')' || letter==='-' || letter==='+'){}
       else{newPhone += letter; counter++;}
-    });
+    }
     if(counter===10){newPhone = '+1' + newPhone;}
     else{newPhone = '+' + newPhone;}
 
@@ -95,5 +96,5 @@ UserPref.phone = function(body){
 UserPref.notifications = function(body){
   return db('users')
   .where('user_id', body.user_id)
-  .select('phone_notify', 'email_notify')
+  .select('phone_notify', 'email_notify', 'phone')
 }

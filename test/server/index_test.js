@@ -63,8 +63,11 @@ describe("The Server", function(){
           expect(target).to.eql(0)
         })
 
+      //remove the deal that was created for testing
       yield request(app)
-
+        .post('/api/deals/remove')
+        .send({"deal_id": deal_id})
+        .expect(201)
     })
   })
 
