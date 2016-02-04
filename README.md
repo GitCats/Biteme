@@ -12,7 +12,7 @@ Flash deals from restaurants to consumers:
 
 ## Versioning
 
-This project may be deployed in different versions with changes in time-based filtering ability, styling, or other features. The current master branch is a reflection of various considerations including balancing the project team members' visions of the end product and time constraints.
+This project may be deployed in different versions with changes in time-based filtering ability, styling, or other features.
 
 ## Documentation
 
@@ -24,7 +24,7 @@ BluePlate relies on the Google Maps, Yelp, Nodemailer, and Twilio APIs.
 
 ## Installation
 
-After cloning down the repo, run "npm install" from the parent directory to install project dependencies. Run the "nodemon" command in another command line window from the parent directory to start the server.
+After cloning down the repo, run "npm install" from the parent directory to install project dependencies. Run the "nodemon" command from the parent directory to start the server.
 
 ## Licensing
 
