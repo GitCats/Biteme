@@ -1,7 +1,7 @@
 ### -=-HEROKU-=-
 -=-Interacting with online PostgreSQL db-=-
-Enter this in your terminal to access the db directly:
-heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
+</br>Enter this in your terminal to access the db directly:
+</br>heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 
 ### -=-POSTGRESQL COMMANDS-=-
 * \dt => will show all tables in the db
@@ -35,8 +35,8 @@ POST /api/deals/filterByProximity => Accepts user input as origin address and re
                                    destinations: 'addresses of displayed deals'
                                   }
 
-POST /api/login/signup => When a user inputs an email, this will check against the database to see 
-                          if it already exists; if it doesn't then it will create it and save the password associated with it (after hashing it) to the users database & then send back a 201 (created) response.
+POST /api/login/signup => When a user inputs an email, this will check against the database to 
+                          see if it already exists; if it doesn't then it will create it and save the password associated with it (after hashing it) to the users database & then send back a 201 (created) response.
 
                     request body: {
                                    email: 'person@gmail.com',
@@ -45,6 +45,14 @@ POST /api/login/signup => When a user inputs an email, this will check against t
 
 POST /api/login/signin => Selects user email where matched in the database and then runs a 
                           function to hash and compare the submitted password against the stored password in database. If they match it sends a 200 response.
+
+                    request body: {
+                                   email: 'person@gmail.com',
+                                   password: 'abc'
+                                  }
+
+POST /api/owner/signup => When an owner inputs an email, this will check against the database to 
+                          see if it already exists; if it doesn't then it will create it and save the password associated with it (after hashing it) to the restaurants database & then send back a 201 (created) response.
 
                     request body: {
                                    email: 'person@gmail.com',
