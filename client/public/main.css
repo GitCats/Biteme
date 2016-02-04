@@ -3,7 +3,7 @@
   padding: 0;
  }
 
- a, .deal {
+ a {
   cursor: pointer;
 }
 
@@ -289,7 +289,7 @@ color: #050091;
 .ownerProfile {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  width: 80%;
+  /*width: 80%;*/
   margin: auto;
 }
 

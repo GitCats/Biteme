@@ -646,52 +646,64 @@ var Deal = React.createClass({
     var displayTime = hours + ':' + minutes + period;
     if (+new Date(this.props.year, this.props.month-1, this.props.day) > Date.now()) {
       return (
-        <div className='deal col-md-6 col-sm-12' >
-          <div className='dealLogoDiv'>
-            <img src={this.props.image_name} className='dealLogo' />
-          </div>
-          <div className='dealInfoDiv'>
-            <div className='dealDescription'>
-              {this.props.description}
-            </div>
-            <div className='dealUrl'>
-              {this.props.url}
-            </div>
-            <div className='dealAddress'>
-              {this.props.address.split(',')}
-            </div>
-            <br/>
-            <span style={{marginRight: '45%', fontWeight: 'bold'}}>Expiration:</span>
-            <div className='dealExpiration'>
-              {displayDate} {displayTime}
-            </div>
-          </div>
-          <button onClick={this.expireDeal} className='expireButton'>Expire this Deal</button>
+      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+      <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <div className="dealLogoDiv">
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
+        <div className="dealInfoDiv">
+          <h3 className="dealDescription">
+            {this.props.description}
+          </h3>
+          <div className="dealUrl">
+            {this.props.url}
+          </div>
+          <div className="dealAddress">
+            {this.props.address.split(",", 1)}
+          </div>
+          <span className='dealExpiration'>
+              Expires: {displayDate} at {displayTime}
+          </span> 
+          <div>
+            {this.props.destination}
+          </div>
+          <div>
+            {this.props.distance}
+          </div>
+        </div>  
+      </div> 
+      <button onClick={this.expireDeal} className='expireButton'>Expire this Deal</button>
+      </div>
       );
     } else {
       return (
-        <div className='deal col-md-6 col-sm-12' >
-          <div className='dealLogoDiv'>
-            <img src={this.props.image_name} className='dealLogo' />
-          </div>
-          <div className='dealInfoDiv'>
-            <h3 className='dealDescription'>
-              {this.props.description}
-            </h3>
-            <div className='dealUrl'>
-              {this.props.url}
-            </div>
-            <div className='dealAddress'>
-              {this.props.address.split(',')}
-            </div>
-            <br/>
-            <span style={{marginRight: '45%', fontWeight: 'bold'}}>Expiration:</span>
-            <div className='dealExpiration'>
-              {displayDate} {displayTime}
-            </div>
-          </div>
+      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+      <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <div className="dealLogoDiv">
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
+        <div className="dealInfoDiv">
+          <h3 className="dealDescription">
+            {this.props.description}
+          </h3>
+          <div className="dealUrl">
+            {this.props.url}
+          </div>
+          <div className="dealAddress">
+            {this.props.address.split(",", 1)}
+          </div>
+          <span className='dealExpiration'>
+              Expires: {displayDate} at {displayTime}
+          </span> 
+          <div>
+            {this.props.destination}
+          </div>
+          <div>
+            {this.props.distance}
+          </div>
+        </div>  
+      </div> 
+      </div>
       );
     }
   }
