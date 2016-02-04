@@ -23,11 +23,16 @@ input:focus, textarea:focus {
 }
 
 
-/* NAV BAR */ 
+/* NAV BAR */
 
 nav {
   background: transparent !important;
   border: none !important;
+}
+
+.resCheckBoxPic {
+  max-width: 150px;
+  max-height: 100px;
 }
 
 .nav li a, .glyphicon {
@@ -101,11 +106,6 @@ nav {
   margin-bottom: 5%;
   max-width: 250px;
   max-height: 200px;
-}
-
-.resCheckBoxPic {
-  max-width: 250px;
-  max-height: 250px;
 }
 
 /** These are all within a single dealInfoDiv **/
