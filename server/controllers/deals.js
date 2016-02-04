@@ -24,39 +24,46 @@ router.post('/update', function(req, res){
     })
 })
 
+//Filter deals by proximity to location
 router.post('/filterByProximity', function(req, res) {
 
   var origins = req.body.startingPoint
   var formatOrigins = origins.replace(/\s/g, '+')
   var destinations = req.body.destinations;
 
-var options = {
-  "method": "GET",
-  "hostname": "maps.googleapis.com",
-  "port": null,
-  "path": "/maps/api/distancematrix/json?origins=" + formatOrigins + "&destinations=" + destinations + "&units=imperial&key=AIzaSyCsOnxdY0OYiuT4WOPL2LQIMBPfkJUveX8",
-};
+  var options = {
+    "method": "GET",
+    "hostname": "maps.googleapis.com",
+    "port": null,
+    "path": "/maps/api/distancematrix/json?origins=" + formatOrigins + "&destinations=" + destinations + "&units=imperial&key=AIzaSyCsOnxdY0OYiuT4WOPL2LQIMBPfkJUveX8",
+  };
 
-var req = http.request(options, function (res) {
-  var chunks = [];
+  var req = http.request(options, function (res) {
+    var chunks = [];
 
-  res.on("data", function (chunk) {
-    chunks.push(chunk);
-    var body = Buffer.concat(chunks);
+    res.on("data", function (chunk) {
+      chunks.push(chunk);
+      var body = Buffer.concat(chunks);
+    });
+
+    res.on("end", function (body) {
+      var body = Buffer.concat(chunks);
+      sendData(body)
+    });
+
+
   });
+  req.end();
 
-  res.on("end", function (body) {
-    var body = Buffer.concat(chunks);
-    sendData(body)
-  });
- 
-
-});
-req.end();
-
-var sendData = function(body) {
-  res.send(body)
-}
-
+  var sendData = function(body) {
+    res.send(body)
+  }
 })
 
+router.post('/remove', function(req, res){
+  Deal.remove(req.body)
+    .then(function(data){
+      console.log('is there data:', data);
+      res.sendStatus(201);
+    })
+})

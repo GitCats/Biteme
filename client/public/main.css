@@ -19,6 +19,11 @@ nav {
   border: none !important;
 }
 
+.resCheckBoxPic {
+  max-width: 150px;
+  max-height: 100px;
+}
+
 .nav li a {
   color: white;
   font-size: 18px;
