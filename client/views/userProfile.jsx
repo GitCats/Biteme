@@ -207,7 +207,8 @@ var UserProfile = React.createClass({
         success: function(data) {
           var restaurants = [];
           data.forEach(function(row){
-            restaurants.push(row);
+            if(row.image_name){
+            restaurants.push(row);}
           }.bind(this));
           this.setState({restaurantPreferences: restaurants});
           //nested ajax call to get stored preferences
