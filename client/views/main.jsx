@@ -2,7 +2,6 @@ var React = require('react');
 var IndexLink = require('react-router').IndexLink;
 var Link = require('react-router').Link;
 var Auth = require('./auth.jsx').auth;
-var jwt = require ('jwt-simple');
 
 
 var App = React.createClass({

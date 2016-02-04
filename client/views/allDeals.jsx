@@ -256,7 +256,6 @@ var AllDeals = React.createClass({
       cache: false,
       type: 'GET',
       success: function(data) {
-        console.log('deals', data)
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
