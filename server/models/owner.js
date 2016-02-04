@@ -25,6 +25,16 @@ Owner.allDeals = function(url, token) {
    .where ('deals.restaurant_id', id)
 }
 
+Owner.signup = function(body){
+  var newUser = body.username;
+  var newPass = body.password;
+  return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)});
+ }
+ 
+ //this will check to see if the username is in the restaurant table
+ //if it isn't it will return an error
+ //if it is, it will check password for a match
+ //if they both match it will send a 200 (okay) response
 Owner.signin = function(body){
 	return db('restaurants')
 	.where('username', body.username)

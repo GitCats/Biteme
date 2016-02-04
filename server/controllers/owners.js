@@ -47,6 +47,20 @@ router.post('/login', function (req, res) {
   })
 })
 
+router.post('/signup', function (req, res){
+ 	Owner.signup(req.body)
+ 	.then(function(data){
+ 		if(data.length > 0){
+ 			res.status(401).send({message: 'Email already exists!'});
+ 		} else{
+ 			Owner.create(req.body)
+ 			.then(function(data){
+ 				res.json(Owner.genToken(req.body.username)).status(201)
+ 			})
+ 		}
+ 	})
+ })
+
 //POST A NEW DEAL
 //this will take user inputed information and use
 //it to add a new deal to the database
