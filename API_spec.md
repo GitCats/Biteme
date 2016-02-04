@@ -35,8 +35,8 @@ POST /api/deals/filterByProximity => Accepts user input as origin address and re
                                    destinations: 'addresses of displayed deals'
                                   }
 
-POST /api/login/signup => When a user inputs an email, this will check against the database to 
-                          see if it already exists; if it doesn't then it will create it and save the password associated with it (after hashing it) to the users database & then send back a 201 (created) response.
+POST /api/login/signup => When a user inputs an email address, this will check against the 
+                          database to see if it already exists; if it doesn't then it will create it and save the password associated with it (after hashing it) to the users database & then send back a 201 (created) response.
 
                     request body: {
                                    email: 'person@gmail.com',
@@ -51,8 +51,8 @@ POST /api/login/signin => Selects user email where matched in the database and t
                                    password: 'abc'
                                   }
 
-POST /api/owner/signup => When an owner inputs an email, this will check against the database to 
-                          see if it already exists; if it doesn't then it will create it and save the password associated with it (after hashing it) to the restaurants database & then send back a 201 (created) response.
+POST /api/owner/signup => When an owner inputs an email address, this will check against the 
+                          database to see if it already exists; if it doesn't then it will create it and save the password associated with it (after hashing it) to the restaurants database & then send back a 201 (created) response.
 
                     request body: {
                                    email: 'person@gmail.com',
