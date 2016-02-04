@@ -42,7 +42,7 @@ var Map = React.createClass({
     			el: '#map',
     			lat: latlng.lat(),
     			lng: latlng.lng(),
-    			zoom: 12,
+    			zoom: 14,
     			zoomControl : true,
     			zoomControlOpt: {
         			style : 'SMALL',
