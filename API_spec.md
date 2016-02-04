@@ -1,17 +1,17 @@
-## -=-HEROKU-=-
+### -=-HEROKU-=-
 -=-Interacting with online PostgreSQL db-=-
 Enter this in your terminal to access the db directly:
 heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 
-## -=-POSTGRESQL COMMANDS-=-
-* ==>\dt - will show all tables in the db
-* ==>\q - will escape you from the db
-* ==>SELECT * from [TABLENAME}; - will display all of the columns and records for a table
-* ==>SELECT * from [TABLENAME} WHERE name='jimmy johns'; - will display all of the columns for records where the name column = 'jimmy johns'
-* ==>DELETE FROM [TABLENAME] WHERE name='jimmy johns'; - deletes all records from specified table based on whatever comes after 'where' statement
-* ==>UPDATE [TABLENAME] SET expiration=2200 WHERE id=1; - updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
+### -=-POSTGRESQL COMMANDS-=-
+* \dt - will show all tables in the db
+* \q - will escape you from the db
+* SELECT * from [TABLENAME}; - will display all of the columns and records for a table
+* SELECT * from [TABLENAME} WHERE name='jimmy johns'; - will display all of the columns for records where the name column = 'jimmy johns'
+* DELETE FROM [TABLENAME] WHERE name='jimmy johns'; - deletes all records from specified table based on whatever comes after 'where' statement
+* UPDATE [TABLENAME] SET expiration=2200 WHERE id=1; - updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
 
-## API Routes
+### API Routes
 
 GET /api/deals/getAll => Gets all deals from database that haven't expired.
 
@@ -84,7 +84,7 @@ POST /api/owner/updateProfile => Updates the restaurant owner's profile informat
                            name: 'restaurant name',
                            image_name: 'restaurant image URL',
                            address: 'complete address',
-                           cuisine_id: cuisine id,
+                           cuisine_id: INTEGER,
                            res_description: 'restaurant description',
                            url: 'business website',
                            phone_number: 'phone number'
@@ -115,11 +115,18 @@ POST /api/userprefs/cuisines => Obtains stored cuisine preferences from database
                            user_id: INTEGER
                           }
 
+                    response body: [ {cuisine}, {cuisine}, ... ]
+
 POST /api/userprefs/notifications => Obtains stored user preferences from the database.
 
                     body: {
                            user_id: INTEGER
                           }
+
+                    response body: [{
+                                     email_notify: 'yes/no',
+                                     phone_notify: 'yes/no'
+                                    }]
 
 POST /api/userprefs/updateRes => Updates user's preferred restaurants. A '1' value adds that 
                                  preference, '0' removes the preference.
