@@ -64,6 +64,7 @@ UserPref.allRestaurants = function() {
   return db('restaurants')
     .select('name', 'restaurant_id', 'image_name')
 }
+
 //updates phone number
 UserPref.phone = function(body){
   if(body.phone){
