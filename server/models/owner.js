@@ -29,12 +29,12 @@ Owner.signup = function(body){
   var newUser = body.email;
   return db('restaurants')
   .where('username', newUser)
-  .select('username', 'password')
+  .select('username')
  }
 
 
  Owner.createUser = function(body){
-  var newUser = body.username;
+  var newUser = body.email;
   var newPass = body.password;
   return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)})
   .then(function(){
@@ -68,7 +68,7 @@ Owner.genToken = function(req) {
   return {
     token: token,
     expires: expires,
-    user: req.username,
+    user: req.email,
     restaurant_id: req.restaurant_id
   };
 }

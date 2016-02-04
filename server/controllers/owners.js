@@ -51,11 +51,11 @@ router.post('/signup', function (req, res){
  	Owner.signup(req.body)
  	.then(function(data){
  		if(data.length > 0){
- 			res.status(401).send({message: 'Username already exists!'});
+ 			res.status(401).send({message: 'Email already exists!'});
  		} else{
  			Owner.createUser(req.body)
  			.then(function(data){
- 				res.json(Owner.genToken(req.body.username, data[0].restaurant_id)).status(201)
+ 				res.json(Owner.genToken({email: req.body.email, restaurant_id: data[0].restaurant_id})).status(201)
  			})
  		}
  	})
