@@ -26,7 +26,7 @@ Owner.allDeals = function(url, token) {
 }
 
 Owner.signup = function(body){
-  var newUser = body.username;
+  var newUser = body.email;
   return db('restaurants')
   .where('username', newUser)
   .select('username', 'password')
