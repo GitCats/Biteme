@@ -4,7 +4,7 @@
  }
 
  body {
-  background-color: #FFFFA0 !important;
+  background-color: #DFDEE0 !important;
  }
 
  a, .deal {
@@ -247,8 +247,8 @@ color: #050091;
   background-color: white;
 }
 
-.addressBar {
+/*.addressBar {
   text-align: center;
   display: inline-block;
   padding: 10px;
-}
+}*/

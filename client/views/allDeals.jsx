@@ -578,7 +578,7 @@ var SearchBar = React.createClass({
     return (
       <span className="addressBar">
       <form className='searchBar input-group input-group-lg' onSubmit={this.filterByProximity} >
-        <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address'></input>
+        <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address' width='100%'></input>
         <input type='submit' className='searchButton btn btn-default' value='Submit'></input>
       </form>
       </span>
