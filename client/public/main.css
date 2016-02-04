@@ -3,6 +3,10 @@
   padding: 0;
  }
 
+ body {
+  background-color: #FFFFA0 !important;
+ }
+
  a, .deal {
   cursor: pointer;
 }
@@ -32,14 +36,6 @@ nav {
   border-radius: 5px;
 }
 
-.logoDiv {
-    background: #07FEFF; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#05018f, #07FEFF); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#05018f, #07FEFF); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#05018f, #07FEFF); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#05018f, #07FEFF); /* Standard syntax */
-    height: 375px;
-}
 .container-fluid  {
   background-color: transparent !important;
 }
@@ -247,4 +243,8 @@ color: #050091;
   background-color: white;
 }
 
-
+.addressBar {
+  text-align: center;
+  display: inline-block;
+  padding: 10px;
+}
