@@ -1,7 +1,7 @@
 ### -=-HEROKU-=-
 -=-Interacting with online PostgreSQL db-=-
-Enter this in your terminal to access the db directly:
-heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
+</br>Enter this in your terminal to access the db directly:
+</br>heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 
 ### -=-POSTGRESQL COMMANDS-=-
 * \dt => will show all tables in the db
