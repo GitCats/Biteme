@@ -11,7 +11,7 @@ Owner.generateHash = function(password){
 Owner.validPassword = function(attemptedPass, correctPass){
 	return bcrypt.compareSync(attemptedPass, correctPass);
 }
-//selects and returns all deals for the specified restaurant
+//Selects and returns all deals for the specified restaurant
 Owner.allDeals = function(url, token) {
 	var id = url.substr(url.lastIndexOf("/")+1);
 	console.log('id: ', id)
@@ -25,15 +25,6 @@ Owner.allDeals = function(url, token) {
    .where ('deals.restaurant_id', id)
 }
 
-Owner.signup = function(body){
-	var newUser = body.username;
-	var newPass = body.password;
-	return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)});
-}
-//this will check to see if the username is in the restaurant table
-//if it isn't it will return an error
-//if it is, it will check password for a match
-//if they both match it will send a 200 (okay) response
 Owner.signin = function(body){
 	return db('restaurants')
 	.where('username', body.username)
@@ -94,11 +85,6 @@ Owner.updatePassword = function(body){
 	.update('password', Owner.generateHash(body.password));
 }
 
-Owner.logout = function(){
-	// $window.localStorage.removeItem('jwtToken');
-	$window.localStorage.delete();
-}
-
 Owner.matchRestaurants = function(body){
   var id = body.restaurant_id;
   return db('restaurants')
@@ -108,15 +94,3 @@ Owner.matchRestaurants = function(body){
   .select('users.phone', 'users.email', 'users.phone_notify', 'users.email_notify', 'restaurants.name');
 }
 
-// Owner.matchCuisines = function(body) {
-//   var cuisine = body.cuisine;
-//   return db('cuisines')
-//   .where('cuisines.cuisine_type', cuisine)
-//   .join('cuisine_prefs', 'cuisines.cuisine_id', '=', 'cuisine_prefs.cuisine_pref_id')
-//   .leftJoin('user', 'cuisine_prefs.user_id', '=', 'users.user_id')
-//   .select('users.phone');
-// }
-
-//body will be {"restaurant_id": 1, "cuisine_id": 7,
-//"image_name": "http://sheehancan.com/bbq/wp-content/uploads/2015/05/421929_324378574277288_656785892_n.jpg",
-//"description": "World Famous Barbecue", "url": "www.franklinbarbecue.com", "address": "900 East 11th Street, Austin, TX"}
