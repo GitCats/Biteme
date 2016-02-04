@@ -82,6 +82,7 @@ var App = React.createClass({
               <ul className='nav navbar-nav navbar-left'>
                 <li><a href='#'>Sign Up <span className='sr-only'>(current)</span></a></li>
                 <li><a href='#'>Log In</a></li>
+                <li><a href='#'>Sign Out</a></li>
               </ul>
               <ul className='nav navbar-nav navbar-right'>
                 <li className='dropdown'>

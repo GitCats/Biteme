@@ -26,11 +26,24 @@ Owner.allDeals = function(url, token) {
 }
 
 Owner.signup = function(body){
-  var newUser = body.username;
-  var newPass = body.password;
-  return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)});
+  var newUser = body.email;
+  return db('restaurants')
+  .where('username', newUser)
+  .select('username')
  }
- 
+
+
+ Owner.createUser = function(body){
+  var newUser = body.email;
+  var newPass = body.password;
+  return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)})
+  .then(function(){
+    return db('restaurants')
+    .where('username', newUser)
+    .select('restaurant_id');
+  });
+}
+
  //this will check to see if the username is in the restaurant table
  //if it isn't it will return an error
  //if it is, it will check password for a match
@@ -55,7 +68,7 @@ Owner.genToken = function(req) {
   return {
     token: token,
     expires: expires,
-    user: req.username,
+    user: req.email,
     restaurant_id: req.restaurant_id
   };
 }
@@ -65,7 +78,7 @@ Owner.expiresIn = function(numDays) {
   return dateObj.setDate(dateObj.getDate() + numDays);
 }
 
-Owner.getProfile = function(url){
+Owner.getProfile = function(url){ 
 	var id = url.substr(url.lastIndexOf("/")+1);
 	return db('restaurants')
 	.where('restaurant_id', id)
