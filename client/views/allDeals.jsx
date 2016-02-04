@@ -546,21 +546,28 @@ var CuisineDropdown = React.createClass({
 });
 
 var ExpirationDropdown = React.createClass({
-  selectExpiration: function(e) {
-    var expirationDate = e.target.value;
-    var exp = parseInt(expirationDate)
-    this.props.updateExpiration(exp)
-  },
+ selectExpiration: function(e) {
+   console.log(typeof e)
+   var expirationDate = e;
+   var exp = expirationDate
+   this.props.updateExpiration(exp)
+ },
 
-  render: function() {
-    return (
-      <ul className="nav nav-tabs">
-          <li role="presentation" className='expirationButton active'><a href="#">Today</a></li>
-          <li role="presentation" className='expirationButton'><a href="#">Tomorrow</a></li>
-          <li role="presentation" className='expirationButton'><a href="#">This Week</a></li>
-      </ul>
-    );
-  }
+ render: function() {
+   return (
+     <div className="filterByExpiration btn-group btn-group-justified" role="group" aria-label="...">
+         <div className="btn-group" role="group">
+         <button type="button" onClick={this.selectExpiration.bind(this, 1)} className="expirationButton btn btn-default" value="1">Today</button>
+          </div>
+          <div className="btn-group" role="group">
+         <button type="button" onClick={this.selectExpiration.bind(this, 2)} className="expirationButton btn btn-default" value="2">Tomorrow</button>
+         </div>
+          <div className="btn-group" role="group">
+         <button type="button" onClick={this.selectExpiration.bind(this, 3)} className="expirationButton btn btn-default" value="3">This Week</button>
+         </div>
+     </div>
+   );
+ }
 });
 
 var SearchBar = React.createClass({
@@ -582,6 +589,7 @@ var SearchBar = React.createClass({
       )
   }
 })
+
 
 const customStyles = {
    overlay : {

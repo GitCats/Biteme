@@ -276,19 +276,12 @@ color: #050091;
 
 /* DROPDOWNS */
 
-/*.filterByExpiration select {
-  width: 200px;
-  height: 25px;
-  font-color: white;
-}*/
+.filterByExpiration {
+  padding: 10px;
+}
 
 .filterByCuisine {
   text-align: center;
-}
-
-.expirationButton {
-  font-color: green;
-  background-color: white;
 }
 
 .searchBar {
