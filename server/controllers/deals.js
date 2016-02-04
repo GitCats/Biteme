@@ -2,7 +2,6 @@ var express = require('express');
 var Deal = require('../models/deal.js');
 var bodyParser = require('body-parser');
 var http = require('https');
-
 var router = express.Router();
 module.exports = router;
 
@@ -50,8 +49,6 @@ router.post('/filterByProximity', function(req, res) {
       var body = Buffer.concat(chunks);
       sendData(body)
     });
-
-
   });
   req.end();
 

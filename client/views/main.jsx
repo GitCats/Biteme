@@ -9,18 +9,18 @@ var App = React.createClass({
 
   componentWillMount: function() {
     //If not logged in:
-    if (!localStorage.getItem("token")) {
+    if (!localStorage.getItem('token')) {
       this.setState({ userAuth: true, ownerAuth: true, userLink: false, ownerLink: false, logoutLink: false });
     //If logged in as a user:
-    } else if (localStorage.getItem("token") && !localStorage.getItem("restaurant_id")) {
+    } else if (localStorage.getItem('token') && !localStorage.getItem('restaurant_id')) {
       this.setState({ userAuth: false, ownerAuth: false, logoutLink: true });
-      if (!localStorage.getItem("dontShowUserLink")) {
+      if (!localStorage.getItem('dontShowUserLink')) {
         this.setState({ userLink: true, ownerLink: false });
       }
     //If logged in as an owner:
     } else {
       this.setState({ userAuth: false, ownerAuth: false, logoutLink: true });
-      if (!localStorage.getItem("dontShowOwnerLink")) {
+      if (!localStorage.getItem('dontShowOwnerLink')) {
         this.setState({ userLink: false, ownerLink: true });
       }
     }
@@ -47,17 +47,17 @@ var App = React.createClass({
   },
 
   navToHome: function() {
-    if (localStorage.getItem("token") && !localStorage.getItem("restaurant_id")) {
+    if (localStorage.getItem('token') && !localStorage.getItem('restaurant_id')) {
       this.setState({ userLink: true, ownerLink: false });
-      localStorage.setItem("dontShowUserLink", "");
-    } else if (localStorage.getItem("token") && localStorage.getItem("restaurant_id")) {
+      localStorage.setItem('dontShowUserLink', '');
+    } else if (localStorage.getItem('token') && localStorage.getItem('restaurant_id')) {
       this.setState({ ownerLink: true, userLink: false });
-      localStorage.setItem("dontShowOwnerLink", "");
+      localStorage.setItem('dontShowOwnerLink', '');
     }
   },
 
   undoLink: function() {
-    if (localStorage.getItem("token") && !localStorage.getItem("restaurant_id")) {
+    if (localStorage.getItem('token') && !localStorage.getItem('restaurant_id')) {
       this.setState({ userLink: false });
     } else {
       this.setState({ ownerLink: false });
@@ -67,30 +67,31 @@ var App = React.createClass({
   render: function() {
     return (
       <div className='logoDiv'>
-        <nav className="navbar navbar-default">
-          <div className="container-fluid">
-            <div className="navbar-header">
-              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
-                <span className="icon-bar"></span>
+        <nav className='navbar navbar-default'>
+          <div className='container-fluid'>
+            <div className='navbar-header'>
+              <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#bs-example-navbar-collapse-1' aria-expanded='false'>
+                <span className='sr-only'>Toggle navigation</span>
+                <span className='icon-bar'></span>
+                <span className='icon-bar'></span>
+                <span className='icon-bar'></span>
               </button>
-              <a className="navbar-brand glyphicon glyphicon-home" href="#"></a>
+              <a className='navbar-brand glyphicon glyphicon-home' href='#'></a>
             </div>
-            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul className="nav navbar-nav navbar-left">
-                <li><a href="#">Sign Up <span className="sr-only">(current)</span></a></li>
-                <li><a href="#">Log In</a></li>
+            <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
+              <ul className='nav navbar-nav navbar-left'>
+                <li><a href='#'>Sign Up <span className='sr-only'>(current)</span></a></li>
+                <li><a href='#'>Log In</a></li>
+                <li><a href='#'>Sign Out</a></li>
               </ul>
-              <ul className="nav navbar-nav navbar-right">
-                <li className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Restaurant Owner? <span className="caret"></span></a>
-                  <ul className="dropdown-menu">
-                    <li><a href="#">Sign In</a></li>
-                    <li><a href="#">Sign Up</a></li>
-                    <li role="separator" className="divider"></li>
-                    <li><a href="#">Edit Profile</a></li>
+              <ul className='nav navbar-nav navbar-right'>
+                <li className='dropdown'>
+                <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Restaurant Owner? <span className='caret'></span></a>
+                  <ul className='dropdown-menu'>
+                    <li><a href='#'>Sign In</a></li>
+                    <li><a href='#'>Sign Up</a></li>
+                    <li role='separator' className='divider'></li>
+                    <li><a href='#'>Edit Profile</a></li>
                   </ul>
                 </li>
               </ul>
