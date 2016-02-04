@@ -373,17 +373,16 @@ var OwnerForm = React.createClass({
         <form onSubmit={this.updateProfile}>
           <span>Restaurant name: </span><input type='text' valueLink={this.linkState('name')} />
           <img src={this.state.logo} alt='Your Logo' className='dealLogo' style={{margin: 25}} />
-          Enter a new URL to update your logo: <input type='text' valueLink={this.linkState('logo')} size='30' />
+          <div>Enter a new URL to update your logo: <input type='text' valueLink={this.linkState('logo')} size='75' /></div><br></br>
           <div>
             Street Address: <input type='text' valueLink={this.linkState('address')} size='45' />{' '}
             City: <input type='text' valueLink={this.linkState('city')} />{' '}
             State: <input type='text' valueLink={this.linkState('state')} size='10' />{' '}
             ZIP: <input type='text' valueLink={this.linkState('zip')} maxLength='5' size='8' />
-            <br/><br/>
-            Restaurant Phone Number:{' '}
+            <br></br>Restaurant Phone Number:{' '}
             <input type='text' valueLink={this.linkState('phone')} maxLength='14' size='15' style={{margin: 25}} />{' '}
             Business website:{' '}<input type='text' valueLink={this.linkState('website')} size='40'/>
-            <br/><br/>Select the cuisine that best matches your restaurant:{' '}
+            <div>Select the cuisine that best matches your restaurant:{' '}
             <select valueLink={this.linkState('cuisine')} >
               <option value=''>Choose your cuisine</option>
               <option value='1'>Mexican</option>
@@ -402,8 +401,8 @@ var OwnerForm = React.createClass({
               <option value='14'>Steakhouse</option>
               <option value='15'>Indian</option>
               <option value='16'>Other</option>
-            </select>
-            <br/><br/>
+            </select></div>
+            <br></br>
             <p>Describe your restaurant in a couple of lines:</p>
             <textarea valueLink={this.linkState('res_description')} rows='2' cols='68' maxLength='150' />
             <br/><br/>

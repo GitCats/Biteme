@@ -497,9 +497,9 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
+      <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
       <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
       <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
-      <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
         {dealNodes}
       </div>
     );
@@ -519,7 +519,7 @@ var CuisineDropdown = React.createClass({
 
   render: function() {
     return (
-      <form className="filterByCuisine">
+      <form className="filterByCuisine dropdown">
         <select onChange={this.selectCuisine}>
           <option value="">-Choose your cuisine-</option>
           <option value="">All cuisines</option>
@@ -554,7 +554,7 @@ var ExpirationDropdown = React.createClass({
 
   render: function() {
     return (
-      <form className="filterByExpiration">
+      <form className="filterByExpiration dropdown">
         <select onChange={this.selectExpiration}>
           <option className='expirationButton' value="1">Today</option>
           <option className='expirationButton' value="2">Tomorrow</option>
@@ -574,10 +574,12 @@ var SearchBar = React.createClass({
 
   render: function() {
     return (
-      <form className='searchBar' onSubmit={this.filterByProximity} >
-        <input type='text' name='address' id='address'></input>
-        <input type='submit' className='searchButton' value='search'></input>
+      <span className="addressBar">
+      <form className='searchBar input-group input-group-lg' onSubmit={this.filterByProximity} >
+        <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address' width='100%'></input>
+        <input type='submit' className='searchButton btn btn-default' value='Submit'></input>
       </form>
+      </span>
       )
   }
 

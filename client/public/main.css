@@ -11,6 +11,10 @@ body {
   background-color: #FDFDFD !important;
 }
 
+input:focus, textarea:focus {
+  outline: none;
+}
+
 .bluePlateLogo {
   margin: auto;
   display: flex;
@@ -27,7 +31,7 @@ nav {
 }
 
 .nav li a, .glyphicon {
-  color: white !important;
+  color: #050091 !important;
   font-size: 18px;
   text-decoration: none;
   padding: 10px;
@@ -38,18 +42,6 @@ nav {
   color: #05018f !important;
   border-radius: 5px !important;
 }
-
-.logoDiv {
-    background: #07FEFF; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left top, #07008F, #07FEFF); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right, #07008F, #07FEFF); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, #07008F, #07FEFF); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right, #07008F, #07FEFF); /* Standard syntax */
-    height: 375px;
-}
-
- #068DCD;
-
 
 .container-fluid  {
   background-color: transparent !important;
@@ -214,13 +206,11 @@ color: #050091;
     padding: 0;
     display: inline;
 }
-
 .navbar-default {
   background-color: #2e3192;
   background-image: none;
   border: none;
 }
-
 #navbar ul {
   padding-top: 20px;
 }
@@ -229,14 +219,12 @@ color: #050091;
   display: inline;
   padding-top: 120px;
 }
-
 #navbar li a {
   color: white;
   font-size: 18px;
   text-decoration: none;
   padding: 10px;
 }
-
 #navbar li a:hover {
   background-color: white;
   color: #05018f;
@@ -318,10 +306,23 @@ color: #050091;
 }
 
 .ownerProfile input:focus {
-  box-shadow: 6px 6px 6px #05018f;
-  border: red;
+  box-shadow: 4px 4px 4px #05018f;
+  border: 3px solid #05018f;
+  padding: 3px;
 }
 
+.addressBar {
+  text-align: center;
+  display: inline-block;
+  padding: 10px;
+}
 
-
-   
+input[type='submit'] {
+  background-color: #05018f;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  height: 40px;
+  width: 25%;
+  border-radius: 5px;
+}
