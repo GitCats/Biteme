@@ -27,7 +27,7 @@ body {
 
 nav {
   background: transparent !important;
-  border: none !important;
+/*  border: none !important;*/
 }
 
 .nav li a, .glyphicon {
@@ -291,4 +291,5 @@ color: #050091;
 
 .searchBar {
   padding: 10px;
+  z-index: 0;
 }
