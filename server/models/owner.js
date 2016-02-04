@@ -11,7 +11,7 @@ Owner.generateHash = function(password){
 Owner.validPassword = function(attemptedPass, correctPass){
 	return bcrypt.compareSync(attemptedPass, correctPass);
 }
-//selects and returns all deals for the specified restaurant
+//Selects and returns all deals for the specified restaurant
 Owner.allDeals = function(url, token) {
 	var id = url.substr(url.lastIndexOf("/")+1);
 	console.log('id: ', id)
@@ -25,15 +25,6 @@ Owner.allDeals = function(url, token) {
    .where ('deals.restaurant_id', id)
 }
 
-Owner.signup = function(body){
-	var newUser = body.username;
-	var newPass = body.password;
-	return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)});
-}
-//this will check to see if the username is in the restaurant table
-//if it isn't it will return an error
-//if it is, it will check password for a match
-//if they both match it will send a 200 (okay) response
 Owner.signin = function(body){
 	return db('restaurants')
 	.where('username', body.username)
@@ -92,5 +83,14 @@ Owner.updatePassword = function(body){
 	return db('restaurants')
 	.where('username', body.username)
 	.update('password', Owner.generateHash(body.password));
+}
+
+Owner.matchRestaurants = function(body){
+  var id = body.restaurant_id;
+  return db('restaurants')
+  .where('restaurants.restaurant_id', id)
+  .join('res_prefs', 'restaurants.restaurant_id', '=', 'res_prefs.restaurant_id')
+  .leftJoin('users', 'res_prefs.user_id', '=', 'users.user_id')
+  .select('users.phone', 'users.email', 'users.phone_notify', 'users.email_notify', 'restaurants.name');
 }
 

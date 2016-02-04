@@ -1,5 +1,7 @@
 var express = require('express');
 var Owner = require('../models/owner');
+var client = require('twilio')('AC396bc879ace8d5ae25ce367daf1cb8bc', '93159cd050ac87c1a1b1e4dca3e9613d');
+var mailer = require('nodemailer');
 var jwt = require ('jwt-simple');
 var router = express.Router();
 
@@ -25,25 +27,6 @@ router.get('/getAllDeals/*', function (req, res) {
 	}
 })
 
-//SIGN UP (POST)
-//when owner inputs a new username, this will check against the database 
-//to see if it already exists if it doesn't then it will create it and 
-//save the password associated with it (after hashing) to the restaurants database
-//then send back 201 (created) response
-router.post('/signup', function (req, res){
-	Owner.signup(req.body)
-	.then(function(data){
-		if(data.length > 0){
-			res.status(401).send({message: 'Email already exists!'});
-		} else{
-			Owner.create(req.body)
-			.then(function(data){
-				res.json(Owner.genToken(req.body.username)).status(201)
-			})
-		}
-	})
-})
-
 //POST OWNER LOG IN
 //this will take the inputed username and password
 //and compare the username to the database
@@ -64,20 +47,59 @@ router.post('/login', function (req, res) {
   })
 })
 
-router.post('/updatePassword', function(req, res){
-	Owner.updatePassword(req.body)
-	.then(function(data) {
-		res.sendStatus(201).send(data);
-	})
-})
-
 //POST A NEW DEAL
 //this will take user inputed information and use
 //it to add a new deal to the database
 router.post('/create', function (req, res) {
 	Owner.create(req.body).then(function() {
-		res.sendStatus(201);
-	})
+		Owner.matchRestaurants(req.body).then(function(data){
+			//data that comes back is an array of objects with only one property, the user phone number
+			data.forEach(function(val){
+				var num = val.phone;
+				var email = val.email;
+				var restName = val.name;
+				//Twilio
+				if(val.phone_notify==='yes'){
+					client.sendMessage({
+						to: num, //user number
+						from: '15125806884', //number twilio assigns us to send messages from
+						body: restName + ' has made a new deal! Get on BluePlate and check it out'
+					}, function(err, responseData) {if(err){console.log(err);}}
+					);
+				}
+
+				//everything between here and res.sendStatus(201) deals with email
+				if(val.email_notify==='yes'){
+					var smtpTransport = mailer.createTransport("SMTP", {
+					service: "Gmail",
+					auth: {
+						user: "blueplate.mks@gmail.com",
+						pass: "makerzsquare"
+						}
+					});
+
+					var mail = {
+						from: "blueplate.mks@gmail.com",
+						to: email,
+						subject: "New Deal up on BluePlate!",
+						// text: restName + "has created a new flash deal! Get on BluePlate and check it out!",
+						html: "<h1>"+ restName+" has created a new flash deal. Get on BluePlate to check it out!</h1>"
+					};
+
+					smtpTransport.sendMail(mail, function(error, response){
+						if(error){
+							console.log('error', error);
+						} else{
+							console.log("Message sent: " + response.message);
+						}
+						smtpTransport.close();
+					});
+				}
+
+			});
+			res.sendStatus(201);
+		});
+	});
 })
 
 router.get('/getProfile/*', function(req, res){
@@ -94,6 +116,5 @@ router.post('/updateProfile', function (req, res) {
 		res.status(200).send(data);
 	})
 })
-
 
 module.exports = router;

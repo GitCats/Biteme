@@ -65,18 +65,35 @@ UserPref.allRestaurants = function() {
     .select('name', 'restaurant_id', 'image_name')
 }
 
+//updates phone number
 UserPref.phone = function(body){
-	var phoneNum = body.phone;
-  var newPhone = '';
-  var counter = 0;
-  phoneNum.forEach(function(letter){
-    if(letter==='(' || letter===')' || letter==='-' || letter==='+'){}
-    else{newPhone += letter; counter++;}
-  });
-  if(counter===10){newPhone = '+1' + newPhone;}
-  else{newPhone = '+' + newPhone;}
+  if(body.phone){
+  	var phoneNum = body.phone;
+    var newPhone = '';
+    var counter = 0;
+    phoneNum.forEach(function(letter){
+      if(letter==='(' || letter===')' || letter==='-' || letter==='+'){}
+      else{newPhone += letter; counter++;}
+    });
+    if(counter===10){newPhone = '+1' + newPhone;}
+    else{newPhone = '+' + newPhone;}
 
-	return db('users')
-	.where('user_id', body.user_id)
-	.update('phone', newPhone)
+  	return db('users')
+  	.where('user_id', body.user_id)
+  	.update('phone', newPhone)
+    .update('phone_notify', body.phonePref)
+    .update('email_notify', body.email)
+  } else {
+    return db('users')
+    .where('user_id', body.user_id)
+    .update('phone_notify', body.phonePref)
+    .update('email_notify', body.email)
+  }
+}
+
+//get preferences for phone and/or email notifications
+UserPref.notifications = function(body){
+  return db('users')
+  .where('user_id', body.user_id)
+  .select('phone_notify', 'email_notify')
 }

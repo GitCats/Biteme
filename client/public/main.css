@@ -112,6 +112,10 @@ nav {
   max-height: 200px;
 }
 
+.resCheckBoxPic {
+  max-width: 250px;
+  max-height: 250px;
+}
 
 /** These are all within a single dealInfoDiv **/
 

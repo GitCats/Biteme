@@ -56,6 +56,21 @@ var RestaurantCheckBox = React.createClass({
   }
 });
 
+var RadioButton = React.createClass({
+  handleChange: function(e) {
+    this.props.changeRadio(e.target.checked, this.props.commdevice);
+  },
+
+  render: function() {
+    return (
+      <p style={{display: "inline", marginRight: 30}}>
+        {this.props.commdevice}&nbsp;
+        <input type="checkbox" checked={this.props.OnOff} onChange={this.handleChange} />
+      </p>
+    );
+  }
+});
+
 var CuisineForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
@@ -77,7 +92,7 @@ var CuisineForm = React.createClass({
 
     return (
     <div className="cuisineform">
-      <h3>Get updates for these cuisines:</h3>
+      <h3>Get notifications for these cuisines:</h3>
       <form onSubmit={this.handleSubmit}>
         {options}
         <input type="submit" value="Save Changes" className="cuisineButton" />
@@ -106,7 +121,7 @@ var RestaurantForm = React.createClass({
 
     return (
       <div className="restaurantform">
-        <h3>Get updates for these restaurants:</h3>
+        <h3>Get notifications for these restaurants:</h3>
         <form onSubmit={this.handleSubmit}>
           {options}
           <input type="submit" value="Save Changes" className="restaurantButton" />
@@ -128,23 +143,23 @@ var PhoneForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
     var number = this.state.number.trim();
-    if(!number){
-      return;
-    }
     this.props.submitphone(number);
     this.setState({number: ''});
   },
 
   render: function() {
+
     return (
       <div className="phoneNumberEntry">
-        <span><h4>Enter your phone number to receive text updates:</h4>
+        <h4>Enter your phone number to receive text notifications, and select text and/or email notifications:</h4>
         <p>(Please include area code)</p>
         <form onSubmit={this.handleSubmit}>
           <input type="text" placeholder="+15121234567" value={this.state.number} onChange={this.handleNumberChange} />
-          <input type="submit" value="Submit" />
+          <p style={{display: "inline", margin: 30}}></p>
+          <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Phone"} key={1} OnOff={this.props.phoneOnOff} />
+          <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Email"} key={2} OnOff={this.props.emailOnOff} />
+          <input type="submit" value="Save Changes" />
         </form>
-        </span>
       </div>
     );
   }
@@ -206,7 +221,6 @@ var UserProfile = React.createClass({
             data: {"user_id": user_id},
             success: function(data) {
               var checkedRes = [];
-              // var temp = [];
               data.forEach(function(row){
                 checkedRes.push(row["name"]);
               }.bind(this));
@@ -221,7 +235,7 @@ var UserProfile = React.createClass({
               this.forceUpdate();
             }.bind(this),
             error: function(xhr, status, err) {
-              console.error('api/userprefs/cuisines', status, err.toString());
+              console.error('api/userprefs/restaurants', status, err.toString());
             }.bind(this)
           });
         }.bind(this), //first success closer
@@ -235,6 +249,27 @@ var UserProfile = React.createClass({
     }
   },
 
+  loadUserPrefs: function() {
+    var user_id = localStorage.getItem("user_id");
+    $.ajax({
+      url: 'api/userprefs/notifications',
+      dataType: 'json',
+      type: 'POST',
+      data: {"user_id": user_id},
+      success: function(data) {
+        var phoneChecked = data[0]["phone_notify"];
+        phoneChecked==='yes' ? phoneChecked=true : phoneChecked = false;
+        var emailChecked = data[0]["email_notify"];
+        emailChecked==='yes' ? emailChecked=true : emailChecked=false;
+        this.setState({phoneOnOff: phoneChecked, emailOnOff: emailChecked});
+      }.bind(this),
+
+      error: function(xhr, status, err) {
+        console.error('api/userprefs/notifications', status, err.toString());
+      }.bind(this)
+    });
+  },
+
   submitCuisinesChange: function(changes) {
     var user_id = localStorage.getItem("user_id");
     var changes = {"user_id": user_id, "cuisine_id": this.state.cuisineChanges};
@@ -245,6 +280,7 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": changes},
       success: function(data) {
+        alert("Your changes have been saved!");
         this.setState({cuisineViewAltered: false});
         this.setState({cuisineChanges: {}});
       }.bind(this),
@@ -264,6 +300,7 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": changes},
       success: function(data) {
+        alert("Your changes have been saved!");
         this.setState({resViewAltered: false});
         this.setState({restaurantChanges: {}});
       }.bind(this),
@@ -323,19 +360,33 @@ var UserProfile = React.createClass({
 
   handlePhoneChange: function(number) {
     var id = localStorage.getItem('user_id');
-    var sending = {user_id: id, phone: number};
+    var phone = this.state.phoneOnOff;
+    phone===true ? phone='yes' : phone='no';
+    var email = this.state.emailOnOff;
+    email===true ? email='yes' : email='no';
+    var sending = {user_id: id, phone: number, phonePref: phone, email: email};
+    sending = JSON.stringify(sending);
     $.ajax({
       url: 'api/userprefs/phone',
-      dataType: 'text',
+      dataType: 'json',
       type: 'POST',
-      data: sending,
+      data: {"a": sending},
       success: function(data) {
+        alert("Your changes have been saved!");
         console.log('return data from phone', data);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error('api/userprefs/phone', status, err.toString());
       }.bind(this)
     });
+  },
+
+  handleRadioChange: function(yesOrNo, name) {
+    if(name==="Phone"){
+      this.setState({phoneOnOff: yesOrNo});
+    } else{
+      this.setState({emailOnOff: yesOrNo});
+    }
   },
 
   getInitialState: function() {
@@ -345,13 +396,16 @@ var UserProfile = React.createClass({
       restaurantPreferences: [],
       restaurantChanges: {},
       cuisineViewAltered: false,
-      resViewAltered: false
+      resViewAltered: false,
+      emailOnOff: false,
+      phoneOnOff: false
     };
   },
 
   componentDidMount: function() {
     this.loadCuisinesFromServer();
     this.loadRestaurants();
+    this.loadUserPrefs();
   },
 
   // onChangeSubmit={this.handleCuisinesChange}
@@ -362,9 +416,9 @@ var UserProfile = React.createClass({
       return (
         <div className="userprefs">
           <h2>Hello {user}</h2>
-          <PhoneForm submitphone={this.handlePhoneChange}/>
-          <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
+          <PhoneForm submitphone={this.handlePhoneChange} onRadioChange={this.handleRadioChange} phoneOnOff={this.state.phoneOnOff} emailOnOff={this.state.emailOnOff}/>
           <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
+          <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
         </div>
       );
     } else {

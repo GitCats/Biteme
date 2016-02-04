@@ -32,7 +32,7 @@ var Auth = React.createClass({
     return (
       <div>
         <br/>
-        <div id="userAuth">
+        <div id='userAuth'>
           <UserSignup userAuth={this.props.userAuth} 
                       setUserAuthState={this.props.setUserAuthState} 
                       history={this.props.history} />
@@ -40,18 +40,18 @@ var Auth = React.createClass({
                       setUserAuthState={this.props.setUserAuthState} 
                       history={this.props.history} />
         </div>
-        <div id="ownerAuth">
+        <div id='ownerAuth'>
           <OwnerSignup ownerAuth={this.props.ownerAuth} />
           <OwnerLogin ownerAuth={this.props.ownerAuth} 
                       setOwnerAuthState={this.props.setOwnerAuthState}
                       history={this.props.history} />
         </div>
-        <div id="Links">
+        <div id='Links'>
           <Links userLink={this.props.userLink} 
                  ownerLink={this.props.ownerLink} 
                  undoLink={this.props.undoLink} />
         </div>
-        <div id="logout">
+        <div id='logout'>
           <Logout logoutLink={this.props.logoutLink} 
                   setLogoutUpdate={this.props.setLogoutUpdate} />
         </div>
@@ -87,7 +87,7 @@ var UserSignup = React.createClass({
     var email = this.state.email.trim();
     var password = this.state.password.trim();
     if (!email || !password) {
-      alert("You must complete the form to sign up.")
+      alert('You must complete the form to sign up.')
       return;
     }
     var signUpRequest = { email: email, password: password };
@@ -98,18 +98,18 @@ var UserSignup = React.createClass({
       data: signUpRequest,
       success: function(res) {
         var response = JSON.parse(res);
-        localStorage.setItem("user", signUpRequest.email);
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("expires", response.expires);
-        console.log("Logged in as:", localStorage.getItem("user"));
+        localStorage.setItem('user', signUpRequest.email);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('expires', response.expires);
+        localStorage.setItem('user_id', response.id);
         this.closeModal();
         this.props.setUserAuthState();
         this.props.history.push('/userprofile');
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
+        console.error('XHR:', xhr, '\nstatus:', status, '\nError:', err.toString());
         this.setState({email: '', password: ''});
-        xhr.status === 401 ? alert("Someone already signed up with that email address.") : null;
+        xhr.status === 401 ? alert('Someone already signed up with that email address.') : null;
       }.bind(this)
     });
   },
@@ -124,7 +124,7 @@ var UserSignup = React.createClass({
             onRequestClose={this.closeModal}
             style={customStyles} >
             <br/>
-            <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+            <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
             <br/>
             <h2>Sign Up for Notifications</h2>
             <form className='signupForm' onSubmit={this.signUp}>
@@ -180,7 +180,7 @@ var UserLogin = React.createClass({
     var email = this.state.email.trim();
     var password = this.state.password.trim();
     if (!email || !password) {
-      alert("You must complete the form to log in.")
+      alert('You must complete the form to log in.')
       return;
     }
     var loginRequest = { email: email, password: password };
@@ -191,18 +191,18 @@ var UserLogin = React.createClass({
       data: loginRequest,
       success: function(res) {
         var response = JSON.parse(res);
-        localStorage.setItem("user", loginRequest.email);
-        localStorage.setItem("user_id", response.user);
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("expires", response.expires);
+        localStorage.setItem('user', loginRequest.email);
+        localStorage.setItem('user_id', response.user);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('expires', response.expires);
         this.closeModal();
         this.props.setUserAuthState();
         this.props.history.push('/userprofile');
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
+        console.error('XHR:', xhr, '\nstatus:', status, '\nError:', err.toString());
         this.setState({email: '', password: ''});
-        xhr.status !== 200 ? alert("Incorrect username or password.") : null;
+        xhr.status !== 200 ? alert('Incorrect username or password.') : null;
       }.bind(this)
     });
   },
@@ -211,13 +211,13 @@ var UserLogin = React.createClass({
     if (this.props.userAuth) {
       return (
         <span>
-        {" "}or <a onClick={this.openModal}>Sign In</a>
+        {' '}or <a onClick={this.openModal}>Sign In</a>
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={customStyles} >
           <br/>
-          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
           <br/>
           <h2>Log In to Manage Notifications</h2>
           <form className='loginForm' onSubmit={this.login}>
@@ -269,7 +269,7 @@ var OwnerSignup = React.createClass({   //Prompt only, no AJAX request.
             isOpen={this.state.modalIsOpen}
             onRequestClose={this.closeModal}
             style={customStyles} >
-            <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+            <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
             <h2>Call us at (512)-555-5555 to register an account.</h2>
           </Modal>
         </span>
@@ -309,7 +309,7 @@ var OwnerLogin = React.createClass({
     var email = this.state.email.trim();
     var password = this.state.password.trim();
     if (!email || !password) {
-      alert("You must complete the form to log in.")
+      alert('You must complete the form to log in.')
       return;
     }
     var ownerLoginRequest = { username: email, password: password };
@@ -320,19 +320,18 @@ var OwnerLogin = React.createClass({
       data: ownerLoginRequest,
       success: function(res) {
         var response = JSON.parse(res);
-        localStorage.setItem("user", ownerLoginRequest.username);
-        localStorage.setItem("restaurant_id", response.restaurant_id);
-        localStorage.setItem("token", response.token);
-        localStorage.setItem("expires", response.expires);
-        console.log("Logged in as:", localStorage.getItem("user"));
+        localStorage.setItem('user', ownerLoginRequest.username);
+        localStorage.setItem('restaurant_id', response.restaurant_id);
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('expires', response.expires);
         this.closeModal();
         this.props.setOwnerAuthState();
         this.props.history.push('/ownerprofile');
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error("XHR:", xhr, "\nstatus:", status, "\nError:", err.toString());
+        console.error('XHR:', xhr, '\nstatus:', status, '\nError:', err.toString());
         this.setState({email: '', password: ''});
-        xhr.status !== 200 ? alert("Incorrect username or password.") : null;
+        xhr.status !== 200 ? alert('Incorrect username or password.') : null;
       }.bind(this)
     });
   },
@@ -341,13 +340,13 @@ var OwnerLogin = React.createClass({
     if (this.props.ownerAuth) {
       return (
         <span>
-        {" "}or <a onClick={this.openModal}>Sign In</a>
+        {' '}or <a onClick={this.openModal}>Sign In</a>
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={customStyles} >
           <br/>
-          <img src="client/assets/x-sm-gray.png" onClick={this.closeModal} style={{float: "right", maxWidth: "10px", cursor: "pointer" }} />
+          <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
           <br/>
           <h2>Log In to Manage Deals</h2>
           <form className='loginForm' onSubmit={this.ownerLogin}>
@@ -381,11 +380,11 @@ var Links = React.createClass({
   render: function() {
     if (this.props.ownerLink && !this.props.userLink) {
       return (
-        <Link to="/ownerprofile" onClick={this.props.undoLink}>Restaurant Profile</Link>
+        <Link to='/ownerprofile' onClick={this.props.undoLink}>Restaurant Profile</Link>
       )
     } else if (this.props.userLink && !this.props.ownerLink) {
       return (
-        <Link to="/userprofile" onClick={this.props.undoLink}>Go to Notification Preferences</Link>
+        <Link to='/userprofile' onClick={this.props.undoLink}>Go to Notification Preferences</Link>
       )
     } else {
       return (

@@ -34,7 +34,7 @@ router.post('/signup', function (req, res){
 		} else{
 			Auth.create(req.body)
 			.then(function(data){
-				res.json(Auth.genToken(req.body.email)).status(201)
+				res.json(Auth.genToken(req.body.email, data[0].user_id)).status(201)
 			})
 		}
 	})

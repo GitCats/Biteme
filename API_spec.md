@@ -1,59 +1,168 @@
--=-HEROKU-=-
--=-Interacting with online Postgresql db-=-
-Enter this in your terminal to access the db directly:
-heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
+### -=-HEROKU-=-
+-=-Interacting with online PostgreSQL db-=-
+</br>Enter this in your terminal to access the db directly:
+</br>heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
 
--=-POSTGRESQL COMMANDS-=-
-==>\dt - will show all tables in the db
-==>\q - will escape you from the db
-==>SELECT * from [TABLENAME}; - will display all of the columns and records for a table
-==>SELECT * from [TABLENAME} WHERE name='jimmy johns'; - will display all of the columns for records where the name column = 'jimmy johns'
-==>DELETE FROM [TABLENAME] WHERE name='jimmy johns'; - deletes all records from specified table based on whatever comes after 'where' statement
-==>UPDATE [TABLENAME] SET expiration=2200 WHERE id=1; - updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
+### -=-POSTGRESQL COMMANDS-=-
+* \dt => will show all tables in the db
+* \q => will escape you from the db
+* SELECT * from [TABLENAME}; => will display all of the columns and records for a table
+* SELECT * from [TABLENAME} WHERE name='jimmy johns'; => will display all of the columns for records where the name column = 'jimmy johns'
+* DELETE FROM [TABLENAME] WHERE name='jimmy johns'; => deletes all records from specified table based on whatever comes after 'where' statement
+* UPDATE [TABLENAME] SET expiration=2200 WHERE id=1; => updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
 
-GET/api/deals/getAll => gets all deals from database that haven't expired
+### API Routes
 
-POST /api/deals/delete => delete deal from deals table. Sends a 200 and the message 'Deleted'
-  body:{deal_id: INTEGER}
+GET /api/deals/getAll => Gets all deals from database that haven't expired.
 
-body: {
-	restaurant_id: INTEGER,
-  	description: varchar(5000),
-  	expiration: varchar(4),
-    month: INTEGER (ex: 10),
-    day: INTEGER (ex: 23),
-    year: INTEGER (2016)
-	}
+                    response body: [ {deal}, {deal}, ... ]
 
-POST/api/login/signin => selects email where they match and then runs a function to encrypt and check password against encrypted password in database. if they match it sends a 200.
+POST /api/deals/update => Sets the expiration of a deal to the current date and time.
 
-body: {
-	"email": "person@gmail.com",
-	"password": "abc"
-	}
+                    request body: {
+                              	   deal_id: INTEGER,
+                                   expiration: 'military time',
+                                   day: new Date().getDate(),
+                                   month: new Date().getMonth() + 1,
+                                   year: new Date().getFullYear()
+                              	  }
 
-POST /api/login/signup => when a user inputs an email, this will check against the database to see if it already exists, if it doesn't then it will create it and save the password associated with it (after encrypting it) to the users database & then send back 201 (created) response
+POST /api/deals/filterByProximity => Accepts user input as origin address and returns matrix of 
+                                     routes to addresses of currently displayed deals (makes a built-in GET request to Google Maps Distance Matrix API).
 
-POST/api/owner/signup => when we input username and password for the restaurant owners it will hash the password and store in the database
+                    request body: {
+                                   startingPoint: 'origin address',
+                                   destinations: 'addresses of displayed deals'
+                                  }
 
-POST /api/owner/updatePassword => this will update the restaurant table where the username matches with a new hashed password
+POST /api/login/signup => When a user inputs an email, this will check against the database to see 
+                          if it already exists; if it doesn't then it will create it and save the password associated with it (after hashing it) to the users database & then send back a 201 (created) response.
 
+                    request body: {
+                                   email: 'person@gmail.com',
+                                   password: 'abc'
+                                  }
 
-POST /api/owner/login => this will take the inputed username and password and compare the username to the database if found, it will compare the passwords and if they match it will send a 200 response
+POST /api/login/signin => Selects user email where matched in the database and then runs a 
+                          function to hash and compare the submitted password against the stored password in database. If they match it sends a 200 response.
 
-POST/api/owner/create => this will take user inputed information and use it to add a new deal to the database
+                    request body: {
+                                   email: 'person@gmail.com',
+                                   password: 'abc'
+                                  }
 
-GET /api/owner/getalldeals/* => this gets all the info from the database according to restaurant id that is related to the specific restaurant
+POST /api/owner/login => Selects owner email where matched in the database and then runs a 
+                         function to hash and compare the submitted password against the stored password in database. If they match it sends a 200 response.
 
-POST /api/userprefs/updateCuis => updates user's cuisine preferences
-  body: {
-    user_id: 1,
-    cuisine_id: {3: 1, 6: 0, 9: 1}
-  }
-  In the cuisine_id object, the key values represent cuisine_id's to update. A '1' value means add that preference, '0' means remove the preference
+                    request body: {
+                                   email: 'person@gmail.com',
+                                   password: 'abc'
+                                  }
 
-GET /api/userprefs/allRestaurants => returns a list of all the restaurants currently in the db. Includes the 'name', 'restaurant_id', 'image_name' properties
+POST/api/owner/create => This will take user inputted information and use it to add a new deal to 
+                         the database. Also, users that have this restaurant or its cuisine 'checked' under their preferences will receive a text message and/or email to be notified that this restaurant has made a new deal.
 
-POST /api/owner/updateProfile=> updates the restaurant owner's profile information. All of these fields must be specified: restaurant_id, name, cuisine_id, image_name, res_description, phone_number, url, address. If any particular property is not specified in the request body, it will be overwritten with a blank value in the db. Also, this POST request returns all of the restaurant's info
+                    request body: { 
+                                   restaurant_id: INTEGER, 
+                                   description: 'deal description',
+                                   expiration: 'expiry',
+                                   month: 'month of expiration',
+                                   day: 'day of expiration',
+                                   year: 'year of expiration'
+                                  }
 
-POST /api/userprefs/phone needs a request body that has the user_id and a phone in the following format “+14158675311” (a string)- it will update the user table to include the phone number where the user_id matches
+GET /api/owner/getAllDeals/* => This gets all the deals from the database according to restaurant 
+                                id.
+
+                    response body: [ {deal}, {deal}, ... ]
+
+POST /api/owner/updateProfile => Updates the restaurant owner's profile information. If any 
+                                 particular property is not specified in the request body, it will be overwritten with a blank value in the database. Also, it returns all of the restaurant's info.
+
+                    request body: {
+                                   restaurant_id: INTEGER,
+                                   name: 'restaurant name',
+                                   image_name: 'restaurant image URL',
+                                   address: 'complete address',
+                                   cuisine_id: INTEGER,
+                                   res_description: 'restaurant description',
+                                   url: 'business website',
+                                   phone_number: 'phone number'
+                                  }
+
+GET /api/owner/getProfile/* => Retrieves all previously entered restaurant profile information 
+                               according to restaurant id.
+
+                    response body: [ { profile info } ]
+
+GET /api/userprefs/allRestaurants => Returns a list of all the restaurants currently in the 
+                                     database. Includes the 'name', 'restaurant_id', 'image_name', and 'checked' (Boolean).
+
+                    response body: [ {restaurant}, {restaurant}, ... ]
+
+POST /api/userprefs/restaurants => Obtains stored restaurant preferences from database, called 
+                                   upon success of /api/userprefs/allRestaurants GET request.
+
+                    request body: {
+                                   user_id: INTEGER
+                                  }
+
+                    response body: [ {restaurant}, {restaurant}, ... ]
+
+POST /api/userprefs/cuisines => Obtains stored cuisine preferences from database.
+
+                    request body: {
+                                   user_id: INTEGER
+                                  }
+
+                    response body: [ {cuisine}, {cuisine}, ... ]
+
+POST /api/userprefs/notifications => Obtains stored user preferences from the database.
+
+                    request body: {
+                                   user_id: INTEGER
+                                  }
+
+                    response body: [{
+                                     email_notify: 'yes/no',
+                                     phone_notify: 'yes/no'
+                                    }]
+
+POST /api/userprefs/updateRes => Updates user's preferred restaurants. A '1' value adds that 
+                                 preference, '0' removes the preference.
+
+                    request body: {
+                                   'a': JSON.stringify({ 
+                                                        user_id: INTEGER, 
+                                                        restaurant_id: {
+                                                                        restaurant_id: 1,
+                                                                        restaurant_id: 0,
+                                                                        ...
+                                                                       }
+                                                      })
+                                  }
+
+POST /api/userprefs/updateCuis => Updates user's cuisine preferences. In the cuisine_id object, 
+                                  the key values represent cuisine_ids to update. A '1' value adds that preference, '0' removes the preference.
+
+                    request body: {
+                                   user_id: INTEGER,
+                                   cuisine_id: {
+                                                cuisine_id: 1,
+                                                cuisine_id: 0,
+                                                cuisine_id: 1
+                                               }
+                                  }
+
+POST /api/userprefs/phone => Updates the user table to include any submitted phone number or 
+                             change in preference in notification method.
+
+                    request body: {
+                                   'a': JSON.stringify({ 
+                                                        user_id: INTEGER, 
+                                                        phone: 'phone #', 
+                                                        phonePref: 'yes/no', 
+                                                        email: 'yes/no'
+                                                      })
+                                  }
+
