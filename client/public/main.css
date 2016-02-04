@@ -76,7 +76,6 @@ nav {
   margin-bottom: 30px;
   /*margin-right: 1px;*/
   height: 225px;
-  border-radius: 5%;
   border: 3px solid #ddd;
   background-color: #fff;
   box-shadow: 5px 5px 5px #666;
@@ -296,4 +295,33 @@ color: #050091;
   font-color: green;
   background-color: white;
 }
+
+/* OWNER PROFILE */
+
+.ownerProfile {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  width: 80%;
+  margin: auto;
+}
+
+.ownerProfile img {
+  margin-left: 25px;
+}
+
+.ownerProfile h1 {
+  text-align: center;
+}
+
+.ownerProfile input {
+  border-radius: 5px;
+}
+
+.ownerProfile input:focus {
+  box-shadow: 6px 6px 6px #05018f;
+  border: red;
+}
+
+
+
    

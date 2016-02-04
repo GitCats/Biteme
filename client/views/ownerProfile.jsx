@@ -83,7 +83,7 @@ var OwnerProfile = React.createClass({
     if (localStorage.getItem('token') && localStorage.getItem('restaurant_id')) {
       localStorage.setItem('dontShowOwnerLink', true);
       return (
-        <div>
+        <div className='ownerProfile'>
           <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
           <Tabs onSelect={this.handleSelect}>
             <TabList>
@@ -368,24 +368,24 @@ var OwnerForm = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className='ownerProfile'>
         <h1>Update Your Restaurant Profile</h1>
-        <form onSubmit={this.updateProfile} style={{marginLeft: '1%'}}>
-          <span style={{paddingLeft: '3%'}}>Restaurant name: </span><input type='text' valueLink={this.linkState('name')} />
+        <form onSubmit={this.updateProfile}>
+          <span>Restaurant name: </span><input type='text' valueLink={this.linkState('name')} />
           <img src={this.state.logo} alt='Your Logo' className='dealLogo' style={{margin: 25}} />
-          Enter a new URL to update your logo: <input type='text' valueLink={this.linkState('logo')} size='60' />
-          <div className='text'>
+          Enter a new URL to update your logo: <input type='text' valueLink={this.linkState('logo')} size='30' />
+          <div>
             Street Address: <input type='text' valueLink={this.linkState('address')} size='45' />{' '}
             City: <input type='text' valueLink={this.linkState('city')} />{' '}
             State: <input type='text' valueLink={this.linkState('state')} size='10' />{' '}
             ZIP: <input type='text' valueLink={this.linkState('zip')} maxLength='5' size='8' />
             <br/><br/>
-            Phone number (which customers should use to call the restaurant):{' '}
-            <input type='text' valueLink={this.linkState('phone')} maxLength='14' size='15' />{' '}
-            Business website:{' '}<input type='text' valueLink={this.linkState('website')} size='40' />
+            Restaurant Phone Number:{' '}
+            <input type='text' valueLink={this.linkState('phone')} maxLength='14' size='15' style={{margin: 25}} />{' '}
+            Business website:{' '}<input type='text' valueLink={this.linkState('website')} size='40'/>
             <br/><br/>Select the cuisine that best matches your restaurant:{' '}
             <select valueLink={this.linkState('cuisine')} >
-              <option value=''>-Choose your cuisine-</option>
+              <option value=''>Choose your cuisine</option>
               <option value='1'>Mexican</option>
               <option value='2'>Fast Food</option>
               <option value='3'>Pizza</option>
