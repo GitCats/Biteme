@@ -521,7 +521,7 @@ var CuisineDropdown = React.createClass({
     return (
       <form className="filterByCuisine dropdown">
         <select onChange={this.selectCuisine}>
-          <option value="">-Choose your cuisine-</option>
+          <option value="">Choose a cuisine</option>
           <option value="">All cuisines</option>
           <option value="1">Mexican</option>
           <option value="2">Fast Food</option>
@@ -554,13 +554,11 @@ var ExpirationDropdown = React.createClass({
 
   render: function() {
     return (
-      <form className="filterByExpiration dropdown">
-        <select onChange={this.selectExpiration}>
-          <option className='expirationButton' value="1">Today</option>
-          <option className='expirationButton' value="2">Tomorrow</option>
-          <option className='expirationButton' value="3">This Week</option>
-        </select>
-      </form>
+      <ul className="nav nav-tabs">
+          <li role="presentation" className='expirationButton active'><a href="#">Today</a></li>
+          <li role="presentation" className='expirationButton'><a href="#">Tomorrow</a></li>
+          <li role="presentation" className='expirationButton'><a href="#">This Week</a></li>
+      </ul>
     );
   }
 });
@@ -574,17 +572,16 @@ var SearchBar = React.createClass({
 
   render: function() {
     return (
-      <span className="addressBar">
-      <form className='searchBar input-group input-group-lg' onSubmit={this.filterByProximity} >
-        <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address' width='100%'></input>
-        <input type='submit' className='searchButton btn btn-default' value='Submit'></input>
-      </form>
-      </span>
+      <div className='searchBar input-group input-group-md col-md-10 col-md-offset-1' onSubmit={this.filterByProximity}>
+        <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address'>
+        <span className='input-group-btn'>
+        <button type='submit' className='searchButton btn btn-default' value='Submit'>Submit</button>
+        </span>
+        </input>
+      </div>
       )
   }
-
 })
-
 
 const customStyles = {
    overlay : {

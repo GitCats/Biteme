@@ -98,19 +98,6 @@ var App = React.createClass({
             </div>
           </div>
         </nav>
-        <div id='auth'>
-          <Auth  userAuth={this.state.userAuth} 
-                 setUserAuthState={this.state.setUserAuthState}
-                 ownerAuth={this.state.ownerAuth}
-                 setOwnerAuthState={this.state.setOwnerAuthState}
-                 userLink={this.state.userLink}
-                 ownerLink={this.state.ownerLink}
-                 logoutLink={this.state.logoutLink}
-                 setLogoutUpdate={this.state.setLogoutUpdate}
-                 undoLink={this.undoLink}
-                 history={this.props.history}
-                />
-        </div>
         <IndexLink to='/'><BluePlateLogo navToHome={this.navToHome} /></IndexLink>
           {this.props.children}
       </div>
@@ -122,7 +109,7 @@ var BluePlateLogo = React.createClass({
 
   render: function() {
     return (
-      <img src='client/assets/blueplate.png' className='bluePlateLogo' onClick={this.props.navToHome} />
+      <img src='client/assets/blueplate.png' className='bluePlateLogo col-md-4 col-md-offset-4' onClick={this.props.navToHome} />
     )
   }
 })
