@@ -82,7 +82,7 @@ var Yelp = React.createClass({
 				<a href={this.props.data.url} target='_blank'>
 					<img src={this.props.data.rating_img_url_large} />
 				</a>
-				<div className="snippetText">
+				<div className='snippetText'>
 					{this.props.data.snippet_text}	
 				</div>	
 				<a href={this.props.data.url} target='_blank'>

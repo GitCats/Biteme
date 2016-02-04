@@ -221,7 +221,6 @@ var UserProfile = React.createClass({
             data: {"user_id": user_id},
             success: function(data) {
               var checkedRes = [];
-              // var temp = [];
               data.forEach(function(row){
                 checkedRes.push(row["name"]);
               }.bind(this));
@@ -236,7 +235,7 @@ var UserProfile = React.createClass({
               this.forceUpdate();
             }.bind(this),
             error: function(xhr, status, err) {
-              console.error('api/userprefs/cuisines', status, err.toString());
+              console.error('api/userprefs/restaurants', status, err.toString());
             }.bind(this)
           });
         }.bind(this), //first success closer
@@ -262,7 +261,6 @@ var UserProfile = React.createClass({
         phoneChecked==='yes' ? phoneChecked=true : phoneChecked = false;
         var emailChecked = data[0]["email_notify"];
         emailChecked==='yes' ? emailChecked=true : emailChecked=false;
-
         this.setState({phoneOnOff: phoneChecked, emailOnOff: emailChecked});
       }.bind(this),
 
@@ -282,7 +280,7 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": changes},
       success: function(data) {
-        alert("You're changes have been saved!");
+        alert("Your changes have been saved!");
         this.setState({cuisineViewAltered: false});
         this.setState({cuisineChanges: {}});
       }.bind(this),
@@ -302,7 +300,7 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": changes},
       success: function(data) {
-        alert("You're changes have been saved!");
+        alert("Your changes have been saved!");
         this.setState({resViewAltered: false});
         this.setState({restaurantChanges: {}});
       }.bind(this),
@@ -374,7 +372,7 @@ var UserProfile = React.createClass({
       type: 'POST',
       data: {"a": sending},
       success: function(data) {
-        alert("You're changes have been saved!");
+        alert("Your changes have been saved!");
         console.log('return data from phone', data);
       }.bind(this),
       error: function(xhr, status, err) {
