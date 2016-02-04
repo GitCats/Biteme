@@ -32,29 +32,38 @@ var Auth = React.createClass({
     return (
       <div>
         <br/>
-        <div id='userAuth'>
-          <UserSignup userAuth={this.props.userAuth} 
+        <nav className='navbar navbar-default'>
+          <div className='container-fluid'>
+            <div className='navbar-header'>
+              <Link to='/'><span className='navbar-brand glyphicon glyphicon-home' onClick={this.props.navToHome} /></Link>
+              <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#bs-example-navbar-collapse-1' aria-expanded='false'>
+                <span className='sr-only'>Toggle navigation</span>
+                <span className='icon-bar'></span>
+                <span className='icon-bar'></span>
+                <span className='icon-bar'></span>
+              </button>
+            </div>
+            <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
+              <ul className='nav navbar-nav navbar-left'>
+                <li><UserSignup userAuth={this.props.userAuth} 
                       setUserAuthState={this.props.setUserAuthState} 
-                      history={this.props.history} />
-          <UserLogin  userAuth={this.props.userAuth} 
+                      history={this.props.history}
+                      className='sr-only' /></li>
+                <li><UserLogin  userAuth={this.props.userAuth} 
                       setUserAuthState={this.props.setUserAuthState} 
-                      history={this.props.history} />
-        </div>
-        <div id='ownerAuth'>
-          <OwnerSignup ownerAuth={this.props.ownerAuth} />
-          <OwnerLogin ownerAuth={this.props.ownerAuth} 
-                      setOwnerAuthState={this.props.setOwnerAuthState}
-                      history={this.props.history} />
-        </div>
-        <div id='Links'>
-          <Links userLink={this.props.userLink} 
-                 ownerLink={this.props.ownerLink} 
-                 undoLink={this.props.undoLink} />
-        </div>
-        <div id='logout'>
-          <Logout logoutLink={this.props.logoutLink} 
-                  setLogoutUpdate={this.props.setLogoutUpdate} />
-        </div>
+                      history={this.props.history} /></li>
+                <li><Links userLink={this.props.userLink} 
+                      ownerLink={this.props.ownerLink} 
+                      undoLink={this.props.undoLink} /></li>
+                <li><Logout logoutLink={this.props.logoutLink} 
+                      setLogoutUpdate={this.props.setLogoutUpdate} /></li>
+              </ul>
+              <OwnerAuth ownerAuth={this.props.ownerAuth} 
+                setOwnerAuthState={this.props.setOwnerAuthState}
+                history={this.props.history} />
+            </div>
+          </div>
+        </nav>
       </div>
     )
   }
@@ -118,7 +127,7 @@ var UserSignup = React.createClass({
     if (this.props.userAuth) {
       return (
         <span>
-          Care to filter by preferences? <a onClick={this.openModal}>Sign Up</a>
+          <a onClick={this.openModal}>Sign Up</a>
           <Modal
             isOpen={this.state.modalIsOpen}
             onRequestClose={this.closeModal}
@@ -211,7 +220,7 @@ var UserLogin = React.createClass({
     if (this.props.userAuth) {
       return (
         <span>
-        {' '}or <a onClick={this.openModal}>Sign In</a>
+        <a onClick={this.openModal}>Sign In</a>
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
@@ -246,54 +255,26 @@ var UserLogin = React.createClass({
   }
 });
 
-var OwnerSignup = React.createClass({   //Prompt only, no AJAX request.
+var OwnerAuth = React.createClass({
 
   getInitialState: function() {
-    return { modalIsOpen: false };
+    return { modal1IsOpen: false, modal2IsOpen: false };
   },
 
-  openModal: function() {
-    this.setState({modalIsOpen: true});
+  openModal1: function() {
+    this.setState({modal1IsOpen: true});
   },
 
-  closeModal: function() {
-    this.setState({modalIsOpen: false});
+  openModal2: function() {
+    this.setState({modal2IsOpen: true});
   },
 
-  render: function() {
-    if (this.props.ownerAuth) {
-      return (
-        <span>
-          Restaurant Owner? <a onClick={this.openModal}>Sign Up</a>
-          <Modal
-            isOpen={this.state.modalIsOpen}
-            onRequestClose={this.closeModal}
-            style={customStyles} >
-            <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
-            <h2>Call us at (512)-555-5555 to register an account.</h2>
-          </Modal>
-        </span>
-      )
-    } else {
-      return (
-        <span />
-      )
-    }
-  }
-});
-
-var OwnerLogin = React.createClass({
-
-  getInitialState: function() {
-    return { modalIsOpen: false };
+  closeModal1: function() {
+    this.setState({modal1IsOpen: false});
   },
 
-  openModal: function() {
-    this.setState({modalIsOpen: true});
-  },
-
-  closeModal: function() {
-    this.setState({modalIsOpen: false});
+  closeModal2: function() {
+    this.setState({modal2IsOpen: false});
   },
 
   handleEmailChange: function(e) {
@@ -324,7 +305,7 @@ var OwnerLogin = React.createClass({
         localStorage.setItem('restaurant_id', response.restaurant_id);
         localStorage.setItem('token', response.token);
         localStorage.setItem('expires', response.expires);
-        this.closeModal();
+        this.closeModal2();
         this.props.setOwnerAuthState();
         this.props.history.push('/ownerprofile');
       }.bind(this),
@@ -339,33 +320,52 @@ var OwnerLogin = React.createClass({
   render: function() {
     if (this.props.ownerAuth) {
       return (
-        <span>
-        {' '}or <a onClick={this.openModal}>Sign In</a>
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          style={customStyles} >
-          <br/>
-          <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
-          <br/>
-          <h2>Log In to Manage Deals</h2>
-          <form className='loginForm' onSubmit={this.ownerLogin}>
-            Email: <input
-                    className='email'
-                    value={this.state.email}
-                    type='email'
-                    onChange={this.handleEmailChange}
-                    /><br/>
-            Password: <input
-                      className='password'
-                      value={this.state.password}
-                      type='password'
-                      onChange={this.handlePasswordChange}
-                      /><br/><br/>
-            <input type='submit' value='Log In' /><br/><br/>
-          </form>
-        </Modal>
-        </span>
+        <ul className='nav navbar-nav navbar-right'>
+          <li className='dropdown'>
+          <a className='dropdown-toggle' 
+             data-toggle='dropdown' role='button' 
+             aria-haspopup='true' aria-expanded='false'>Restaurant Owners <span className='caret'></span></a>
+            <ul className='dropdown-menu'>
+              <li><span>
+                    <a onClick={this.openModal}>Sign Up</a>
+                    <Modal
+                      isOpen={this.state.modal1IsOpen}
+                      onRequestClose={this.closeModal1}
+                      style={customStyles} >
+                      <img src='client/assets/x-sm-gray.png' onClick={this.closeModal1} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
+                      <h2>Call us at (512) 555-5555 to register an account.</h2>
+                    </Modal>
+                  </span></li>
+              <li><span>
+                    <a onClick={this.openModal}>Sign In</a>
+                    <Modal
+                      isOpen={this.state.modalIsOpen}
+                      onRequestClose={this.closeModal}
+                      style={customStyles} >
+                      <br/>
+                      <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
+                      <br/>
+                      <h2>Log In to Manage Deals</h2>
+                      <form className='loginForm' onSubmit={this.ownerLogin}>
+                        Email: <input
+                                className='email'
+                                value={this.state.email}
+                                type='email'
+                                onChange={this.handleEmailChange}
+                                /><br/>
+                        Password: <input
+                                  className='password'
+                                  value={this.state.password}
+                                  type='password'
+                                  onChange={this.handlePasswordChange}
+                                  /><br/><br/>
+                        <input type='submit' value='Log In' /><br/><br/>
+                      </form>
+                    </Modal>
+                  </span></li>
+            </ul>
+          </li>
+        </ul>
       )
     } else {
       return (

@@ -199,6 +199,15 @@ color: #050091;
   font-size: 30px;
   font-family: 'chalkboard';
 }
+
+.navbar-brand {
+  padding: 0px 15px !important;
+}
+
+.dropdown-toggle {
+  padding-top: 3px !important;
+}
+
 /*
 .nav {
     list-style-type: none;
