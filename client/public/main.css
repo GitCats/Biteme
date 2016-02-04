@@ -7,6 +7,10 @@
   cursor: pointer;
 }
 
+body {
+  background-color: #FDFDFD !important;
+}
+
 .bluePlateLogo {
   margin: auto;
   display: flex;
@@ -37,12 +41,14 @@ nav {
 
 .logoDiv {
     background: #07FEFF; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#05018f, #07FEFF); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#05018f, #07FEFF); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#05018f, #07FEFF); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#05018f, #07FEFF); /* Standard syntax */
+    background: -webkit-linear-gradient(left top, #07008F, #07FEFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #07008F, #07FEFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #07008F, #07FEFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #07008F, #07FEFF); /* Standard syntax */
     height: 375px;
 }
+
+ #068DCD;
 
 
 .container-fluid  {
@@ -77,6 +83,7 @@ nav {
   border-radius: 15px;
   overflow: hidden;
   display: inline;
+  position: relative;
 }
 
 .deal:hover {
@@ -92,10 +99,10 @@ nav {
   width: 60%;
   float: right;
   color: black;
-/*  text-align: center;
-  position: absolute;
-  display: inline-block;*/
-  padding-left: 100px;
+  /*text-align: center;*/
+  /*position : relative;*/
+  /*display: inline-block;*/
+  padding-left: 40px;
 }
 
 .dealLogo {
@@ -109,19 +116,22 @@ nav {
 /** These are all within a single dealInfoDiv **/
 
 .dealExpiration {
-  font-family: Helvetica;
-  font-weight: bold;
-  font-size: 32px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 26px;
   position: absolute;
-  margin-left: 145px;
-  margin-top: 50px;
-  color: #07008F;
+  /*float: left;*/
+  /*padding-top: 25px;*/
+  /*padding-left: 25px;*/
+  bottom: 15px;
+  right: 25px;
 }
 
 .dealDescription {
-  font-size: 20px;
-  margin-top: 10px;
+  font-size: 24px;
+  /*margin-top: 10px;*/
   font-family: 'Roboto', sans-serif;
+  font-weight: 700;
 }
 
 .expiration {
@@ -142,6 +152,8 @@ nav {
   font-family: Arial;
   font-size: 16px;
 }
+
+/** End single deal info **/
 
 #map {
   width: 500px;
@@ -251,8 +263,6 @@ color: #050091;
   width: 60%;
   float: right;
   font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 16px;
 }
 
 .singleDealMetaData {
@@ -260,15 +270,13 @@ color: #050091;
 }
 
 .singleExpiration {
-  position: relative;
-  padding-top: 250px;
   padding-left: 320px;
 }
 
 .timer {
   font-size: 40px;
   font-weight: 900;
-  padding-top: 50px;
+  padding-top: 28px;
   padding-left: 320px;
 }
 
@@ -284,3 +292,4 @@ color: #050091;
   font-color: green;
   background-color: white;
 }
+   

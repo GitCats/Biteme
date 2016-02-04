@@ -115,7 +115,7 @@ var Deal = React.createClass({
         <div className="dealLogoDiv">
           <img src={this.props.image_name} className="dealLogo" />
         </div>
-        <div className="dealInfoDiv col-md-6 col-sm-12">
+        <div className="dealInfoDiv">
           <h3 className="dealDescription">
             {this.props.description}
           </h3>
@@ -125,10 +125,9 @@ var Deal = React.createClass({
           <div className="dealAddress">
             {this.props.address.split(",", 1)}
           </div>
-          <span className='expiration'>Expiration</span>
-          <div className="dealExpiration">
-            <h3>{displayTime}</h3>
-          </div>
+          <span className="dealExpiration">
+            Expires: {displayTime}
+          </span>
           <div>
             {this.props.destination}
           </div>
@@ -164,18 +163,12 @@ var Deal = React.createClass({
                 {this.props.address.split(',', 1)}
               </div>
               </div>
+              <br></br>
               <Yelp {...this.props} />
               </div>
             <div className="singleDealExpDiv">
             <Map {...this.props} />
-            <span className='singleExpiration'>Expiration: </span>
-              <span className="dealDate">
-                {displayDate}
-              </span>
-              <span> at </span>
-              <span className="singleDealExpiration">
-                {displayTime}
-              </span>
+            <span className='singleExpiration'></span>
             <CountdownTimer {...this.props} />
             </div>
            </div> 
@@ -184,13 +177,13 @@ var Deal = React.createClass({
     );
 } else {
   return (
-      <div>
+      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <a onClick={this.openModal}>
-      <div className="deal col-md-6 col-sm-12" >
-        <div className="dealLogoDiv col-md-6 col-sm-12">
+      <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <div className="dealLogoDiv">
           <img src={this.props.image_name} className="dealLogo" />
         </div>
-        <div className="dealInfoDiv col-md-6 col-sm-12">
+        <div className="dealInfoDiv">
           <h3 className="dealDescription">
             {this.props.description}
           </h3>
@@ -200,9 +193,9 @@ var Deal = React.createClass({
           <div className="dealAddress">
             {this.props.address.split(",", 1)}
           </div>
-          <div className="dealExpiration">
-            {displayTime}
-          </div>
+          <span className='dealExpiration'>
+              Expires: {displayDate} at {displayTime}
+          </span> 
           <div>
             {this.props.destination}
           </div>
@@ -217,37 +210,37 @@ var Deal = React.createClass({
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={customStyles} >
-          <div className="singleDealLogoDiv">
-            <img src={this.props.image_name} className="singleDealLogo" />
-          </div>
-          <div className="singleDealInfoDiv">
-            <h3 className="dealDescription">
-              {this.props.description}
-            </h3>
-            <div className="restaurantName">
-              {this.props.name}
-            </div> 
-            <div className='resDescription'>
-              {this.props.res_description}
-            </div> 
-            <div className="singleDealUrl">
-              <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
-            </div>
-            <div className="singleDealAddress">
-              {this.props.address.split(',', 1)}
-            </div>
-            <div className="cuisineType">
-              {displayCuisine}
-            </div>
-            <div className="dealDate">
-              {displayDate}
-            </div>
-            <div className="dealExpiration">
-              {displayTime}
-            </div>
+            <div className="singleDeal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+              <div className="singleDealInfoDiv">
+              <img src={this.props.image_name} className="singleDealLogo" />
+              <h3 className="singleDealDescription">
+                {this.props.description}
+              </h3>
+              <div className='singleDealMetaData'>
+              <div className="restaurantName">
+                {this.props.name}
+              </div>
+              <span className='singleCuisine'>Cuisine: </span>
+              <span className="cuisineType">
+                {displayCuisine}
+              </span>
+              <div className="dealUrl">
+                <a href={'http://' + this.props.url} target='_blank'>{this.props.url}</a>
+              </div>
+              <div className="dealAddress">
+                {this.props.address.split(',', 1)}
+              </div>
+              </div>
+              <br></br>
+              <Yelp {...this.props} />
+              </div>
+            <div className="singleDealExpDiv">
             <Map {...this.props} />
-            <Yelp {...this.props} />
-          </div>
+            <span className='singleExpiration'>
+                Expires: {displayDate} at {displayTime}
+            </span>       
+            </div>
+           </div> 
         </Modal>
       </div>
     );
@@ -263,6 +256,7 @@ var AllDeals = React.createClass({
       cache: false,
       type: 'GET',
       success: function(data) {
+        console.log('deals', data)
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -600,11 +594,12 @@ const customStyles = {
     top                        : '100px',
     left                       : '250px',
     right                      : '250px',
-    bottom                     : '150px',
+    bottom                     : '190px',
     border                     : '10px solid #05018f',
     background                 : '#fff',
     borderRadius               : '4px',
     outline                    : 'none',
+    overflow                   : 'hidden',
     padding                    : '50px'
   }
 };
