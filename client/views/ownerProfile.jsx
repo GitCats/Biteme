@@ -83,7 +83,7 @@ var OwnerProfile = React.createClass({
     if (localStorage.getItem('token') && localStorage.getItem('restaurant_id')) {
       localStorage.setItem('dontShowOwnerLink', true);
       return (
-        <div>
+        <div className='ownerProfile'>
           <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
           <Tabs onSelect={this.handleSelect}>
             <TabList>
@@ -367,24 +367,23 @@ var OwnerForm = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className='ownerProfile'>
         <h1>Update Your Restaurant Profile</h1>
-        <form onSubmit={this.updateProfile} style={{marginLeft: '1%'}}>
-          <span style={{paddingLeft: '3%'}}>Restaurant name: </span><input type='text' valueLink={this.linkState('name')} />
+        <form onSubmit={this.updateProfile}>
+          <span>Restaurant name: </span><input type='text' valueLink={this.linkState('name')} />
           <img src={this.state.logo} alt='Your Logo' className='dealLogo' style={{margin: 25}} />
-          Enter a new URL to update your logo: <input type='text' valueLink={this.linkState('logo')} size='60' />
-          <div className='text'>
+          <div>Enter a new URL to update your logo: <input type='text' valueLink={this.linkState('logo')} size='75' /></div><br></br>
+          <div>
             Street Address: <input type='text' valueLink={this.linkState('address')} size='45' />{' '}
             City: <input type='text' valueLink={this.linkState('city')} />{' '}
             State: <input type='text' valueLink={this.linkState('state')} size='10' />{' '}
             ZIP: <input type='text' valueLink={this.linkState('zip')} maxLength='5' size='8' />
-            <br/><br/>
-            Phone number (which customers should use to call the restaurant):{' '}
-            <input type='text' valueLink={this.linkState('phone')} maxLength='14' size='15' />{' '}
-            Business website:{' '}<input type='text' valueLink={this.linkState('website')} size='40' />
-            <br/><br/>Select the cuisine that best matches your restaurant:{' '}
+            <br></br>Restaurant Phone Number:{' '}
+            <input type='text' valueLink={this.linkState('phone')} maxLength='14' size='15' style={{margin: 25}} />{' '}
+            Business website:{' '}<input type='text' valueLink={this.linkState('website')} size='40'/>
+            <div>Select the cuisine that best matches your restaurant:{' '}
             <select valueLink={this.linkState('cuisine')} >
-              <option value=''>-Choose your cuisine-</option>
+              <option value=''>Choose your cuisine</option>
               <option value='1'>Mexican</option>
               <option value='2'>Fast Food</option>
               <option value='3'>Pizza</option>
@@ -401,8 +400,8 @@ var OwnerForm = React.createClass({
               <option value='14'>Steakhouse</option>
               <option value='15'>Indian</option>
               <option value='16'>Other</option>
-            </select>
-            <br/><br/>
+            </select></div>
+            <br></br>
             <p>Describe your restaurant in a couple of lines:</p>
             <textarea valueLink={this.linkState('res_description')} rows='2' cols='68' maxLength='150' />
             <br/><br/>
@@ -646,52 +645,64 @@ var Deal = React.createClass({
     var displayTime = hours + ':' + minutes + period;
     if (+new Date(this.props.year, this.props.month-1, this.props.day) > Date.now()) {
       return (
-        <div className='deal col-md-6 col-sm-12' >
-          <div className='dealLogoDiv'>
-            <img src={this.props.image_name} className='dealLogo' />
-          </div>
-          <div className='dealInfoDiv'>
-            <div className='dealDescription'>
-              {this.props.description}
-            </div>
-            <div className='dealUrl'>
-              {this.props.url}
-            </div>
-            <div className='dealAddress'>
-              {this.props.address.split(',')}
-            </div>
-            <br/>
-            <span style={{marginRight: '45%', fontWeight: 'bold'}}>Expiration:</span>
-            <div className='dealExpiration'>
-              {displayDate} {displayTime}
-            </div>
-          </div>
-          <button onClick={this.expireDeal} className='expireButton'>Expire this Deal</button>
+      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+      <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <div className="dealLogoDiv">
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
+        <div className="dealInfoDiv">
+          <h3 className="dealDescription">
+            {this.props.description}
+          </h3>
+          <div className="dealUrl">
+            {this.props.url}
+          </div>
+          <div className="dealAddress">
+            {this.props.address.split(",", 1)}
+          </div>
+          <span className='dealExpiration'>
+              Expires: {displayDate} at {displayTime}
+          </span> 
+          <div>
+            {this.props.destination}
+          </div>
+          <div>
+            {this.props.distance}
+          </div>
+        </div>  
+      </div> 
+      <button onClick={this.expireDeal} className='expireButton'>Expire this Deal</button>
+      </div>
       );
     } else {
       return (
-        <div className='deal col-md-6 col-sm-12' >
-          <div className='dealLogoDiv'>
-            <img src={this.props.image_name} className='dealLogo' />
-          </div>
-          <div className='dealInfoDiv'>
-            <h3 className='dealDescription'>
-              {this.props.description}
-            </h3>
-            <div className='dealUrl'>
-              {this.props.url}
-            </div>
-            <div className='dealAddress'>
-              {this.props.address.split(',')}
-            </div>
-            <br/>
-            <span style={{marginRight: '45%', fontWeight: 'bold'}}>Expiration:</span>
-            <div className='dealExpiration'>
-              {displayDate} {displayTime}
-            </div>
-          </div>
+      <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+      <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <div className="dealLogoDiv">
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
+        <div className="dealInfoDiv">
+          <h3 className="dealDescription">
+            {this.props.description}
+          </h3>
+          <div className="dealUrl">
+            {this.props.url}
+          </div>
+          <div className="dealAddress">
+            {this.props.address.split(",", 1)}
+          </div>
+          <span className='dealExpiration'>
+              Expires: {displayDate} at {displayTime}
+          </span> 
+          <div>
+            {this.props.destination}
+          </div>
+          <div>
+            {this.props.distance}
+          </div>
+        </div>  
+      </div> 
+      </div>
       );
     }
   }

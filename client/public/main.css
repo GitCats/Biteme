@@ -3,12 +3,16 @@
   padding: 0;
  }
 
- body {
-  background-color: #DFDEE0 !important;
- }
-
  a {
   cursor: pointer;
+}
+
+body {
+  background-color: #FDFDFD !important;
+}
+
+input:focus, textarea:focus {
+  outline: none;
 }
 
 .bluePlateLogo {
@@ -64,7 +68,6 @@ nav {
   margin-bottom: 30px;
   /*margin-right: 1px;*/
   height: 225px;
-  border-radius: 5%;
   border: 3px solid #ddd;
   background-color: #fff;
   box-shadow: 5px 5px 5px #666;
@@ -281,8 +284,45 @@ color: #050091;
   background-color: white;
 }
 
+/* OWNER PROFILE */
+
+.ownerProfile {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  /*width: 80%;*/
+  margin: auto;
+}
+
+.ownerProfile img {
+  margin-left: 25px;
+}
+
+.ownerProfile h1 {
+  text-align: center;
+}
+
+.ownerProfile input {
+  border-radius: 5px;
+}
+
+.ownerProfile input:focus {
+  box-shadow: 4px 4px 4px #05018f;
+  border: 3px solid #05018f;
+  padding: 3px;
+}
+
 .addressBar {
   text-align: center;
   display: inline-block;
   padding: 10px;
+}
+
+input[type='submit'] {
+  background-color: #05018f;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  height: 40px;
+  width: 25%;
+  border-radius: 5px;
 }
