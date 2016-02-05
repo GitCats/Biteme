@@ -9,20 +9,8 @@
 
 body {
   background-color: #FDFDFD !important;
+  display: inline-block !important;
 }
-
-input:focus, textarea:focus, select:focus {
-  outline: none;
-}
-
-.bluePlateLogo {
-  margin: auto;
-  display: flex;
-  height: 250px;
-  /*width: 350px;*/
-}
-
-
 /* NAV BAR */
 
 nav {
@@ -39,17 +27,16 @@ nav {
   color: #050091 !important;
   font-size: 18px;
   text-decoration: none;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .nav li a:hover, .glyphicon:hover {
   background-color: white !important;
   color: #05018f !important;
   border-radius: 5px !important;
-}
-
-.container-fluid  {
-  background-color: transparent !important;
 }
 
 /*** MAIN PAGE - ALL DEALS ***/
@@ -105,9 +92,8 @@ nav {
 .dealLogo {
   margin-top: 5%;
   margin-bottom: 5%;
-  max-width: 230px;
-  max-height: 160px;
-  padding-right: 10px;
+  max-width: 200px;
+  max-height: 200px;
 }
 
 /** These are all within a single dealInfoDiv **/
@@ -220,38 +206,6 @@ color: #050091;
   padding-top: 3px !important;
 }
 
-/*
-.nav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: inline;
-}
-.navbar-default {
-  background-color: #2e3192;
-  background-image: none;
-  border: none;
-}
-#navbar ul {
-  padding-top: 20px;
-}
-#navbar li {
-  list-style: none;
-  display: inline;
-  padding-top: 120px;
-}
-#navbar li a {
-  color: white;
-  font-size: 18px;
-  text-decoration: none;
-  padding: 10px;
-}
-#navbar li a:hover {
-  background-color: white;
-  color: #05018f;
-  border-radius: 5px;
-}
-*/
 /* SINGLE DEAL MODAL */
 
 .singleDeal {
@@ -298,15 +252,17 @@ color: #050091;
 
 /* DROPDOWNS */
 
-.filterByExpiration select {
-  width: 200px;
-  height: 25px;
-  font-color: white;
+.filterByExpiration {
+  padding: 10px;
 }
 
-.expirationButton {
-  font-color: green;
-  background-color: white;
+.filterByCuisine {
+  text-align: center;
+}
+
+.searchBar {
+  padding: 10px;
+  z-index: 0;
 }
 
 /* OWNER PROFILE */
@@ -414,5 +370,15 @@ textarea:focus {
   right: 10%;
   position: absolute;
   border-radius: 5px;
+}
+
+.bluePlateLogo {
+  margin: auto;
+  max-height: 300px;
+  max-width: 300px;
+}
+
+.userprefs {
+  display: inline-block;
 }
 
