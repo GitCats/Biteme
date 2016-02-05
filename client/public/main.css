@@ -7,13 +7,15 @@
   cursor: pointer;
 }
 
-body {
-  /*background-color: #668FB3 !important;*/
+/*body {
   background-image: url(../assets/Blue-Ray-Background.jpg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}*/
+body {
+  background-color: #FAFAFA !important;
+  display: inline-block !important;
 }
-
 /* NAV BAR */
 
 nav {
@@ -196,7 +198,7 @@ nav {
 
 .top {
   font-weight: 500;
-  color: white !important;
+  color: dark blue !important;
   display: inline-block;
 }
 
