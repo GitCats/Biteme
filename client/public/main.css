@@ -8,8 +8,9 @@
 }
 
 body {
-  background-color: #FDFDFD !important;
+  background-color: #FAFAFA !important;
 }
+
 /* NAV BAR */
 
 nav {
@@ -83,6 +84,7 @@ input {
 
 .dealInfoDiv {
   width: 60%;
+  height: inherit;
   float: right;
   color: black;
   /*text-align: center;*/
@@ -104,7 +106,7 @@ input {
 .dealExpiration {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 26px;
+  font-size: 1.2em;
   position: absolute;
   /*float: left;*/
   /*padding-top: 25px;*/
@@ -115,7 +117,7 @@ input {
 
 .dealDescription {
   font-size: 24px;
-  /*margin-top: 10px;*/
+  padding-left: 10px;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
 }
@@ -151,11 +153,26 @@ input {
 
 /** End single deal info **/
 
+/*.logoDiv {
+  
+}*/
+
 #map {
-  width: 500px;
-  height: 350px;
+  width: 125%;
+  height: 22em;
   background-color: gray;
   float: right;
+}
+
+#top {
+  margin: auto;
+  width: 12%;
+}
+
+.top {
+  font-weight: 500;
+  color: white !important;
+  display: inline-block;
 }
 
 #userAuth {
@@ -211,11 +228,12 @@ color: #050091;
 
 /* SINGLE DEAL MODAL */
 
-/*.singleDeal {
+.singleDeal {
   overflow: hidden;
   padding: 0;
+  width: 85%;
 }
-*/
+
 .singleDealInfoDiv img{
   max-width: 150px;
 }
@@ -229,7 +247,7 @@ color: #050091;
 }
 
 .singleDealExpDiv {
-  width: 60%;
+  width: 40%;
   float: right;
   font-family: 'Roboto', sans-serif;
 }
@@ -239,14 +257,17 @@ color: #050091;
 }
 
 .singleExpiration {
-  padding-left: 320px;
+  padding-top: 0.5em;
+}
+
+#expiry {
+  font-size: 20px;
 }
 
 .timer {
   font-size: 40px;
   font-weight: 900;
-  padding-top: 28px;
-  padding-left: 320px;
+  float: right;
 }
 
 /* DROPDOWNS */
@@ -269,13 +290,21 @@ color: #050091;
 .ownerProfile {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  /*width: 80%;*/
-  margin: auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.ownerProfile img {
-  margin-left: 25px;
+#updateResButton {
+  margin-left: 38%;
 }
+
+#updateRes {
+  width: 35%;
+}
+
+/*.ownerProfile img {
+  margin-left: 25px;
+}*/
 
 .ownerProfile h1 {
   text-align: center;
@@ -317,7 +346,7 @@ input[type='submit'] {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   height: 40px;
-  width: 25%;
+  padding: 3px;
   border-radius: 5px;
 }
 
@@ -333,17 +362,24 @@ textarea:focus {
   padding: 2px;
 }
 
+#expireButton {
+  width: 57%;
+  float: right;
+  position: inherit;
+  padding-top: 4px;
+}
+
 .expireButton {
   background-color: #05018f;
   color: white;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   height: 40px;
-  width: 25%;
+  float: right;
+  /*width: 25%;*/
   border-radius: 5px;
-  position: absolute;
-  top: 73%;
-  left: 6%;
+  padding: 3px;
+  /*margin-left: 15px;*/
 }
 
 .ownerDealLogo {
@@ -364,13 +400,16 @@ textarea:focus {
   right: 10%;
   position: absolute;
   border-radius: 5px;
+  z-index: 1;
 }
 
+/*#bluePlateLogo {
+  margin-left: 43%;
+}*/
+
 .bluePlateLogo {
-  margin-left: auto;
-  margin-right: auto;
-  max-height: 300px;
-  max-width: 300px;
+  max-width:100%;
+  max-height:100%;
 }
 
 .userprefs {

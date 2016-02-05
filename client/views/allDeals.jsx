@@ -236,7 +236,7 @@ var Deal = React.createClass({
               </div>
             <div className="singleDealExpDiv">
             <Map {...this.props} />
-            <span className='singleExpiration'>
+            <span className='singleExpiration timer' id='expiry'>
                 Expires: {displayDate} at {displayTime}
             </span>       
             </div>
@@ -428,6 +428,10 @@ var DealList = React.createClass({
       }
     })
   },
+  
+  handleClick: function() {
+    window.scrollTo(0, 0);
+  },
 
   render: function() {
     var dealsToUse;
@@ -499,6 +503,9 @@ var DealList = React.createClass({
       <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
       <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
         {dealNodes}
+      <div id='top'>
+        <a className='top' onClick={this.handleClick} >Go to Top of Page</a><br/><br/>
+      </div>
       </div>
     );
   }
@@ -578,13 +585,14 @@ var ExpirationDropdown = React.createClass({
  
    render: function() {
      return (
-       <div className='searchBar input-group input-group-md col-md-10 col-md-offset-1' onSubmit={this.filterByProximity}>
-         <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address'>
+      <form onSubmit={this.filterByProximity}>
+       <div className='searchBar input-group input-group-md col-md-10 col-md-offset-1'>
+         <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address'></input>
          <span className='input-group-btn'>
-         <button type='submit' className='searchButton btn btn-default' value='Submit'>Submit</button>
+          <button type='submit' className='searchButton btn btn-default' value='Submit'>Submit</button>
          </span>
-         </input>
        </div>
+      </form>
        )
    }
  })
@@ -600,12 +608,11 @@ const customStyles = {
     top                        : '15%',
     left                       : '15%',
     right                      : '15%',
-    bottom                     : '15%',
+    bottom                     : '18%',
     border                     : '10px solid #05018f',
     background                 : '#fff',
     borderRadius               : '4px',
     outline                    : 'none',
-    overflow                   : 'hidden',
     padding                    : '50px'
   }
 };
