@@ -131,4 +131,11 @@ router.post('/updateProfile', function (req, res) {
 	})
 })
 
+router.post('/password', function(req, res){
+	Owner.updatePassword(req.body)
+	.then(function(){
+		res.sendStatus(201);
+	})
+})
+
 module.exports = router;
