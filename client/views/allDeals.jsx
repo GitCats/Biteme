@@ -519,7 +519,7 @@ var CuisineDropdown = React.createClass({
     return (
       <form className="filterByCuisine dropdown">
         <select onChange={this.selectCuisine}>
-          <option value="">-Choose your cuisine-</option>
+          <option value="">Choose a cuisine</option>
           <option value="">All cuisines</option>
           <option value="1">Mexican</option>
           <option value="2">Fast Food</option>
@@ -544,43 +544,50 @@ var CuisineDropdown = React.createClass({
 });
 
 var ExpirationDropdown = React.createClass({
-  selectExpiration: function(e) {
-    console.log(typeof e)
-    var expirationDate = e;
-    var exp = expirationDate
-    this.props.updateExpiration(exp)
-  },
+ selectExpiration: function(e) {
+   console.log(typeof e)
+   var expirationDate = e;
+   var exp = expirationDate
+   this.props.updateExpiration(exp)
+ },
 
-  render: function() {
-    return (
-      <div className="filterByExpiration dropdown">
-          <button onClick={this.selectExpiration.bind(this, 1)} className='expirationButton' value="1">Today</button>
-          <button onClick={this.selectExpiration.bind(this, 2)} className='expirationButton' value="2">Tomorrow</button>
-          <button onClick={this.selectExpiration.bind(this, 3)} className='expirationButton' value="3">This Week</button>
-      </div>
-    );
-  }
+ render: function() {
+   return (
+     <div className="filterByExpiration btn-group btn-group-justified" role="group" aria-label="...">
+         <div className="btn-group" role="group">
+         <button type="button" onClick={this.selectExpiration.bind(this, 1)} className="expirationButton btn btn-default" value="1">Today</button>
+          </div>
+          <div className="btn-group" role="group">
+         <button type="button" onClick={this.selectExpiration.bind(this, 2)} className="expirationButton btn btn-default" value="2">Tomorrow</button>
+         </div>
+          <div className="btn-group" role="group">
+         <button type="button" onClick={this.selectExpiration.bind(this, 3)} className="expirationButton btn btn-default" value="3">This Week</button>
+         </div>
+     </div>
+   );
+ }
 });
 
-var SearchBar = React.createClass({
-   filterByProximity: function(e) {
-    e.preventDefault();
-    var startingPoint = $('#address').val()
-    this.props.filterByProximity(startingPoint)
-  },
-
-  render: function() {
-    return (
-      <span className="addressBar">
-      <form className='searchBar input-group input-group-lg' onSubmit={this.filterByProximity} >
-        <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address' width='100%'></input>
-        <input type='submit' className='searchButton btn btn-default' value='Submit'></input>
-      </form>
-      </span>
-      )
-  }
-
-})
+ 
+ var SearchBar = React.createClass({
+    filterByProximity: function(e) {
+     e.preventDefault();
+     var startingPoint = $('#address').val()
+     this.props.filterByProximity(startingPoint)
+   },
+ 
+   render: function() {
+     return (
+       <div className='searchBar input-group input-group-md col-md-10 col-md-offset-1' onSubmit={this.filterByProximity}>
+         <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address'>
+         <span className='input-group-btn'>
+         <button type='submit' className='searchButton btn btn-default' value='Submit'>Submit</button>
+         </span>
+         </input>
+       </div>
+       )
+   }
+ })
 
 
 const customStyles = {

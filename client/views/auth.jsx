@@ -384,7 +384,7 @@ var Links = React.createClass({
       )
     } else if (this.props.userLink && !this.props.ownerLink) {
       return (
-        <Link to='/userprofile' onClick={this.props.undoLink} className='navbar-brand'>Go to Notification Preferences</Link>
+        <Link to='/userprofile' onClick={this.props.undoLink} className='navbar-brand'>Preferences</Link>
       )
     } else {
       return (
