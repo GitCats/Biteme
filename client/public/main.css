@@ -8,20 +8,11 @@
 }
 
 body {
-  background-color: #FDFDFD !important;
+  /*background-color: #668FB3 !important;*/
+  background-image: url(../assets/Blue-Ray-Background.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
-
-input:focus, textarea:focus, select:focus {
-  outline: none;
-}
-
-.bluePlateLogo {
-  margin: auto;
-  display: flex;
-  height: 250px;
-  /*width: 350px;*/
-}
-
 
 /* NAV BAR */
 
@@ -62,17 +53,16 @@ nav {
   color: #050091 !important;
   font-size: 18px;
   text-decoration: none;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .nav li a:hover, .glyphicon:hover {
   background-color: white !important;
   color: #05018f !important;
   border-radius: 5px !important;
-}
-
-.container-fluid  {
-  background-color: transparent !important;
 }
 
 /*** MAIN PAGE - ALL DEALS ***/
@@ -116,6 +106,7 @@ nav {
 
 .dealInfoDiv {
   width: 60%;
+  height: inherit;
   float: right;
   color: black;
   /*text-align: center;*/
@@ -127,7 +118,7 @@ nav {
 .dealLogo {
   margin-top: 5%;
   margin-bottom: 5%;
-  max-width: 250px;
+  max-width: 200px;
   max-height: 200px;
 }
 
@@ -136,7 +127,7 @@ nav {
 .dealExpiration {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 26px;
+  font-size: 1.2em;
   position: absolute;
   /*float: left;*/
   /*padding-top: 25px;*/
@@ -147,7 +138,7 @@ nav {
 
 .dealDescription {
   font-size: 24px;
-  /*margin-top: 10px;*/
+  padding-left: 10px;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
 }
@@ -183,11 +174,26 @@ nav {
 
 /** End single deal info **/
 
+/*.logoDiv {
+  
+}*/
+
 #map {
-  width: 500px;
-  height: 350px;
+  width: 125%;
+  height: 22em;
   background-color: gray;
   float: right;
+}
+
+#top {
+  margin: auto;
+  width: 12%;
+}
+
+.top {
+  font-weight: 500;
+  color: white !important;
+  display: inline-block;
 }
 
 #userAuth {
@@ -241,45 +247,14 @@ color: #050091;
   padding-top: 3px !important;
 }
 
-/*
-.nav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: inline;
-}
-.navbar-default {
-  background-color: #2e3192;
-  background-image: none;
-  border: none;
-}
-#navbar ul {
-  padding-top: 20px;
-}
-#navbar li {
-  list-style: none;
-  display: inline;
-  padding-top: 120px;
-}
-#navbar li a {
-  color: white;
-  font-size: 18px;
-  text-decoration: none;
-  padding: 10px;
-}
-#navbar li a:hover {
-  background-color: white;
-  color: #05018f;
-  border-radius: 5px;
-}
-*/
 /* SINGLE DEAL MODAL */
 
-/*.singleDeal {
+.singleDeal {
   overflow: hidden;
   padding: 0;
+  width: 85%;
 }
-*/
+
 .singleDealInfoDiv img{
   max-width: 150px;
 }
@@ -293,7 +268,7 @@ color: #050091;
 }
 
 .singleDealExpDiv {
-  width: 60%;
+  width: 40%;
   float: right;
   font-family: 'Roboto', sans-serif;
 }
@@ -303,27 +278,32 @@ color: #050091;
 }
 
 .singleExpiration {
-  padding-left: 320px;
+  padding-top: 0.5em;
+}
+
+#expiry {
+  font-size: 20px;
 }
 
 .timer {
   font-size: 40px;
   font-weight: 900;
-  padding-top: 28px;
-  padding-left: 320px;
+  float: right;
 }
 
 /* DROPDOWNS */
 
-.filterByExpiration select {
-  width: 200px;
-  height: 25px;
-  font-color: white;
+.filterByExpiration {
+  padding: 10px;
 }
 
-.expirationButton {
-  font-color: green;
-  background-color: white;
+.filterByCuisine {
+  text-align: center;
+}
+
+.searchBar {
+  padding: 10px;
+  z-index: 0;
 }
 
 /* OWNER PROFILE */
@@ -331,13 +311,21 @@ color: #050091;
 .ownerProfile {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  /*width: 80%;*/
-  margin: auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.ownerProfile img {
-  margin-left: 25px;
+#updateResButton {
+  margin-left: 38%;
 }
+
+#updateRes {
+  width: 35%;
+}
+
+/*.ownerProfile img {
+  margin-left: 25px;
+}*/
 
 .ownerProfile h1 {
   text-align: center;
@@ -379,7 +367,7 @@ input[type='submit'] {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   height: 40px;
-  width: 25%;
+  padding: 3px;
   border-radius: 5px;
 }
 
@@ -395,17 +383,24 @@ textarea:focus {
   padding: 2px;
 }
 
+#expireButton {
+  width: 57%;
+  float: right;
+  position: inherit;
+  padding-top: 4px;
+}
+
 .expireButton {
   background-color: #05018f;
   color: white;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   height: 40px;
-  width: 25%;
+  float: right;
+  /*width: 25%;*/
   border-radius: 5px;
-  position: absolute;
-  top: 73%;
-  left: 6%;
+  padding: 3px;
+  /*margin-left: 15px;*/
 }
 
 .ownerDealLogo {
@@ -426,5 +421,21 @@ textarea:focus {
   right: 10%;
   position: absolute;
   border-radius: 5px;
+  z-index: 1;
+}
+
+#bluePlateLogo {
+  margin-left: 43%;
+}
+
+.bluePlateLogo {
+  margin: auto;
+  max-height: 200px;
+  max-width: 200px;
+  opacity: 100;
+}
+
+.userprefs {
+  display: inline-block;
 }
 

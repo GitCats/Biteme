@@ -21,7 +21,8 @@ const customStyles = {
     right                 : 'auto',
     bottom                : 'auto',
     marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+    transform             : 'translate(-50%, -50%)',
+    backgroundColor       : '#d3d3d3'
   }
 };
 
@@ -140,6 +141,7 @@ var UserSignup = React.createClass({
               Email: <input
                       className='email'
                       type='email'
+                      size='24'
                       value={this.state.email}
                       onChange={this.handleEmailChange}
                       /><br/>
@@ -233,6 +235,7 @@ var UserLogin = React.createClass({
             Email: <input
                     className='email'
                     type='email'
+                    size='24'
                     value={this.state.email}
                     onChange={this.handleEmailChange}
                     /><br/>
@@ -350,6 +353,7 @@ var OwnerAuth = React.createClass({
                         Email: <input
                                 className='email'
                                 value={this.state.email}
+                                size='24'
                                 type='email'
                                 onChange={this.handleEmailChange}
                                 /><br/>
@@ -384,7 +388,7 @@ var Links = React.createClass({
       )
     } else if (this.props.userLink && !this.props.ownerLink) {
       return (
-        <Link to='/userprofile' onClick={this.props.undoLink} className='navbar-brand'>Go to Notification Preferences</Link>
+        <Link to='/userprofile' onClick={this.props.undoLink} className='navbar-brand'>Preferences</Link>
       )
     } else {
       return (

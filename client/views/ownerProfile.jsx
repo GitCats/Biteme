@@ -16,7 +16,8 @@ const customStyles = {
     right                 : 'auto',
     bottom                : 'auto',
     marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+    transform             : 'translate(-50%, -50%)',
+    backgroundColor       : '#d3d3d3'
   }
 };
 
@@ -106,8 +107,8 @@ var OwnerProfile = React.createClass({
             </TabPanel>
           </Tabs>
           <br/>
-          <div>
-            <a onClick={this.handleClick} id='top' >Go to Top of Page</a><br/><br/>
+          <div id='top'>
+            <a className='top' onClick={this.handleClick} >Go to Top of Page</a><br/><br/>
           </div>
         </div>
       );
@@ -405,7 +406,9 @@ var OwnerForm = React.createClass({
             <p>Describe your restaurant in a couple of lines:</p>
             <textarea valueLink={this.linkState('res_description')} rows='2' cols='68' maxLength='150' />
             <br/><br/>
-            <input type='submit' value='Update Restaurant Profile' />
+            <div id='updateResButton'>
+              <input type='submit' id='updateRes' value='Update Restaurant Profile' />
+            </div>
           </div>
         </form>
       </div>
@@ -648,7 +651,7 @@ var Deal = React.createClass({
       <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className="ownerDealLogo" />
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
@@ -660,6 +663,9 @@ var Deal = React.createClass({
           <div className="dealAddress">
             {this.props.address.split(",", 1)}
           </div>
+          <div id='expireButton'>
+            <button onClick={this.expireDeal} className='expireButton'>Expire this deal</button>
+          </div>
           <span className='dealExpiration'>
               Expires: {displayDate} at {displayTime}
           </span> 
@@ -669,9 +675,7 @@ var Deal = React.createClass({
           <div>
             {this.props.distance}
           </div>
-          </div>
-          <button onClick={this.expireDeal} className='expireButton'>Expire this deal</button>
-        
+        </div>        
       </div> 
 
       </div>
@@ -681,7 +685,7 @@ var Deal = React.createClass({
       <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className="ownerDealLogo" />
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
