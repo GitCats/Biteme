@@ -7,6 +7,13 @@
   width: 51%;
   margin: auto;
 }
+
+.rdt:focus {
+  box-shadow: 4px 4px 4px #05018f;
+  border: 3px solid #05018f;
+  padding: 3px;
+}
+
 .rdtPicker {
   display: none;
   position: absolute;
@@ -193,4 +200,8 @@ td.rdtYear:hover {
   width: 100%;
   font-size: 1.2em;
   margin-top: 37px;
+}
+
+.form-control {
+  background-color: red;
 }

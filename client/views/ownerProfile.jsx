@@ -226,9 +226,9 @@ var CreateDeal = React.createClass({
       return current.isAfter( yesterday );
     };
     return (
-      <div>
+      <div className='createDeal'>
         <div>
-          <button className='createDeal' onClick={this.openModal}>Create a Deal</button>
+          <button className='createDealButton' onClick={this.openModal}>Create a Deal</button>
         </div>
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -239,14 +239,14 @@ var CreateDeal = React.createClass({
           <br/>
           <h1>Create a Deal for {this.props.initialData.name}</h1>
           <br/>
-          <form onSubmit={this.postDeal} style={{marginLeft: '100px'}}>
+          <form className='createDealForm' onSubmit={this.postDeal}>
             <p>Describe your deal in a few words: </p>
             <input valueLink={this.linkState('description')} size='33' maxLength='35' />
             <br/><br/>
             <p>When will your deal expire?</p>
-            <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
+            <Datetime className='test' open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            <input type='submit' style={{marginLeft: '20%'}} value='Post My Deal!' />
+            <input className='postDealButton' type='submit' value='Post My Deal!' />
             <br/><br/><br/>
           </form>
         </Modal>

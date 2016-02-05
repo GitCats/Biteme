@@ -13,6 +13,9 @@ body {
 
 input:focus, textarea:focus, select:focus {
   outline: none;
+  box-shadow: 4px 4px 4px #05018f;
+  border: 3px solid #05018f;
+  padding: 3px;
 }
 
 .bluePlateLogo {
@@ -318,7 +321,7 @@ color: #050091;
 
 .ownerProfile h1 {
   text-align: center;
-  padding-top: 22px;
+  padding-top: 35px;
 }
 
 .ownerProfile input {
@@ -393,7 +396,9 @@ textarea:focus {
   max-height: 200px;
 }
 
-.createDeal {
+/* CREATE A DEAL MODAL ON OWNER PROFILE PAGE */
+
+.createDealButton {
   background-color: #05018f;
   color: white;
   font-family: 'Roboto', sans-serif;
@@ -405,3 +410,24 @@ textarea:focus {
   border-radius: 5px;
 }
 
+.postDealButton {
+  right: 38%;
+  position: absolute;
+}
+
+.createDeal {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+.createDealForm {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  margin-left: 100px;
+}
+
+/*.test {
+    box-shadow: 4px 4px 4px #05018f;
+  border: 3px solid #05018f;
+  padding: 3px;
+}*/
