@@ -11,7 +11,7 @@ body {
   background-color: #FDFDFD !important;
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
   outline: none;
 }
 
@@ -140,18 +140,28 @@ nav {
   position: absolute;
   padding-top: 88px;
   padding-left: 85px;
-  font-family: Arial;
+  font-family: 'Roboto', sans-serif;
 }
 
 .dealAddress {
-  font-family: Arial;
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-color: gray;
 }
 
 .dealUrl {
-  font-family: Arial;
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
+}
+
+.dealDistance {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  position: absolute;
+  top: 67%;
+  left: 86%;
+  color: #05018f;
+  font-weight: bold;
 }
 
 /** End single deal info **/
@@ -248,11 +258,11 @@ color: #050091;
 */
 /* SINGLE DEAL MODAL */
 
-.singleDeal {
+/*.singleDeal {
   overflow: hidden;
   padding: 0;
 }
-
+*/
 .singleDealInfoDiv img{
   max-width: 150px;
 }
@@ -314,10 +324,24 @@ color: #050091;
 
 .ownerProfile h1 {
   text-align: center;
+  padding-top: 22px;
 }
 
 .ownerProfile input {
   border-radius: 5px;
+}
+
+.ownerProfileInfo {
+  width: 70%;
+  margin: auto;
+}
+
+.tabList {
+  width: 80%;
+  top: 47%;
+  left: 10%;
+  position: absolute;
+  margin: auto;
 }
 
 .ownerProfile input:focus {
@@ -341,3 +365,49 @@ input[type='submit'] {
   width: 25%;
   border-radius: 5px;
 }
+
+select:focus {
+  box-shadow: 4px 4px 4px #05018f;
+  border: 3px solid #05018f;
+  padding: 2px;
+}
+
+textarea:focus {
+  box-shadow: 4px 4px 4px #05018f;
+  border: 3px solid #05018f;
+  padding: 2px;
+}
+
+.expireButton {
+  background-color: #05018f;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  height: 40px;
+  width: 25%;
+  border-radius: 5px;
+  position: absolute;
+  top: 73%;
+  left: 6%;
+}
+
+.ownerDealLogo {
+  position: absolute;
+  left: 0;
+  top: 3%;
+  max-width: 250px;
+  max-height: 200px;
+}
+
+.createDeal {
+  background-color: #05018f;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  width: 150px;
+  height: 50px;
+  right: 10%;
+  position: absolute;
+  border-radius: 5px;
+}
+
