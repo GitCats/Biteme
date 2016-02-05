@@ -9,8 +9,8 @@
 
 body {
   background-color: #FAFAFA !important;
+  display: inline-block !important;
 }
-
 /* NAV BAR */
 
 nav {
@@ -18,37 +18,13 @@ nav {
   border: none !important;
 }
 
-<<<<<<< HEAD
 input {
   border-radius: 5px;
-=======
-.restaurantform {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
->>>>>>> 2477f2513de9687b2431c10d32852e9de71d2082
 }
 
 .resCheckBoxPic {
   max-width: 150px;
   max-height: 100px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-}
-
-.resSelectionBox {
-  position: relative;
-  margin: 30px;
-  border: 3px solid #ddd;
-  height: 110px;
-  width: 180px;
-  box-shadow: 5px 5px 5px #666;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
 }
 
 .nav li a, .glyphicon {
@@ -108,7 +84,6 @@ input {
 
 .dealInfoDiv {
   width: 60%;
-  height: inherit;
   float: right;
   color: black;
   /*text-align: center;*/
@@ -119,7 +94,6 @@ input {
 
 .dealLogo {
   margin-top: 5%;
-  padding-top:5px;
   margin-bottom: 5%;
   max-width: 200px;
   max-height: 200px;
@@ -130,7 +104,7 @@ input {
 .dealExpiration {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 1.2em;
+  font-size: 26px;
   position: absolute;
   /*float: left;*/
   /*padding-top: 25px;*/
@@ -141,7 +115,7 @@ input {
 
 .dealDescription {
   font-size: 24px;
-  padding-left: 10px;
+  /*margin-top: 10px;*/
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
 }
@@ -177,26 +151,11 @@ input {
 
 /** End single deal info **/
 
-/*.logoDiv {
-  
-}*/
-
 #map {
-  width: 125%;
-  height: 22em;
+  width: 500px;
+  height: 350px;
   background-color: gray;
   float: right;
-}
-
-#top {
-  margin: auto;
-  width: 12%;
-}
-
-.top {
-  font-weight: 500;
-  color: white !important;
-  display: inline-block;
 }
 
 #userAuth {
@@ -252,12 +211,11 @@ color: #050091;
 
 /* SINGLE DEAL MODAL */
 
-.singleDeal {
+/*.singleDeal {
   overflow: hidden;
   padding: 0;
-  width: 85%;
 }
-
+*/
 .singleDealInfoDiv img{
   max-width: 150px;
 }
@@ -271,7 +229,7 @@ color: #050091;
 }
 
 .singleDealExpDiv {
-  width: 40%;
+  width: 60%;
   float: right;
   font-family: 'Roboto', sans-serif;
 }
@@ -281,17 +239,14 @@ color: #050091;
 }
 
 .singleExpiration {
-  padding-top: 0.5em;
-}
-
-#expiry {
-  font-size: 20px;
+  padding-left: 320px;
 }
 
 .timer {
   font-size: 40px;
   font-weight: 900;
-  float: right;
+  padding-top: 28px;
+  padding-left: 320px;
 }
 
 /* DROPDOWNS */
@@ -314,21 +269,13 @@ color: #050091;
 .ownerProfile {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  width: 100%;
-  margin: 0 auto;
+  /*width: 80%;*/
+  margin: auto;
 }
 
-#updateResButton {
-  margin-left: 38%;
-}
-
-#updateRes {
-  width: 35%;
-}
-
-/*.ownerProfile img {
+.ownerProfile img {
   margin-left: 25px;
-}*/
+}
 
 .ownerProfile h1 {
   text-align: center;
@@ -370,7 +317,7 @@ input[type='submit'] {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   height: 40px;
-  padding: 3px;
+  width: 25%;
   border-radius: 5px;
 }
 
@@ -386,24 +333,17 @@ textarea:focus {
   padding: 2px;
 }
 
-#expireButton {
-  width: 57%;
-  float: right;
-  position: inherit;
-  padding-top: 4px;
-}
-
 .expireButton {
   background-color: #05018f;
   color: white;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   height: 40px;
-  float: right;
-  /*width: 25%;*/
+  width: 25%;
   border-radius: 5px;
-  padding: 3px;
-  /*margin-left: 15px;*/
+  position: absolute;
+  top: 73%;
+  left: 6%;
 }
 
 .ownerDealLogo {
@@ -424,19 +364,13 @@ textarea:focus {
   right: 10%;
   position: absolute;
   border-radius: 5px;
-  z-index: 1;
 }
 
-/*#bluePlateLogo {
-  margin-left: 43%;
-}*/
-
 .bluePlateLogo {
-  max-width:100%;
-  max-height:100%;
+  max-height: 300px;
+  max-width: 100%;
 }
 
 .userprefs {
   display: inline-block;
 }
-
