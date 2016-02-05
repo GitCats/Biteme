@@ -409,7 +409,6 @@ textarea:focus {
   margin: auto;
   max-height: 200px;
   max-width: 200px;
-  opacity: 100;
 }
 
 .userprefs {
