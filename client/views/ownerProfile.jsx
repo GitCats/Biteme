@@ -282,7 +282,6 @@ var OwnerForm = React.createClass({
       url: 'api/owner/getProfile/'+localStorage.getItem('restaurant_id'),
       dataType: 'json',             //defaults to GET request
       success: function(settings) {
-        console.log("settings", settings)
         var setting = settings[0];
         var address = setting ? setting.address ? setting.address.split(',') : '' : '';
           //Each setState command re-renders components

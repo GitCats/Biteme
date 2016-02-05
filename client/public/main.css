@@ -23,11 +23,16 @@ input:focus, textarea:focus, select:focus {
 }
 
 
-/* NAV BAR */ 
+/* NAV BAR */
 
 nav {
   background: transparent !important;
   border: none !important;
+}
+
+.resCheckBoxPic {
+  max-width: 150px;
+  max-height: 100px;
 }
 
 .nav li a, .glyphicon {
@@ -103,11 +108,6 @@ nav {
   max-height: 200px;
 }
 
-.resCheckBoxPic {
-  max-width: 250px;
-  max-height: 250px;
-}
-
 /** These are all within a single dealInfoDiv **/
 
 .dealExpiration {
@@ -179,9 +179,9 @@ nav {
   color: black;
 }
 
-#logout {
-  text-align: center;
-}
+/*#logout {
+  padding-top: 0px;
+}*/
 
 .text {
   text-align: center;
@@ -209,6 +209,15 @@ color: #050091;
   font-size: 30px;
   font-family: 'chalkboard';
 }
+
+.navbar-brand {
+  padding: 0px 15px !important;
+}
+
+.dropdown-toggle {
+  padding-top: 3px !important;
+}
+
 /*
 .nav {
     list-style-type: none;
