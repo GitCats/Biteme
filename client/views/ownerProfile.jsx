@@ -86,7 +86,7 @@ var OwnerProfile = React.createClass({
         <div className='ownerProfile'>
           <CreateDeal initialData={this.state.settings} updateDeals={this.state.updateDeals} />
           <Tabs onSelect={this.handleSelect}>
-            <TabList>
+            <TabList className='tabList'>
               <Tab>Restaurant Profile</Tab>
               <Tab>Current Deals</Tab>
               <Tab>Expired Deals</Tab>
@@ -227,8 +227,8 @@ var CreateDeal = React.createClass({
     };
     return (
       <div>
-        <div style={{margin: 'auto', width: '7.5%'}}>
-          <button onClick={this.openModal} style={{width:'110px', height:'35px', fontWeight: 'bolder', fontSize: '1em'}}>Create a Deal</button>
+        <div>
+          <button className='createDeal' onClick={this.openModal}>Create a Deal</button>
         </div>
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -282,7 +282,6 @@ var OwnerForm = React.createClass({
       url: 'api/owner/getProfile/'+localStorage.getItem('restaurant_id'),
       dataType: 'json',             //defaults to GET request
       success: function(settings) {
-        console.log("settings", settings)
         var setting = settings[0];
         var address = setting ? setting.address ? setting.address.split(',') : '' : '';
           //Each setState command re-renders components
@@ -368,7 +367,7 @@ var OwnerForm = React.createClass({
 
   render: function() {
     return (
-      <div className='ownerProfile'>
+      <div className='ownerProfile ownerProfileInfo'>
         <h1>Update Your Restaurant Profile</h1>
         <form onSubmit={this.updateProfile}>
           <span>Restaurant name: </span><input type='text' valueLink={this.linkState('name')} />
@@ -649,7 +648,7 @@ var Deal = React.createClass({
       <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className="dealLogo" />
+          <img src={this.props.image_name} className="ownerDealLogo" />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
@@ -670,9 +669,11 @@ var Deal = React.createClass({
           <div>
             {this.props.distance}
           </div>
-        </div>  
+          </div>
+          <button onClick={this.expireDeal} className='expireButton'>Expire this deal</button>
+        
       </div> 
-      <button onClick={this.expireDeal} className='expireButton'>Expire this Deal</button>
+
       </div>
       );
     } else {
@@ -680,7 +681,7 @@ var Deal = React.createClass({
       <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className="dealLogo" />
+          <img src={this.props.image_name} className="ownerDealLogo" />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">

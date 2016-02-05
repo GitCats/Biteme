@@ -23,6 +23,7 @@ router.post('/update', function(req, res){
     })
 })
 
+//Filter deals by proximity to location
 router.post('/filterByProximity', function(req, res) {
 
   var origins = req.body.startingPoint
@@ -56,3 +57,10 @@ router.post('/filterByProximity', function(req, res) {
   }
 })
 
+router.post('/remove', function(req, res){
+  Deal.remove(req.body)
+    .then(function(data){
+      console.log('is there data:', data);
+      res.sendStatus(201);
+    })
+})

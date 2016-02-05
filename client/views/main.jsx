@@ -2,7 +2,6 @@ var React = require('react');
 var IndexLink = require('react-router').IndexLink;
 var Link = require('react-router').Link;
 var Auth = require('./auth.jsx').auth;
-var jwt = require ('jwt-simple');
 
 
 var App = React.createClass({
@@ -99,6 +98,21 @@ var App = React.createClass({
           </div>
         </nav>
         <IndexLink to='/'><BluePlateLogo navToHome={this.navToHome} /></IndexLink>
+        <div id='auth'>
+          <Auth  userAuth={this.state.userAuth} 
+                 setUserAuthState={this.state.setUserAuthState}
+                 ownerAuth={this.state.ownerAuth}
+                 setOwnerAuthState={this.state.setOwnerAuthState}
+                 userLink={this.state.userLink}
+                 ownerLink={this.state.ownerLink}
+                 logoutLink={this.state.logoutLink}
+                 setLogoutUpdate={this.state.setLogoutUpdate}
+                 navToHome={this.navToHome}
+                 undoLink={this.undoLink}
+                 history={this.props.history}
+                />
+        </div>
+        <div><BluePlateLogo /></div>
           {this.props.children}
       </div>
     );

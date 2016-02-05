@@ -32,11 +32,10 @@ Owner.signup = function(body){
   .select('username')
  }
 
-
  Owner.createUser = function(body){
   var newUser = body.email;
-  var newPass = body.password;
-  return db('restaurants').insert({username: newUser, password: Owner.generateHash(newPass)})
+  var newPass = Owner.generateHash(body.password);
+  return db('restaurants').insert({username: newUser, password: newPass})
   .then(function(){
     return db('restaurants')
     .where('username', newUser)

@@ -131,7 +131,7 @@ var Deal = React.createClass({
           <div>
             {this.props.destination}
           </div>
-          <div>
+          <div className='dealDistance'>
             {this.props.distance}
           </div> 
         </div>  
@@ -199,7 +199,7 @@ var Deal = React.createClass({
           <div>
             {this.props.destination}
           </div>
-          <div>
+          <div className='dealDistance'>
             {this.props.distance}
           </div>
         </div>  
@@ -256,7 +256,6 @@ var AllDeals = React.createClass({
       cache: false,
       type: 'GET',
       success: function(data) {
-        console.log('deals', data)
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -367,7 +366,6 @@ var DealList = React.createClass({
   },
 
  filterByProximity: function(startingPoint) {
-  console.log('sp', startingPoint)
   this.setState({ startingPoint: startingPoint })
 
   var array = [];
@@ -598,10 +596,10 @@ const customStyles = {
   },
   content : {
     position                   : 'absolute',
-    top                        : '100px',
-    left                       : '250px',
-    right                      : '250px',
-    bottom                     : '190px',
+    top                        : '15%',
+    left                       : '15%',
+    right                      : '15%',
+    bottom                     : '15%',
     border                     : '10px solid #05018f',
     background                 : '#fff',
     borderRadius               : '4px',

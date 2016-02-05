@@ -17,7 +17,7 @@ Auth.signin = function(body){
 	return db('users')
 	.where('email', attemptedemail)
 	.select('user_id', 'email', 'password')
-};
+}
 
 Auth.signup = function(body){
 	var newemail = body.email;
@@ -25,8 +25,6 @@ Auth.signup = function(body){
 	.where('email', newemail)
 	.select('email', 'password')
 }
-	//if the database doesnt have a email that matches the new email
-	//add a new user (name and password) to the users table
 
 Auth.create = function(body){
 	var newUser = body.email;

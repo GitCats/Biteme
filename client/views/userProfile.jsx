@@ -132,19 +132,16 @@ var RestaurantForm = React.createClass({
 });
 
 var PhoneForm = React.createClass({
-  getInitialState: function() {
-    return {number: ''};
-  },
 
   handleNumberChange: function(e) {
-    this.setState({number: e.target.value});
+    //change top level state
+    this.props.phoneChange(e.target.value);
   },
 
   handleSubmit: function(e) {
     e.preventDefault();
-    var number = this.state.number.trim();
+    var number = this.props.phone;
     this.props.submitphone(number);
-    this.setState({number: ''});
   },
 
   render: function() {
@@ -154,7 +151,7 @@ var PhoneForm = React.createClass({
         <h4>Enter your phone number to receive text notifications, and select text and/or email notifications:</h4>
         <p>(Please include area code)</p>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="+15121234567" value={this.state.number} onChange={this.handleNumberChange} />
+          <input type="text" value={this.props.phone} onChange={this.handleNumberChange} />
           <p style={{display: "inline", margin: 30}}></p>
           <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Phone"} key={1} OnOff={this.props.phoneOnOff} />
           <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Email"} key={2} OnOff={this.props.emailOnOff} />
@@ -210,7 +207,8 @@ var UserProfile = React.createClass({
         success: function(data) {
           var restaurants = [];
           data.forEach(function(row){
-            restaurants.push(row);
+            if(row.image_name){
+            restaurants.push(row);}
           }.bind(this));
           this.setState({restaurantPreferences: restaurants});
           //nested ajax call to get stored preferences
@@ -261,7 +259,10 @@ var UserProfile = React.createClass({
         phoneChecked==='yes' ? phoneChecked=true : phoneChecked = false;
         var emailChecked = data[0]["email_notify"];
         emailChecked==='yes' ? emailChecked=true : emailChecked=false;
-        this.setState({phoneOnOff: phoneChecked, emailOnOff: emailChecked});
+        var phoneHolio = data[0]["phone"];
+        console.log('phoneHolio', phoneHolio);
+
+        this.setState({phoneOnOff: phoneChecked, emailOnOff: emailChecked, phoneNum: phoneHolio});
       }.bind(this),
 
       error: function(xhr, status, err) {
@@ -389,6 +390,10 @@ var UserProfile = React.createClass({
     }
   },
 
+  handlePhoneInput: function(number){
+    this.setState({phoneNum: number});
+  },
+
   getInitialState: function() {
     return {
       cuisinePreferences: [],
@@ -398,7 +403,8 @@ var UserProfile = React.createClass({
       cuisineViewAltered: false,
       resViewAltered: false,
       emailOnOff: false,
-      phoneOnOff: false
+      phoneOnOff: false,
+      phoneNum: ''
     };
   },
 
@@ -416,7 +422,7 @@ var UserProfile = React.createClass({
       return (
         <div className="userprefs">
           <h2>Hello {user}</h2>
-          <PhoneForm submitphone={this.handlePhoneChange} onRadioChange={this.handleRadioChange} phoneOnOff={this.state.phoneOnOff} emailOnOff={this.state.emailOnOff}/>
+          <PhoneForm submitphone={this.handlePhoneChange} onRadioChange={this.handleRadioChange} phoneOnOff={this.state.phoneOnOff} emailOnOff={this.state.emailOnOff} phone={this.state.phoneNum} phoneChange={this.handlePhoneInput}/>
           <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
           <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
         </div>
