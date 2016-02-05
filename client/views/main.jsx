@@ -66,34 +66,22 @@ var App = React.createClass({
   render: function() {
     return (
       <div className='logoDiv'>
-        <div id='auth'>
-          <Auth  userAuth={this.state.userAuth} 
-                 setUserAuthState={this.state.setUserAuthState}
-                 ownerAuth={this.state.ownerAuth}
-                 setOwnerAuthState={this.state.setOwnerAuthState}
-                 userLink={this.state.userLink}
-                 ownerLink={this.state.ownerLink}
-                 logoutLink={this.state.logoutLink}
-                 setLogoutUpdate={this.state.setLogoutUpdate}
-                 navToHome={this.navToHome}
-                 undoLink={this.undoLink}
-                 history={this.props.history}
-                />
-        </div>
-        <div><BluePlateLogo /></div>
-          {this.props.children}
+        <Auth  userAuth={this.state.userAuth} 
+               setUserAuthState={this.state.setUserAuthState}
+               ownerAuth={this.state.ownerAuth}
+               setOwnerAuthState={this.state.setOwnerAuthState}
+               userLink={this.state.userLink}
+               ownerLink={this.state.ownerLink}
+               logoutLink={this.state.logoutLink}
+               setLogoutUpdate={this.state.setLogoutUpdate}
+               navToHome={this.navToHome}
+               undoLink={this.undoLink}
+               history={this.props.history} />
+        <img src='client/assets/blueplate.png' className='bluePlateLogo' />
+        {this.props.children}
       </div>
     );
   }
 });
-
-var BluePlateLogo = React.createClass({
-
-  render: function() {
-    return (
-      <img src='client/assets/blueplate.png' className='bluePlateLogo' />
-    )
-  }
-})
 
 module.exports = App;

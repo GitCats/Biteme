@@ -161,8 +161,8 @@ nav {
 /** End single deal info **/
 
 #map {
-  width: 500px;
-  height: 350px;
+  width: 25em;
+  height: 20em;
   background-color: gray;
   float: right;
 }
@@ -252,11 +252,12 @@ color: #050091;
 */
 /* SINGLE DEAL MODAL */
 
-/*.singleDeal {
+.singleDeal {
   overflow: hidden;
   padding: 0;
+  width: 85%;
 }
-*/
+
 .singleDealInfoDiv img{
   max-width: 150px;
 }
@@ -270,7 +271,7 @@ color: #050091;
 }
 
 .singleDealExpDiv {
-  width: 60%;
+  width: 40%;
   float: right;
   font-family: 'Roboto', sans-serif;
 }
@@ -286,8 +287,7 @@ color: #050091;
 .timer {
   font-size: 40px;
   font-weight: 900;
-  padding-top: 28px;
-  padding-left: 320px;
+  float: right;
 }
 
 /* DROPDOWNS */
