@@ -16,7 +16,8 @@ const customStyles = {
     right                 : 'auto',
     bottom                : 'auto',
     marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+    transform             : 'translate(-50%, -50%)',
+    backgroundColor       : '#d3d3d3'
   }
 };
 
@@ -106,8 +107,8 @@ var OwnerProfile = React.createClass({
             </TabPanel>
           </Tabs>
           <br/>
-          <div>
-            <a onClick={this.handleClick} id='top' >Go to Top of Page</a><br/><br/>
+          <div id='top'>
+            <a className='top' onClick={this.handleClick} >Go to Top of Page</a><br/><br/>
           </div>
         </div>
       );
@@ -405,7 +406,9 @@ var OwnerForm = React.createClass({
             <p>Describe your restaurant in a couple of lines:</p>
             <textarea valueLink={this.linkState('res_description')} rows='2' cols='68' maxLength='150' />
             <br/><br/>
-            <input type='submit' value='Update Restaurant Profile' />
+            <div id='updateResButton'>
+              <input type='submit' id='updateRes' value='Update Restaurant Profile' />
+            </div>
           </div>
         </form>
       </div>

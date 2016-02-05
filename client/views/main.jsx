@@ -77,7 +77,9 @@ var App = React.createClass({
                navToHome={this.navToHome}
                undoLink={this.undoLink}
                history={this.props.history} />
-        <img src='client/assets/blueplate.png' className='bluePlateLogo' />
+        <div id='bluePlateLogo'>
+          <img src='client/assets/BluePlate.svg' className='bluePlateLogo' />
+        </div>
         {this.props.children}
       </div>
     );
