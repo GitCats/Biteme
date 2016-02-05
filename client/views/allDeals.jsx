@@ -590,15 +590,14 @@ const customStyles = {
   },
   content : {
     position                   : 'absolute',
-    top                        : '5em',
-    left                       : '15em',
-    right                      : '15em',
-    bottom                     : '6em',
+    top                        : '15%',
+    left                       : '15%',
+    right                      : '15%',
+    bottom                     : '18%',
     border                     : '10px solid #05018f',
     background                 : '#fff',
     borderRadius               : '4px',
     outline                    : 'none',
-    overflow                   : 'hidden',
     padding                    : '50px'
   }
 };

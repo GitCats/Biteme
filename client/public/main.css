@@ -115,7 +115,7 @@ nav {
 .dealExpiration {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 26px;
+  font-size: 1.4em;
   position: absolute;
   /*float: left;*/
   /*padding-top: 25px;*/
@@ -143,13 +143,11 @@ nav {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-color: gray;
-  padding-left: 10px;
 }
 
 .dealUrl {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  padding-left: 10px;
 }
 
 .dealDistance {
@@ -165,8 +163,8 @@ nav {
 /** End single deal info **/
 
 #map {
-  width: 25em;
-  height: 20em;
+  width: 125%;
+  height: 22em;
   background-color: gray;
   float: right;
 }
@@ -380,16 +378,22 @@ textarea:focus {
   padding: 2px;
 }
 
+#expireButton {
+  width: 50%;
+  float: right;
+  position: inherit;
+}
+
 .expireButton {
   background-color: #05018f;
   color: white;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   height: 40px;
-  width: 25%;
+  /*width: 25%;*/
   border-radius: 5px;
-  margin-left: 15px;
-  margin-top: 20px;
+  padding: 3px;
+  /*margin-left: 15px;*/
 }
 
 .ownerDealLogo {
