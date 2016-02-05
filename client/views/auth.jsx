@@ -327,7 +327,7 @@ var OwnerAuth = React.createClass({
              aria-haspopup='true' aria-expanded='false'>Restaurant Owners <span className='caret'></span></a>
             <ul className='dropdown-menu'>
               <li><span>
-                    <a onClick={this.openModal}>Sign Up</a>
+                    <a onClick={this.openModal1}>Sign Up</a>
                     <Modal
                       isOpen={this.state.modal1IsOpen}
                       onRequestClose={this.closeModal1}
@@ -337,13 +337,13 @@ var OwnerAuth = React.createClass({
                     </Modal>
                   </span></li>
               <li><span>
-                    <a onClick={this.openModal}>Sign In</a>
+                    <a onClick={this.openModal2}>Sign In</a>
                     <Modal
-                      isOpen={this.state.modalIsOpen}
-                      onRequestClose={this.closeModal}
+                      isOpen={this.state.modal2IsOpen}
+                      onRequestClose={this.closeModal2}
                       style={customStyles} >
                       <br/>
-                      <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
+                      <img src='client/assets/x-sm-gray.png' onClick={this.closeModal2} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
                       <br/>
                       <h2>Log In to Manage Deals</h2>
                       <form className='loginForm' onSubmit={this.ownerLogin}>
@@ -380,11 +380,11 @@ var Links = React.createClass({
   render: function() {
     if (this.props.ownerLink && !this.props.userLink) {
       return (
-        <Link to='/ownerprofile' onClick={this.props.undoLink}>Restaurant Profile</Link>
+        <Link to='/ownerprofile' onClick={this.props.undoLink} className='navbar-brand'>Restaurant Profile</Link>
       )
     } else if (this.props.userLink && !this.props.ownerLink) {
       return (
-        <Link to='/userprofile' onClick={this.props.undoLink}>Go to Notification Preferences</Link>
+        <Link to='/userprofile' onClick={this.props.undoLink} className='navbar-brand'>Go to Notification Preferences</Link>
       )
     } else {
       return (
@@ -404,7 +404,7 @@ var Logout = React.createClass({
   render: function() {
     if (this.props.logoutLink) {
       return (
-        <Link to='/' onClick={this.signout}>Logout</Link>
+        <Link to='/' onClick={this.signout} className='navbar-brand'>Logout</Link>
       )
     } else {
       return (
