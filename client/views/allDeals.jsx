@@ -131,7 +131,7 @@ var Deal = React.createClass({
           <div>
             {this.props.destination}
           </div>
-          <div>
+          <div className='dealDistance'>
             {this.props.distance}
           </div> 
         </div>  
@@ -199,7 +199,7 @@ var Deal = React.createClass({
           <div>
             {this.props.destination}
           </div>
-          <div>
+          <div className='dealDistance'>
             {this.props.distance}
           </div>
         </div>  
@@ -367,7 +367,6 @@ var DealList = React.createClass({
   },
 
  filterByProximity: function(startingPoint) {
-  console.log('sp', startingPoint)
   this.setState({ startingPoint: startingPoint })
 
   var array = [];
@@ -547,20 +546,19 @@ var CuisineDropdown = React.createClass({
 
 var ExpirationDropdown = React.createClass({
   selectExpiration: function(e) {
-    var expirationDate = e.target.value;
-    var exp = parseInt(expirationDate)
+    console.log(typeof e)
+    var expirationDate = e;
+    var exp = expirationDate
     this.props.updateExpiration(exp)
   },
 
   render: function() {
     return (
-      <form className="filterByExpiration dropdown">
-        <select onChange={this.selectExpiration}>
-          <option className='expirationButton' value="1">Today</option>
-          <option className='expirationButton' value="2">Tomorrow</option>
-          <option className='expirationButton' value="3">This Week</option>
-        </select>
-      </form>
+      <div className="filterByExpiration dropdown">
+          <button onClick={this.selectExpiration.bind(this, 1)} className='expirationButton' value="1">Today</button>
+          <button onClick={this.selectExpiration.bind(this, 2)} className='expirationButton' value="2">Tomorrow</button>
+          <button onClick={this.selectExpiration.bind(this, 3)} className='expirationButton' value="3">This Week</button>
+      </div>
     );
   }
 });
@@ -593,10 +591,10 @@ const customStyles = {
   },
   content : {
     position                   : 'absolute',
-    top                        : '100px',
-    left                       : '250px',
-    right                      : '250px',
-    bottom                     : '190px',
+    top                        : '15%',
+    left                       : '15%',
+    right                      : '15%',
+    bottom                     : '15%',
     border                     : '10px solid #05018f',
     background                 : '#fff',
     borderRadius               : '4px',
