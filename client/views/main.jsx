@@ -78,7 +78,7 @@ var App = React.createClass({
                undoLink={this.undoLink}
                history={this.props.history} />
         <div id='bluePlateLogo'>
-          <img src='client/assets/BluePlate.svg' className='bluePlateLogo' />
+          <img src='client/assets/banner.jpg' className='bluePlateLogo' />
         </div>
         {this.props.children}
       </div>
