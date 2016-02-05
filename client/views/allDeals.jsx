@@ -568,25 +568,26 @@ var ExpirationDropdown = React.createClass({
  }
 });
 
-var SearchBar = React.createClass({
-   filterByProximity: function(e) {
-    e.preventDefault();
-    var startingPoint = $('#address').val()
-    this.props.filterByProximity(startingPoint)
-  },
-
-  render: function() {
-    return (
-      <div className='searchBar input-group input-group-md col-md-10 col-md-offset-1' onSubmit={this.filterByProximity}>
-        <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address'>
-        <span className='input-group-btn'>
-        <button type='submit' className='searchButton btn btn-default' value='Submit'>Submit</button>
-        </span>
-        </input>
-      </div>
-      )
-  }
-})
+ 
+ var SearchBar = React.createClass({
+    filterByProximity: function(e) {
+     e.preventDefault();
+     var startingPoint = $('#address').val()
+     this.props.filterByProximity(startingPoint)
+   },
+ 
+   render: function() {
+     return (
+       <div className='searchBar input-group input-group-md col-md-10 col-md-offset-1' onSubmit={this.filterByProximity}>
+         <input type='text' className="form-control" name='address' placeholder='Enter your current location...' id='address'>
+         <span className='input-group-btn'>
+         <button type='submit' className='searchButton btn btn-default' value='Submit'>Submit</button>
+         </span>
+         </input>
+       </div>
+       )
+   }
+ })
 
 
 const customStyles = {

@@ -91,7 +91,7 @@ var BluePlateLogo = React.createClass({
 
   render: function() {
     return (
-      <img src='client/assets/blueplate.png' className='bluePlateLogo col-md-4 col-md-offset-4' onClick={this.props.navToHome} />
+      <img src='client/assets/blueplate.png' className='bluePlateLogo' onClick={this.props.navToHome} />
     )
   }
 })
