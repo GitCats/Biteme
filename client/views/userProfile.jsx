@@ -41,17 +41,18 @@ var CuisineCheckBox = React.createClass({
 
 var RestaurantCheckBox = React.createClass({
   handleChange: function(e) {
+    // var box = $(event.target).closest('input:checked');
     this.props.changeBox(e.target.checked, this.props.restaurant.name);
   },
 
   render: function() {
     var checked = this.props.restaurant.checked;
     return (
-      <p className="resSelectionBox">
+      <div onClick={this.handleChange} className="resSelectionBox">
         <input type="checkbox" checked={this.props.restaurant.checked} onChange={this.handleChange} />
         {' '}
         <img src={this.props.restaurant.image_name} className="resCheckBoxPic" />
-      </p>
+      </div>
     );
   }
 });
@@ -120,9 +121,9 @@ var RestaurantForm = React.createClass({
     }
 
     return (
-      <div className="restaurantform">
+      <div>
         <h3>Get notifications for these restaurants:</h3>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="restaurantform">
           {options}
           <input type="submit" value="Save Changes" className="restaurantButton" />
         </form>
