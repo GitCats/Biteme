@@ -47,7 +47,7 @@ var RestaurantCheckBox = React.createClass({
   render: function() {
     var checked = this.props.restaurant.checked;
     return (
-      <p style={{display: "inline-block", margin: 30}}>
+      <p className="resSelectionBox">
         <input type="checkbox" checked={this.props.restaurant.checked} onChange={this.handleChange} />
         {' '}
         <img src={this.props.restaurant.image_name} className="resCheckBoxPic" />
