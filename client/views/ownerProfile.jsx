@@ -648,7 +648,7 @@ var Deal = React.createClass({
       <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className="ownerDealLogo" />
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">
@@ -681,7 +681,7 @@ var Deal = React.createClass({
       <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
       <div className="deal col-lg-12 col-md-12 col-sm-12 col-xs-12" >
         <div className="dealLogoDiv">
-          <img src={this.props.image_name} className="ownerDealLogo" />
+          <img src={this.props.image_name} className="dealLogo" />
         </div>
         <div className="dealInfoDiv">
           <h3 className="dealDescription">

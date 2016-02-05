@@ -236,7 +236,7 @@ var Deal = React.createClass({
               </div>
             <div className="singleDealExpDiv">
             <Map {...this.props} />
-            <span className='singleExpiration'>
+            <span className='singleExpiration timer' id='expiry'>
                 Expires: {displayDate} at {displayTime}
             </span>       
             </div>
