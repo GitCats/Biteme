@@ -25,6 +25,16 @@ input:focus, textarea:focus, select:focus {
   /*width: 350px;*/
 }
 
+.logoDiv {
+    background: #07FEFF; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #05018f, #07FEFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #05018f, #07FEFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #05018f, #07FEFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #05018f, #07FEFF); /* Standard syntax */
+    height: 375px;
+}
+
+
 
 /* NAV BAR */
 
@@ -39,7 +49,7 @@ nav {
 }
 
 .nav li a, .glyphicon {
-  color: #050091 !important;
+  color: white !important;
   font-size: 18px;
   text-decoration: none;
   padding: 10px;
@@ -214,11 +224,13 @@ color: #050091;
 }
 
 .navbar-brand {
+  /*background-color: red;*/
   padding: 0px 15px !important;
 }
 
 .dropdown-toggle {
   padding-top: 3px !important;
+  /*background-color: green;*/
 }
 
 /*
@@ -296,14 +308,24 @@ color: #050091;
 /* DROPDOWNS */
 
 .filterByExpiration select {
-  width: 200px;
+  /*width: 200px;
   height: 25px;
-  font-color: white;
+  font-color: white;*/
+  padding: 10px;
 }
 
-.expirationButton {
+/*.expirationButton {
   font-color: green;
   background-color: white;
+}*/
+
+.filterByCuisine {
+  text-align: center;
+}
+
+.searchBar {
+  padding: 10px;
+  z-index: 0;
 }
 
 /* OWNER PROFILE */

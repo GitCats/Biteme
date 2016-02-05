@@ -5,13 +5,10 @@ var Link = require('react-router').Link;
 
 /*
 By default the modal is anchored to document.body. All of the following overrides are available.
-
 * element
 Modal.setAppElement(appElement);
-
 * query selector - uses the first element found if you pass in a class.
 Modal.setAppElement('#your-app-element');
-
 */
 
 const customStyles = {
@@ -415,4 +412,3 @@ var Logout = React.createClass({
 });
 
 module.exports.auth = Auth;
-
