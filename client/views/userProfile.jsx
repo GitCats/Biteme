@@ -127,6 +127,7 @@ var RestaurantForm = React.createClass({
           {options}
           <input type="submit" value="Save Changes" className="restaurantButton" />
         </form>
+        <hr />
       </div>
     );
   }
@@ -158,6 +159,7 @@ var PhoneForm = React.createClass({
           <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Email"} key={2} OnOff={this.props.emailOnOff} />
           <input type="submit" value="Save Changes" />
         </form>
+        <hr />
       </div>
     );
   }
