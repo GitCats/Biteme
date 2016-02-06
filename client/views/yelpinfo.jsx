@@ -39,7 +39,7 @@ var YelpBox = React.createClass({
 	parameters.push(['oauth_signature_method', 'HMAC-SHA1']);
 
 	var message = {
-		'action': 'http://api.yelp.com/v2/search',
+		'action': 'https://api.yelp.com/v2/search',
 		'method': 'GET',
 		'parameters': parameters
 	};
@@ -49,7 +49,7 @@ OAuth.SignatureMethod.sign(message, accessor);
 var parameterMap = OAuth.getParameterMap(message.parameters);
 parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
 	$.ajax({
-		'url': 'http://api.yelp.com/v2/search',
+		'url': 'https://api.yelp.com/v2/search',
 		'data': parameterMap,
 		'cache': true,
 		'dataType': 'jsonp',

@@ -6,7 +6,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "start": "node server/server.js",
+    "start": "./node_modules/.bin/nodemon server/server.js --ignore node_modules/",
     "test": "./test/run.sh"
   },
   "repository": {

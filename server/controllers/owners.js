@@ -72,12 +72,34 @@ router.post('/create', function (req, res) {
 				var num = val.phone;
 				var email = val.email;
 				var restName = val.name;
+				var time = req.body.expiration;
+		    var minutes = time.toString().slice(-2);
+		    if(time.toString().length === 4) {
+		      var hours = time.toString().slice(0, 2);
+		    } else {
+		      var hours = time.toString().slice(0, 1);
+		    }
+		    var period;
+		    if(hours < 12) {
+		      if(hours === '0') {
+		        hours = '12';
+		      }
+		      period = 'am';
+		    }
+		    if(hours >= 12) {
+		      if(hours === '12') {
+		        period = 'am';
+		      } else {
+		        hours = hours - 12;
+		        period = 'pm';
+		      } 
+		    }
 				//Twilio
 				if(val.phone_notify==='yes'){
 					client.sendMessage({
 						to: num, //user number
 						from: '15125806884', //number twilio assigns us to send messages from
-						body: restName + ' has made a new deal! Get on BluePlate and check it out'
+						body: `${restName} has made a new deal that will expire on ${req.body.month}/${req.body.day}/${req.body.year} at ${hours}:${minutes}${period}!`
 					}, function(err, responseData) {if(err){console.log(err);}}
 					);
 				}
@@ -97,7 +119,7 @@ router.post('/create', function (req, res) {
 						to: email,
 						subject: "New Deal up on BluePlate!",
 						// text: restName + "has created a new flash deal! Get on BluePlate and check it out!",
-						html: "<h1>"+ restName+" has created a new flash deal. Get on BluePlate to check it out!</h1>"
+						html: `<h1>${restName} has made a new deal that will expire on ${req.body.month}/${req.body.day}/${req.body.year} at ${hours}:${minutes}${period}!</h1>`
 					};
 
 					smtpTransport.sendMail(mail, function(error, response){

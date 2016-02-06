@@ -272,6 +272,11 @@ var AllDeals = React.createClass({
     this.loadDealsFromServer();
   },
 
+  componentWillMount: function() {
+    localStorage.setItem('dontShowUserLink', '');
+    localStorage.setItem('dontShowOwnerLink', '');
+  },
+
   render: function() {
     return (
       <div className="dealBox">
@@ -301,7 +306,7 @@ var DealList = React.createClass({
   },
 
   componentWillMount: function() {
-    this.setState({ expirationDate: 1})
+    this.setState({ expirationDate: 1});
   },
 
   filterByCuisine: function(value) {
@@ -319,6 +324,7 @@ var DealList = React.createClass({
     var month = temptoday.getMonth();
     var date = temptoday.getDate();
     var today = +new Date(year, month, date, 23, 59, 59)
+    var rightNow = Date.now();
 
     //find milliseconds of tomorrow at midnight
     var tomorrowInMilliseconds = today + 86400000;
@@ -341,7 +347,7 @@ var DealList = React.createClass({
     var date = +new Date(value.year, value.month-1, value.day, expHour, expMin, 59)
 
     if(this.state.expirationDate === 1) {
-      if(date < today) {
+      if(date < today && date > rightNow) {
         return true
       } else {
         return false;
