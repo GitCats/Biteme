@@ -24,7 +24,6 @@ router.post('/cuisines', function (req, res) {
 //sends 201 status
 router.post('/updateRes', function(req, res){
 	var reqParsed = JSON.parse(req.body["a"]);
-	console.log('this is parsed', reqParsed);
 	UserPref.updateRes(reqParsed)
 		.then(function(result){
 			res.status(201).json({});
@@ -46,7 +45,6 @@ router.get('/allRestaurants', function(req, res){
 	var token = req.headers['x-access-token'];
   var decoded = jwt.decode(token, require('../config/secret')());
   //The 'exp' property of the decoded token comes from when it was encoded (see userauth.js).
-  console.log("Token still valid:", decoded.exp >= Date.now());
   if (decoded.exp >= Date.now()) {
 		UserPref.allRestaurants()
 			.then(function(result){
