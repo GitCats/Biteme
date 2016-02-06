@@ -272,6 +272,11 @@ var AllDeals = React.createClass({
     this.loadDealsFromServer();
   },
 
+  componentWillMount: function() {
+    localStorage.setItem('dontShowUserLink', '');
+    localStorage.setItem('dontShowOwnerLink', '');
+  },
+
   render: function() {
     return (
       <div className="dealBox">
@@ -301,7 +306,7 @@ var DealList = React.createClass({
   },
 
   componentWillMount: function() {
-    this.setState({ expirationDate: 1})
+    this.setState({ expirationDate: 1});
   },
 
   filterByCuisine: function(value) {
