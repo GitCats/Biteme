@@ -41,8 +41,17 @@ var CuisineCheckBox = React.createClass({
 
 var RestaurantCheckBox = React.createClass({
   handleChange: function(e) {
-    // var box = $(event.target).closest('input:checked');
-    this.props.changeBox(e.target.checked, this.props.restaurant.name);
+    //handle all three cases of the user clicking on the div (restaurant box), restaurant image, or the checkbox itself
+    if(e.target.nodeName === 'DIV'){
+    var box = $(e.target).closest("input");
+    this.props.changeBox(!box.context.childNodes[0].checked, this.props.restaurant.name);
+    } else if(e.target.nodeName==='IMG') {
+    var box = $(e.target).closest("input");
+    this.props.changeBox(!box.context.parentNode.childNodes[0].checked, this.props.restaurant.name);
+    }
+    else{
+      this.props.changeBox(e.target.checked, this.props.restaurant.name);
+    }
   },
 
   render: function() {
@@ -51,7 +60,7 @@ var RestaurantCheckBox = React.createClass({
       <div onClick={this.handleChange} className="resSelectionBox">
         <input type="checkbox" checked={this.props.restaurant.checked} onChange={this.handleChange} />
         {' '}
-        <img src={this.props.restaurant.image_name} className="resCheckBoxPic" />
+        <img onClick={this.handleChange} src={this.props.restaurant.image_name} className="resCheckBoxPic" />
       </div>
     );
   }
