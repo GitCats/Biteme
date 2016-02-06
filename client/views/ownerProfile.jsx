@@ -17,7 +17,8 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    backgroundColor       : '#d3d3d3'
+    backgroundColor       : '#d3d3d3',
+    z-index               :  2
   }
 };
 
@@ -240,7 +241,7 @@ var CreateDeal = React.createClass({
           <br/>
           <h1>Create a Deal for {this.props.initialData.name}</h1>
           <br/>
-          <form onSubmit={this.postDeal} style={{marginLeft: '100px'}}>
+          <form onSubmit={this.postDeal} style={{marginLeft: '24%'}}>
             <p>Describe your deal in a few words: </p>
             <input valueLink={this.linkState('description')} size='33' maxLength='35' />
             <br/><br/>
