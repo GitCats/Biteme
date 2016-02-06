@@ -42,8 +42,17 @@ var CuisineCheckBox = React.createClass({
 
 var RestaurantCheckBox = React.createClass({
   handleChange: function(e) {
-    // var box = $(event.target).closest('input:checked');
-    this.props.changeBox(e.target.checked, this.props.restaurant.name);
+    //handle all three cases of the user clicking on the div (restaurant box), restaurant image, or the checkbox itself
+    if(e.target.nodeName === 'DIV'){
+    var box = $(e.target).closest("input");
+    this.props.changeBox(!box.context.childNodes[0].checked, this.props.restaurant.name);
+    } else if(e.target.nodeName==='IMG') {
+    var box = $(e.target).closest("input");
+    this.props.changeBox(!box.context.parentNode.childNodes[0].checked, this.props.restaurant.name);
+    }
+    else{
+      this.props.changeBox(e.target.checked, this.props.restaurant.name);
+    }
   },
 
   render: function() {
@@ -52,7 +61,7 @@ var RestaurantCheckBox = React.createClass({
       <div onClick={this.handleChange} className="resSelectionBox">
         <input type="checkbox" checked={this.props.restaurant.checked} onChange={this.handleChange} />
         {' '}
-        <img src={this.props.restaurant.image_name} className="resCheckBoxPic" />
+        <img onClick={this.handleChange} src={this.props.restaurant.image_name} className="resCheckBoxPic" />
       </div>
     );
   }
@@ -265,7 +274,6 @@ var UserProfile = React.createClass({
         var emailChecked = data[0]["email_notify"];
         emailChecked==='yes' ? emailChecked=true : emailChecked=false;
         var phoneHolio = data[0]["phone"];
-        console.log('phoneHolio', phoneHolio);
 
         this.setState({phoneOnOff: phoneChecked, emailOnOff: emailChecked, phoneNum: phoneHolio});
       }.bind(this),
@@ -379,7 +387,6 @@ var UserProfile = React.createClass({
       data: {"a": sending},
       success: function(data) {
         alert("Your changes have been saved!");
-        console.log('return data from phone', data);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error('api/userprefs/phone', status, err.toString());
@@ -429,7 +436,7 @@ var UserProfile = React.createClass({
           <h2 className="userText">Hello {user}</h2>
           <PhoneForm submitphone={this.handlePhoneChange} onRadioChange={this.handleRadioChange} phoneOnOff={this.state.phoneOnOff} emailOnOff={this.state.emailOnOff} phone={this.state.phoneNum} phoneChange={this.handlePhoneInput}/>
           <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
-          <CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />
+          {/*<CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />*/}
         </div>
       );
     } else {
