@@ -16,7 +16,7 @@ This project may be deployed in different versions with changes in time-based fi
 
 ## Documentation
 
-The app is live on Heroku here: [INSERT HEROKU URL](localhost:4000) (subject to daily limits of free usage of the Google Maps API key).
+The app is live on Heroku here: [https://blueplate-mks.herokuapp.com](https://blueplate-mks.herokuapp.com) (subject to daily limits of free usage of the Google Maps API key).
 
 See [API_spec.md](https://github.com/GitCats/BluePlate/blob/master/API_spec.md) for API POST and GET routes.
 
