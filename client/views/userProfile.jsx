@@ -160,7 +160,7 @@ var PhoneForm = React.createClass({
 
     return (
       <div className="phoneNumberEntry">
-        <h4 className="userText">Enter your phone number to receive text notifications, and select text and/or email notifications:</h4>
+        <h4 className="userText">Enter your phone number to receive text notifications, and select phone and/or email notifications:</h4>
         <h5 className="userText">Currently, you must first register your phone number by emailing it to <Mailto email="gbrustkern@gmail.com" >gbrustkern@gmail.com</Mailto> in order for automatic text notifications to work.</h5>
         <p className="userText">(Please include area code)</p>
         <form onSubmit={this.handleSubmit}>
