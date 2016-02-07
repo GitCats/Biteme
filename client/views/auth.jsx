@@ -22,7 +22,11 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    backgroundColor       : '#d3d3d3'
+    backgroundColor       : '#E0E0E0',
+    background            : '-webkit-radial-gradient(#E0E0E0, CCFFFF)',
+    background            : '-o-radial-gradient(#E0E0E0, #CCFFFF)',
+    background            : '-moz-radial-gradient(#E0E0E0, #CCFFFF)',
+    background            : 'radial-gradient(#E0E0E0, #CCFFFF)'
   }
 };
 

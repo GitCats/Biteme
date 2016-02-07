@@ -17,8 +17,15 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    backgroundColor       : '#d3d3d3',
-    zIndex               :  '2'
+    zIndex                :  '2',
+    fontFamily            : 'Roboto, sans-serif',
+    fontWeight            : '500',
+    fontSize              : '1.2em',
+    backgroundColor       : '#E0E0E0',
+    background            : '-webkit-linear-gradient(bottom, rgba(255,255,255,1), rgba(224,224,224,1))',
+    background            : '-o-linear-gradient(top,rgba(255,255,255,1),rgba(224,224,224,1))',
+    background            : '-moz-linear-gradient(top,rgba(255,255,255,1),rgba(224,224,224,1))',
+    background            : 'linear-gradient(to top, rgba(255,255,255,1), rgba(224,224,224,1))',
   }
 };
 
@@ -237,7 +244,7 @@ var CreateDeal = React.createClass({
           onRequestClose={this.closeModal}
           style={customStyles} >
           <br/>
-          <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
+          <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{ paddingTop: '1.5em', float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
           <br/>
           <h1>Create a Deal for {this.props.initialData.name}</h1>
           <br/>
@@ -247,7 +254,7 @@ var CreateDeal = React.createClass({
             <br/><br/>
             <p>When will your deal expire?</p>
             <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <input type='submit' style={{marginLeft: '20%'}} value='Post My Deal!' />
             <br/><br/><br/>
           </form>
