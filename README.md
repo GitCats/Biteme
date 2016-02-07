@@ -7,7 +7,7 @@ Flash deals from restaurants to consumers:
 * Users can filter the deals by cuisine and by deals that expire tomorrow or within the week (default is the current day's deals).
 * Users can click on deals to see a modal popup with further relevant information including a map of the restaurant's location, a countdown to deal expiration, and a link to Yelp reviews of the restaurant.
 * Users can enter an address on the homepage to see the distance from that address to each restaurant, and their associated routes in the modal views, provided by Google Maps.
-* Users can sign up/log in to set notification preferences when a deal is posted by a specific participating restaurant or cuisine of their choice.
+* Users can sign up/log in to set notification preferences when a deal is posted by any participating restaurant of their choice.
 * Upon logging in, restaurant owners/managers may create and update their restaurant profile, create deals, view current and expired deals, and manually expire deals any day before the preset day of expiration.
 
 ## Versioning
