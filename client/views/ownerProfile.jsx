@@ -17,10 +17,10 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    zIndex                :  '2',
     fontFamily            : 'Roboto, sans-serif',
     fontWeight            : '500',
     fontSize              : '1.2em',
+    zIndex                :  '2 !important',  //CreateDeal button overshadows modal, fix unknown
     backgroundColor       : '#E0E0E0',
     background            : '-webkit-linear-gradient(bottom, rgba(255,255,255,1), rgba(224,224,224,1))',
     background            : '-o-linear-gradient(top,rgba(255,255,255,1),rgba(224,224,224,1))',
@@ -250,7 +250,7 @@ var CreateDeal = React.createClass({
           <br/>
           <form onSubmit={this.postDeal} style={{marginLeft: '24%'}}>
             <p>Describe your deal in a few words: </p>
-            <input valueLink={this.linkState('description')} size='33' maxLength='35' />
+            <input valueLink={this.linkState('description')} size='29' maxLength='35' />
             <br/><br/>
             <p>When will your deal expire?</p>
             <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
