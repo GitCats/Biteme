@@ -167,9 +167,9 @@ var Deal = React.createClass({
               <Yelp {...this.props} />
               </div>
             <div className="singleDealExpDiv">
-            <Map {...this.props} />
-            <span className='singleExpiration'></span>
-            <CountdownTimer {...this.props} />
+              <Map {...this.props} />
+              <span className='singleExpiration'></span>
+              <CountdownTimer {...this.props} />
             </div>
            </div> 
         </Modal>

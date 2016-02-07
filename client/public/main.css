@@ -206,7 +206,7 @@ hr:before { /* Not really supposed to work, but does */
   font-size: 20px;
   position: absolute;
   top: 67%;
-  left: 86%;
+  left: 80%;
   color: #05018f;
   font-weight: bold;
 }
@@ -325,9 +325,10 @@ color: #050091;
 }
 
 .timer {
-  font-size: 40px;
+  font-size: 21px;
   font-weight: 900;
   float: right;
+  width: 120%;
 }
 
 /* DROPDOWNS */
