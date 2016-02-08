@@ -226,7 +226,7 @@ hr:before { /* Not really supposed to work, but does */
 
 #top {
   margin: auto;
-  width: 12%;
+  width: 17%;
 }
 
 .top {
@@ -356,11 +356,11 @@ color: #050091;
 }
 
 #updateResButton {
-  margin-left: 38%;
+  margin-left: 34%;
 }
 
 #updateRes {
-  width: 35%;
+  width: 13em;
 }
 
 /*.ownerProfile img {

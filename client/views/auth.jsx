@@ -25,11 +25,7 @@ const customStyles = {
     fontFamily            : 'Roboto, sans-serif',
     fontWeight            : '500',
     fontSize              : '1.2em',    
-    backgroundColor       : '#E0E0E0',
-    background            : '-webkit-radial-gradient(#E0E0E0, CCFFFF)',
-    background            : '-o-radial-gradient(#E0E0E0, #CCFFFF)',
-    background            : '-moz-radial-gradient(#E0E0E0, #CCFFFF)',
-    background            : 'radial-gradient(#E0E0E0, #CCFFFF)'
+    backgroundColor       : 'rgba(224, 224, 224, .9)'
   }
 };
 
