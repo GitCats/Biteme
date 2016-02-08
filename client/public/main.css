@@ -213,9 +213,9 @@ hr:before { /* Not really supposed to work, but does */
 
 /** End single deal info **/
 
-/*.logoDiv {
-
-}*/
+.logoDiv {
+  width: 100%;
+}
 
 #map {
   width: 125%;
@@ -466,9 +466,9 @@ textarea:focus {
   z-index: 1;
 }
 
-/*#bluePlateLogo {
-  margin-left: 43%;
-}*/
+#bluePlateLogo {
+  width: 100%;
+}
 
 .bluePlateLogo {
   max-height: 300px;
