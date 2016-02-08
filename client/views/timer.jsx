@@ -118,7 +118,7 @@ var CountdownTimer = React.createClass({
     	return (
       		<div className='timer'>
         		{this.getFormattedTime(timeRemaining)}
-            <span className='timeLeft'> hours:min:sec left until this deal expires.</span>
+            <span className='timeLeft'> hours:min:sec till expiration</span>
       		</div>
     	);
   }	
