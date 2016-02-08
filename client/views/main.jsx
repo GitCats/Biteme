@@ -63,6 +63,10 @@ var App = React.createClass({
     }
   },
 
+  handleClick: function() {
+    window.scrollTo(0, 0);
+  },
+
   render: function() {
     return (
       <div className='logoDiv'>
@@ -81,6 +85,9 @@ var App = React.createClass({
           <img src='client/assets/banner.jpg' className='bluePlateLogo' />
         </div>
         {this.props.children}
+        <div id='top'>
+          <a><img src='client/assets/arrow-up.png' className='top' onClick={this.handleClick} /></a><br/><br/>
+        </div>
       </div>
     );
   }

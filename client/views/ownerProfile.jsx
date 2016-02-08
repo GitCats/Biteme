@@ -115,9 +115,6 @@ var OwnerProfile = React.createClass({
             </TabPanel>
           </Tabs>
           <br/>
-          <div id='top'>
-            <a className='top' onClick={this.handleClick} >Go to Top of Page</a><br/><br/>
-          </div>
         </div>
       );
     } else {

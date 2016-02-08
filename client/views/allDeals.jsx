@@ -434,10 +434,6 @@ var DealList = React.createClass({
       }
     })
   },
-  
-  handleClick: function() {
-    window.scrollTo(0, 0);
-  },
 
   render: function() {
     var dealsToUse;
@@ -508,10 +504,7 @@ var DealList = React.createClass({
       <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
       <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
       <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
-        {dealNodes}
-      <div id='top'>
-        <a className='top' onClick={this.handleClick} >Go to Top of Page</a><br/><br/>
-      </div>
+        {dealNodes}      
       </div>
     );
   }

@@ -225,14 +225,16 @@ hr:before { /* Not really supposed to work, but does */
 }
 
 #top {
-  margin: auto;
-  width: 17%;
+  margin: 0 48%;
+  width: 100%;
+  display: inline-block;
 }
 
 .top {
-  font-weight: 500;
-  color: dark blue !important;
+/*  font-weight: 500;
   display: inline-block;
+  color: dark blue !important;*/
+  width: 3em;
 }
 
 #userAuth {
@@ -356,7 +358,7 @@ color: #050091;
 }
 
 #updateResButton {
-  margin-left: 34%;
+  margin-left: 38%;
 }
 
 #updateRes {
