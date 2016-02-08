@@ -113,13 +113,13 @@ hr:before { /* Not really supposed to work, but does */
   width: 80%;
   margin: auto;
   padding-top: 20px;
-  height: 1500px;
+  /*height: 1500px;*/
 }
 
 .dealBox {
   padding-bottom: 30px;
    /*background-color: white !important;*/
-   height: 1500px;
+   /*height: 1500px;*/
 }
 
 .deal {

@@ -501,10 +501,10 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
-      <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
-      <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
-      <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
-        {dealNodes}      
+        <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
+        <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
+        <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
+          {dealNodes}      
       </div>
     );
   }
