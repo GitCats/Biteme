@@ -441,10 +441,10 @@ var UserProfile = React.createClass({
       );
     } else {
       return (
-      <div className="userprefs">
-        <h1>YOU ARE NOT LOGGED IN AS A USER</h1>
+      <div>
+        <h1 className="text">YOU ARE NOT LOGGED IN AS A USER</h1>
         <p className="text" >
-        If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
+          If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
         </p>
       </div>
       );

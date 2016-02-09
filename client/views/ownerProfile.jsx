@@ -120,7 +120,7 @@ var OwnerProfile = React.createClass({
     } else {
       return (
         <div>
-          <h1>YOU ARE NOT LOGGED IN AS A RESTAURANT OWNER</h1>
+          <h1 className='text'>YOU ARE NOT LOGGED IN AS A RESTAURANT OWNER</h1>
           <p className='text' >
             If {"you're"} just looking for deals, please <Link to={'/'}>visit our main page here.</Link>
           </p>
