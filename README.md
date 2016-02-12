@@ -16,9 +16,9 @@ This project may be deployed in different versions with changes in time-based fi
 
 ## Documentation
 
-The app is live on Heroku here: [https://blueplate-mks.herokuapp.com](https://blueplate-mks.herokuapp.com) (subject to daily limits of free usage of the Google Maps API key). To sample the functionality for registered restaurant owners, you may experiment with either of the following login credentials: email => 'chuys@gmail.com' OR 'freebirds@gmail.com', password => 'password'. You may sign up as a user on your own from the client (note, you must use a valid email address in order to test the email notifications feature).
+The app is live on Heroku here: [https://blueplate-mks.herokuapp.com](https://blueplate-mks.herokuapp.com) (subject to daily limits of free usage of the Google Maps API key). To sample the functionality for registered restaurant owners, you may experiment with either of the following login credentials: email => 'chuys@gmail.com' or 'freebirds@gmail.com', password => 'password'. You may sign up as a user on your own from the client (note, you must use a valid email address in order to test the email notifications feature).
 
-See [API_spec.md](https://github.com/GitCats/BluePlate/blob/master/API_spec.md) for API POST and GET routes.
+See [API_spec.md](https://github.com/GitCats/BluePlate/blob/master/API_spec.md) for API POST and GET routes. See [this video demo](https://www.youtube.com/watch?v=EN23hRR2vFU) for an intro to the app's functionality.
 
 BluePlate relies on the Google Maps, Yelp, Nodemailer, and Twilio APIs. Its stack is primarily ReactJS, PostGreSQL, Node, and Express.
 
