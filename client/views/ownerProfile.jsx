@@ -672,7 +672,7 @@ var Deal = React.createClass({
             <button onClick={this.expireDeal} className='expireButton'>Expire this deal</button>
           </div>
           <span className='dealExpiration'>
-              Expires: {displayDate} at {displayTime}
+              Expires: <br/>{displayDate} at {displayTime}
           </span> 
           <div>
             {this.props.destination}
@@ -703,7 +703,7 @@ var Deal = React.createClass({
             {this.props.address.split(",", 1)}
           </div>
           <span className='dealExpiration'>
-              Expires: {displayDate} at {displayTime}
+              Expires: <br/>{displayDate} at {displayTime}
           </span> 
           <div>
             {this.props.destination}
