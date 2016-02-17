@@ -3,15 +3,10 @@
   padding: 0;
  }
 
- a {
+a {
   cursor: pointer;
 }
 
-/*body {
-  background-image: url(../assets/Blue-Ray-Background.jpg);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}*/
 body {
   background-color: #FAFAFA !important;
   display: inline-block !important;
@@ -78,7 +73,7 @@ hr {
     border-radius: 20px;
 }
 
-hr:before { /* Not really supposed to work, but does */
+hr:before {
     display: block;
     content: "";
     height: 30px;
@@ -226,7 +221,6 @@ hr:before { /* Not really supposed to work, but does */
 
 #top {
   margin: 0 48%;
-  width: 100%;
   display: inline-block;
 }
 

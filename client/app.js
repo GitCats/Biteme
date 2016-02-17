@@ -17,8 +17,8 @@ var UserProfile = require('./views/userProfile.jsx');
 
 ReactDOM.render((
   <Router>
-    <Route path='/' component={App}>  //Will always be in view.
-      <IndexRoute component={AllDeals} /> //The default view that can be switched out.
+    <Route path='/' component={App}>
+      <IndexRoute component={AllDeals} />
       <Route path='ownerprofile' component={OwnerProfile} />
       <Route path='userprofile' component={UserProfile} />
     </Route>
