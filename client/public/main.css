@@ -424,7 +424,6 @@ textarea:focus {
   right: 10%;
   position: absolute;
   border-radius: 5px;
-  z-index: 1;
 }
 
 #bluePlateLogo {

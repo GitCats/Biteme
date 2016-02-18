@@ -20,7 +20,6 @@ const customStyles = {
     fontFamily            : 'Roboto, sans-serif',
     fontWeight            : '500',
     fontSize              : '1.2em',
-    zIndex                :  '2 !important',  //CreateDeal button overshadows modal, fix unknown
     backgroundColor       : '#E0E0E0',
     background            : '-webkit-linear-gradient(bottom, rgba(255,255,255,1), rgba(224,224,224,1))',
     background            : '-o-linear-gradient(top,rgba(255,255,255,1),rgba(224,224,224,1))',
