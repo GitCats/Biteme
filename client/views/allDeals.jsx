@@ -347,7 +347,7 @@ var DealList = React.createClass({
     var date = +new Date(value.year, value.month-1, value.day, expHour, expMin, 59)
 
     if(this.state.expirationDate === 1) {
-      if(date < today && date > rightNow) {
+      if(date <= today && date > rightNow) {
         return true
       } else {
         return false;
@@ -355,7 +355,7 @@ var DealList = React.createClass({
     }
 
     if(this.state.expirationDate === 2) {
-      if(date < tomorrowInMilliseconds && date > today){
+      if(date <= tomorrowInMilliseconds && date > today){
       return true;
     } else {
       return false;
@@ -363,7 +363,7 @@ var DealList = React.createClass({
   }
 
     if(this.state.expirationDate === 3) {
-      if(date < oneWeekInMilliseconds) {
+      if(date <= oneWeekInMilliseconds) {
         return true;
       } else {
         return false;

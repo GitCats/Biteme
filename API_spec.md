@@ -9,7 +9,7 @@
 * SELECT * from [TABLENAME}; => will display all of the columns and records for a table
 * SELECT * from [TABLENAME} WHERE name='jimmy johns'; => will display all of the columns for records where the name column = 'jimmy johns'
 * DELETE FROM [TABLENAME] WHERE name='jimmy johns'; => deletes all records from specified table based on whatever comes after 'where' statement
-* UPDATE [TABLENAME] SET expiration=2200 WHERE id=1; => updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
+* UPDATE [TABLENAME] SET expiration='2200' WHERE id=1; => updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
 
 ### API Routes
 
