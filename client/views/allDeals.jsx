@@ -412,7 +412,6 @@ var DealList = React.createClass({
             distancesToDestinationsMap[x] = y;
             }
           }
-          console.log('distancesToDestinationsMap', distancesToDestinationsMap)
         this.setState({ destinations: distancesToDestinationsMap})
       }.bind(this),
       error: function(xhr, status, err) {

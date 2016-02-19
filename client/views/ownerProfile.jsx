@@ -539,7 +539,7 @@ var ExpiredDealList = React.createClass({
       }
       var dateA = +new Date(a.year, a.month-1, a.day, expHourA, expMinA, 59);
       var dateB = +new Date(b.year, b.month-1, b.day, expHourB, expMinB, 59);
-      return dateA-dateB;
+      return dateB-dateA;
     }).map(function(deal) {
       return (
         <Deal 

@@ -34,7 +34,7 @@ router.post('/filterByProximity', function(req, res) {
     "method": "GET",
     "hostname": "maps.googleapis.com",
     "port": null,
-    "path": "/maps/api/distancematrix/json?origins=" + formatOrigins + "&destinations=" + destinations + "&units=imperial&key=AIzaSyCsOnxdY0OYiuT4WOPL2LQIMBPfkJUveX8",
+    "path": "/maps/api/distancematrix/json?origins=" + formatOrigins + "&destinations=" + destinations + "&units=imperial&key=AIzaSyCsOnxdY0OYiuT4WOPL2LQIMBPfkJUveX8"
   };
 
   var req = http.request(options, function (res) {
