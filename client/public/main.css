@@ -186,7 +186,7 @@ nav {
 .dealDistance {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
-  position: absolute;
+  position: inherit;
   top: 67%;
   left: 80%;
   color: #05018f;
