@@ -90,12 +90,14 @@ nav {
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
+  height: 25px;
 }
 
 .nav li a:hover, .glyphicon:hover {
   background-color: white !important;
   color: #05018f !important;
   border-radius: 5px !important;
+  height: 25px;
 }
 
 /*** MAIN PAGE - ALL DEALS ***/
@@ -252,7 +254,7 @@ color: #050091;
 }
 
 .dropdown-toggle {
-  padding-top: 3px !important;
+  padding: 3px !important;
 }
 
 /* SINGLE DEAL MODAL */
