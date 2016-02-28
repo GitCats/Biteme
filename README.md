@@ -24,7 +24,7 @@ BluePlate relies on the Google Maps, Yelp, Nodemailer, and Twilio APIs. Its stac
 
 ## Installation
 
-After cloning down the repo, run "npm install" from the parent directory to install project dependencies. Run the "nodemon" command from the parent directory to start the server.
+After cloning down the repo, run "npm install" from the parent directory to install project dependencies. Run "npm start" from the parent directory to start the server.
 
 ## Licensing
 
