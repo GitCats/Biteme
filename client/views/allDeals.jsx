@@ -364,7 +364,7 @@ var DealList = React.createClass({
   }
 
     if(this.state.expirationDate === 3) {
-      if(date <= oneWeekInMilliseconds) {
+      if(date <= oneWeekInMilliseconds && date > rightNow) {
         return true;
       } else {
         return false;

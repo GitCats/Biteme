@@ -1,16 +1,3 @@
-### -=-HEROKU-=-
--=-Interacting with online PostgreSQL db-=-
-</br>Enter this in your terminal to access the db directly:
-</br>heroku pg:psql --app heroku-postgres-bc93e872 HEROKU_POSTGRESQL_PUCE
-
-### -=-POSTGRESQL COMMANDS-=-
-* \dt => will show all tables in the db
-* \q => will escape you from the db
-* SELECT * from [TABLENAME}; => will display all of the columns and records for a table
-* SELECT * from [TABLENAME} WHERE name='jimmy johns'; => will display all of the columns for records where the name column = 'jimmy johns'
-* DELETE FROM [TABLENAME] WHERE name='jimmy johns'; => deletes all records from specified table based on whatever comes after 'where' statement
-* UPDATE [TABLENAME] SET expiration='2200' WHERE id=1; => updates a record with id=1 in table [TABLENAME], setting the expiration column to 2200
-
 ### API Routes
 
 GET /api/deals/getAll => Gets all deals from database that haven't expired.
