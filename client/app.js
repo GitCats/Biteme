@@ -10,15 +10,15 @@ var OwnerProfile = require('./views/ownerProfile.jsx');
 var UserProfile = require('./views/userProfile.jsx');
 
 
-//Top level route will always be in view -- acts as a shell so needs a
-//this.props.children where the other views will be switched in and out
-//indexroute is the default view - what you'd see if you just went to that URL.
-//See render method in main.jsx.
+//The top level route will always be in view -- acts as a shell so needs a
+//this.props.children where the other views will be switched in and out.
+//IndexRoute is the default view - what you'd see if you went to that top-
+//level URL. See render method in main.jsx.
 
 ReactDOM.render((
   <Router>
-    <Route path='/' component={App}>  //Will always be in view.
-      <IndexRoute component={AllDeals} /> //The default view that can be switched out.
+    <Route path='/' component={App}>
+      <IndexRoute component={AllDeals} />
       <Route path='ownerprofile' component={OwnerProfile} />
       <Route path='userprofile' component={UserProfile} />
     </Route>

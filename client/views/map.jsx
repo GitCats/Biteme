@@ -4,7 +4,6 @@ var React = require('react');
 var Map = React.createClass({ 
 
 	getInitialState: function() {
-		console.log('mapprops', this.props)
 		return {
 			currentAddress: 'Austin, Texas',
 			mapCoordinates: {
@@ -15,12 +14,10 @@ var Map = React.createClass({
 	}, 
 
 	componentDidMount: function() {
-		console.log('props', this.props)
 		this.componentDidUpdate();
 	},
 
 	componentDidUpdate: function() {
-		console.log('mapprops', this.props)
 		// var startingPoint;
     var origin = this.props.startingPoint;
 

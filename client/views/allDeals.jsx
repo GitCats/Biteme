@@ -6,6 +6,7 @@ var Maps = require('react-google-maps');
 var Map = require('./map.jsx');
 var Yelp = require('./yelpinfo.jsx');
 var CountdownTimer = require('./timer.jsx');
+var _ = require('lodash/array');
 
 
 var Deal = React.createClass({
@@ -167,9 +168,9 @@ var Deal = React.createClass({
               <Yelp {...this.props} />
               </div>
             <div className="singleDealExpDiv">
-            <Map {...this.props} />
-            <span className='singleExpiration'></span>
-            <CountdownTimer {...this.props} />
+              <Map {...this.props} />
+              <span className='singleExpiration'></span>
+              <CountdownTimer {...this.props} />
             </div>
            </div> 
         </Modal>
@@ -347,7 +348,7 @@ var DealList = React.createClass({
     var date = +new Date(value.year, value.month-1, value.day, expHour, expMin, 59)
 
     if(this.state.expirationDate === 1) {
-      if(date < today && date > rightNow) {
+      if(date <= today && date > rightNow) {
         return true
       } else {
         return false;
@@ -355,7 +356,7 @@ var DealList = React.createClass({
     }
 
     if(this.state.expirationDate === 2) {
-      if(date < tomorrowInMilliseconds && date > today){
+      if(date <= tomorrowInMilliseconds && date > today){
       return true;
     } else {
       return false;
@@ -363,7 +364,7 @@ var DealList = React.createClass({
   }
 
     if(this.state.expirationDate === 3) {
-      if(date < oneWeekInMilliseconds) {
+      if(date <= oneWeekInMilliseconds && date > rightNow) {
         return true;
       } else {
         return false;
@@ -374,19 +375,19 @@ var DealList = React.createClass({
  filterByProximity: function(startingPoint) {
   this.setState({ startingPoint: startingPoint })
 
-  var array = [];
-  var destinations = function(obj) {
-    for(var key in obj) {
-      for(var i=0; i<obj[key].length; i++) {
-        var address = obj[key][i].address;
-        var formatAddress = address.replace(/\s/g, '+')
-        array.push(formatAddress)
-      }
+  var destinations = function(array) {
+    var addressArray = [];
+    for(var i = 0; i < array.length; i++) {
+      var address = array[i].address;
+      var formatAddress = address.replace(/\s/g, '+');
+      addressArray.push(formatAddress);
     }
+    var uniqueAddressArray = _.uniq(addressArray);
+    return uniqueAddressArray;
   }
-  destinations(this.props)
 
-  var allDestinations = array.join('|')
+  var uniqueAddresses = destinations(this.props.data);
+  var allDestinations = uniqueAddresses.join('|')
   var data = {
     startingPoint: startingPoint,
     destinations: allDestinations
@@ -398,6 +399,8 @@ var DealList = React.createClass({
       type: 'POST',
       data: data,
       success: function(data) {
+        //This next line may return an error in HTML format from the Google Distance Matrix API that is
+        //not informative, likely due to an overage in # of addresses being sent for distance calculation.
         results = JSON.parse(data)
         var distancesToDestinationsMap = {};
         var distances = results.rows[0].elements;
@@ -407,12 +410,11 @@ var DealList = React.createClass({
           var x=destinations[i];
           for(var j=i; j<distances.length; j++) {
             for(var key in distances[j]) {
-              var y = distances[i].distance.text
+              var y = distances[i].distance.text;
             }
             distancesToDestinationsMap[x] = y;
-            }
           }
-          console.log('distancesToDestinationsMap', distancesToDestinationsMap)
+        }
         this.setState({ destinations: distancesToDestinationsMap})
       }.bind(this),
       error: function(xhr, status, err) {
@@ -433,10 +435,6 @@ var DealList = React.createClass({
         var startingPointLon = startingPoint.lng();
       }
     })
-  },
-  
-  handleClick: function() {
-    window.scrollTo(0, 0);
   },
 
   render: function() {
@@ -505,13 +503,10 @@ var DealList = React.createClass({
     });
     return (
       <div className="dealList">
-      <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
-      <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
-      <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
-        {dealNodes}
-      <div id='top'>
-        <a className='top' onClick={this.handleClick} >Go to Top of Page</a><br/><br/>
-      </div>
+        <SearchBar {...this.props} filterByProximity={this.state.filterByProximity.bind(this)} />
+        <CuisineDropdown updateCuisineId={this.state.updateCuisineId.bind(this)} />
+        <ExpirationDropdown updateExpiration={this.state.updateExpiration.bind(this)} />
+          {dealNodes}      
       </div>
     );
   }
@@ -558,7 +553,6 @@ var CuisineDropdown = React.createClass({
 
 var ExpirationDropdown = React.createClass({
  selectExpiration: function(e) {
-   console.log(typeof e)
    var expirationDate = e;
    var exp = expirationDate
    this.props.updateExpiration(exp)

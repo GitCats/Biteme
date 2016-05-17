@@ -3,30 +3,20 @@
   padding: 0;
  }
 
- a {
+a {
   cursor: pointer;
 }
 
-/*body {
-  background-image: url(../assets/Blue-Ray-Background.jpg);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}*/
 body {
   background-color: #FAFAFA !important;
   display: inline-block !important;
-}
-/* NAV BAR */
-
-nav {
-  background: transparent !important;
-  border: none !important;
 }
 
 .restaurantform {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-left: 5%;
 }
 
 .resCheckBoxPic {
@@ -46,7 +36,6 @@ nav {
   border: 3px solid #ddd;
   height: 110px;
   width: 180px;
-  /*box-shadow: 5px 5px 5px #666;*/
   box-shadow: 0 1px 0 #666, 0 5px 0 #444, 0 6px 6px rgba(0,0,0,0.6);
   border-radius: 10px;
   overflow: hidden;
@@ -60,8 +49,6 @@ nav {
   box-shadow: 0 1px 0 #666, 0 2px 0 #444, 0 2px 2px rgba(0,0,0,0.9);
   -webkit-transform: translateY(3px);
   transform: translateY(3px);
- /* -webkit-animation: none;
-  animation: none;*/
 }
 
 .userText {
@@ -77,7 +64,7 @@ hr {
     border-radius: 20px;
 }
 
-hr:before { /* Not really supposed to work, but does */
+hr:before {
     display: block;
     content: "";
     height: 30px;
@@ -88,6 +75,13 @@ hr:before { /* Not really supposed to work, but does */
     border-radius: 20px;
 }
 
+/* NAV BAR */
+
+nav {
+  background: transparent !important;
+  border: none !important;
+}
+
 .nav li a, .glyphicon {
   color: #1a75ff !important;
   font-size: 18px;
@@ -96,12 +90,14 @@ hr:before { /* Not really supposed to work, but does */
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
+  height: 25px;
 }
 
 .nav li a:hover, .glyphicon:hover {
   background-color: white !important;
   color: #05018f !important;
   border-radius: 5px !important;
+  height: 25px;
 }
 
 /*** MAIN PAGE - ALL DEALS ***/
@@ -112,18 +108,14 @@ hr:before { /* Not really supposed to work, but does */
   width: 80%;
   margin: auto;
   padding-top: 20px;
-  height: 1500px;
 }
 
 .dealBox {
   padding-bottom: 30px;
-   /*background-color: white !important;*/
-   height: 1500px;
 }
 
 .deal {
   margin-bottom: 30px;
-  /*margin-right: 1px;*/
   height: 225px;
   border: 3px solid #ddd;
   background-color: #fff;
@@ -148,9 +140,6 @@ hr:before { /* Not really supposed to work, but does */
   height: inherit;
   float: right;
   color: black;
-  /*text-align: center;*/
-  /*position : relative;*/
-  /*display: inline-block;*/
   padding-left: 40px;
 }
 
@@ -166,13 +155,8 @@ hr:before { /* Not really supposed to work, but does */
 .dealExpiration {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 1.2em;
-  position: absolute;
-  /*float: left;*/
-  /*padding-top: 25px;*/
-  /*padding-left: 25px;*/
-  bottom: 15px;
-  right: 25px;
+  font-size: 1em;
+  position: initial;
 }
 
 .dealDescription {
@@ -193,6 +177,7 @@ hr:before { /* Not really supposed to work, but does */
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-color: gray;
+  padding-bottom: 8px;
 }
 
 .dealUrl {
@@ -203,18 +188,18 @@ hr:before { /* Not really supposed to work, but does */
 .dealDistance {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
-  position: absolute;
+  position: inherit;
   top: 67%;
-  left: 86%;
+  left: 80%;
   color: #05018f;
   font-weight: bold;
 }
 
 /** End single deal info **/
 
-/*.logoDiv {
-
-}*/
+.logoDiv {
+  width: 100%;
+}
 
 #map {
   width: 125%;
@@ -224,31 +209,23 @@ hr:before { /* Not really supposed to work, but does */
 }
 
 #top {
-  margin: auto;
-  width: 12%;
+  margin: 0 48%;
+  display: inline-block;
 }
 
 .top {
-  font-weight: 500;
-  color: dark blue !important;
-  display: inline-block;
+  width: 3em;
 }
 
 #userAuth {
   text-align: center;
-  /*background-color: white;*/
   color: black;
 }
 
 #ownerAuth {
   text-align: center;
-  /*background-color: white;*/
   color: black;
 }
-
-/*#logout {
-  padding-top: 0px;
-}*/
 
 .text {
   text-align: center;
@@ -261,11 +238,6 @@ hr:before { /* Not really supposed to work, but does */
 .links {
 color: #050091;
 }
-
-/*.dropdown {
-  margin-left: 40%;
-  color: black;
-}*/
 
 .today {
   display: block;
@@ -282,7 +254,7 @@ color: #050091;
 }
 
 .dropdown-toggle {
-  padding-top: 3px !important;
+  padding: 3px !important;
 }
 
 /* SINGLE DEAL MODAL */
@@ -324,9 +296,10 @@ color: #050091;
 }
 
 .timer {
-  font-size: 40px;
+  font-size: 21px;
   font-weight: 900;
   float: right;
+  width: 120%;
 }
 
 /* DROPDOWNS */
@@ -358,12 +331,8 @@ color: #050091;
 }
 
 #updateRes {
-  width: 35%;
+  width: 13em;
 }
-
-/*.ownerProfile img {
-  margin-left: 25px;
-}*/
 
 .ownerProfile h1 {
   text-align: center;
@@ -383,7 +352,7 @@ color: #050091;
   width: 80%;
   top: 47%;
   left: 10%;
-  position: absolute;
+  position: relative;
   margin: auto;
 }
 
@@ -435,10 +404,8 @@ textarea:focus {
   font-size: 16px;
   height: 40px;
   float: right;
-  /*width: 25%;*/
   border-radius: 5px;
   padding: 3px;
-  /*margin-left: 15px;*/
 }
 
 .ownerDealLogo {
@@ -459,15 +426,13 @@ textarea:focus {
   right: 10%;
   position: absolute;
   border-radius: 5px;
-  z-index: 1;
 }
 
-/*#bluePlateLogo {
-  margin-left: 43%;
-}*/
+#bluePlateLogo {
+  width: 100%;
+}
 
 .bluePlateLogo {
-  max-height: 300px;
   max-width: 100%;
 }
 

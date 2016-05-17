@@ -1,6 +1,7 @@
 var React = require('react');
 var Link = require('react-router').Link;
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
+var Mailto = require('react-mailto');
 
 var cuisines = [
   {category: 'mexican', checked: false, id: 1},
@@ -102,7 +103,7 @@ var CuisineForm = React.createClass({
 
     return (
     <div className="cuisineform">
-      <h3 className='userText'>Get notifications for these cuisines:</h3>
+      <h3 className="userText">Get notifications for these cuisines:</h3>
       <form onSubmit={this.handleSubmit}>
         {options}
         <input type="submit" value="Save Changes" className="cuisineButton" />
@@ -131,7 +132,7 @@ var RestaurantForm = React.createClass({
 
     return (
       <div>
-        <h3 className='userText'>Get notifications for these restaurants:</h3>
+        <h3 className="userText">Get notifications for these restaurants:</h3>
         <form onSubmit={this.handleSubmit} className="restaurantform">
           {options}
           <input type="submit" value="Save Changes" className="restaurantButton" />
@@ -159,10 +160,11 @@ var PhoneForm = React.createClass({
 
     return (
       <div className="phoneNumberEntry">
-        <h4 className='userText'>Enter your phone number to receive text notifications, and select text and/or email notifications:</h4>
-        <p className='userText'>(Please include area code)</p>
+        <h4 className="userText">Enter your phone number to receive text notifications, and select phone and/or email notifications:</h4>
+        <h5 className="userText">Currently, you must first register your phone number by emailing it to <Mailto email="gbrustkern@gmail.com" >gbrustkern@gmail.com</Mailto> in order for automatic text notifications to work.</h5>
+        <p className="userText">(Please include area code)</p>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.props.phone} className='userText' onChange={this.handleNumberChange} />
+          <input type="text" value={this.props.phone} className="userText" onChange={this.handleNumberChange} />
           <p style={{display: "inline", margin: 30}}></p>
           <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Phone"} key={1} OnOff={this.props.phoneOnOff} />
           <RadioButton changeRadio={this.props.onRadioChange} commdevice={"Email"} key={2} OnOff={this.props.emailOnOff} />
@@ -431,7 +433,7 @@ var UserProfile = React.createClass({
       var user = localStorage.getItem("user");
       return (
         <div className="userprefs">
-          <h2 className='userText'>Hello {user}</h2>
+          <h2 className="userText">Hello {user}</h2>
           <PhoneForm submitphone={this.handlePhoneChange} onRadioChange={this.handleRadioChange} phoneOnOff={this.state.phoneOnOff} emailOnOff={this.state.emailOnOff} phone={this.state.phoneNum} phoneChange={this.handlePhoneInput}/>
           <RestaurantForm data={this.state.restaurantPreferences} altered={this.state.resViewAltered} onBoxChange={this.handleResChange} submitChanges={this.submitResChange} />
           {/*<CuisineForm data={this.state.cuisinePreferences} altered={this.state.cuisineViewAltered} onBoxChange={this.handleBoxChange} submitChanges={this.submitCuisinesChange} />*/}
@@ -439,10 +441,10 @@ var UserProfile = React.createClass({
       );
     } else {
       return (
-      <div className="userprefs">
-        <h1>YOU ARE NOT LOGGED IN AS A USER</h1>
+      <div>
+        <h1 className="text">YOU ARE NOT LOGGED IN AS A USER</h1>
         <p className="text" >
-        If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
+          If {"you're"} just looking for deals, please <Link to={"/"}>visit our main page here.</Link>
         </p>
       </div>
       );

@@ -22,7 +22,10 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    backgroundColor       : '#d3d3d3'
+    fontFamily            : 'Roboto, sans-serif',
+    fontWeight            : '500',
+    fontSize              : '1.2em',    
+    backgroundColor       : 'rgba(224, 224, 224, .9)'
   }
 };
 

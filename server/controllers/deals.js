@@ -34,23 +34,23 @@ router.post('/filterByProximity', function(req, res) {
     "method": "GET",
     "hostname": "maps.googleapis.com",
     "port": null,
-    "path": "/maps/api/distancematrix/json?origins=" + formatOrigins + "&destinations=" + destinations + "&units=imperial&key=AIzaSyCsOnxdY0OYiuT4WOPL2LQIMBPfkJUveX8",
+    "path": "/maps/api/distancematrix/json?origins=" + formatOrigins + "&destinations=" + destinations + "&units=imperial&key=AIzaSyCsOnxdY0OYiuT4WOPL2LQIMBPfkJUveX8"
   };
 
-  var req = http.request(options, function (res) {
+  var request = http.request(options, function (response) {
     var chunks = [];
 
-    res.on("data", function (chunk) {
+    response.on("data", function (chunk) {
       chunks.push(chunk);
       var body = Buffer.concat(chunks);
     });
 
-    res.on("end", function (body) {
+    response.on("end", function (body) {
       var body = Buffer.concat(chunks);
       sendData(body)
     });
   });
-  req.end();
+  request.end();
 
   var sendData = function(body) {
     res.send(body)

@@ -32,24 +32,24 @@ Deal.all = function() {
   time = time.slice(0, 4); //time is now in form 2300 (military)
   // time = Number(time);
   return db('deals')
-    .where(function(){ //case where it is the same month, but later in the month
-      this.where('month', month).andWhere('day', '>', day).andWhere('year', year)
-    })
-    .orWhere(function(){ //case where it is anytime after this month
-      this.where('month', '>', month).andWhere('year', year)
-    })
-    .orWhere(function(){ //case where it is next year or anytime after
-      this.where('year', '>', year)
-    })
-    .orWhere(function(){ //case where it is the exact day
-      this.where('expiration', '>', time).andWhere('day', day).andWhere('month', month).andWhere('year', year)
-    })
-    .orderBy('year', 'asc')
-    .orderBy('month', 'asc')
-    .orderBy('day', 'asc')
-    .orderBy('expiration', 'asc')
-    .join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
-    .select('restaurants.name', 'restaurants.image_name', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'restaurants.cuisine_id', 'restaurants.latitude', 'restaurants.longitude', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year');
+  .where(function(){ //case where it is the same month, but later in the month
+    this.where('month', month).andWhere('day', '>', day).andWhere('year', year)
+  })
+  .orWhere(function(){ //case where it is anytime after this month
+    this.where('month', '>', month).andWhere('year', year)
+  })
+  .orWhere(function(){ //case where it is next year or anytime after
+    this.where('year', '>', year)
+  })
+  .orWhere(function(){ //case where it is the exact day
+    this.where('expiration', '>', time).andWhere('day', day).andWhere('month', month).andWhere('year', year)
+  })
+  .orderBy('year', 'asc')
+  .orderBy('month', 'asc')
+  .orderBy('day', 'asc')
+  .orderBy('expiration', 'asc')
+  .join('restaurants', 'deals.restaurant_id', '=', 'restaurants.restaurant_id')
+  .select('restaurants.name', 'restaurants.image_name', 'restaurants.address', 'restaurants.url', 'restaurants.res_description', 'restaurants.phone_number', 'restaurants.cuisine_id', 'restaurants.latitude', 'restaurants.longitude', 'deals.description', 'deals.expiration', 'deals.deal_id', 'deals.month', 'deals.day', 'deals.year');
 };
 
 Deal.update = function(body){

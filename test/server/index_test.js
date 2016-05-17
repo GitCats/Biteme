@@ -19,7 +19,7 @@ describe("The Server", function(){
     })
   })
 
- var deal_id; //this will be used later to delete a deal
+  var deal_id; //this will be used later to delete a deal
   describe('Deals', function(){
     it_('successfully posts a new deal', function * (){
 
@@ -35,6 +35,7 @@ describe("The Server", function(){
           var dealsArray = response.body;
           var target;
           dealsArray.forEach(function(value){
+            //value["deal_id"] is created when entered into the database a few lines above
             if(value["description"] === "the sweetest deal ever - testing"){target=value; deal_id=value["deal_id"]}
           })
           expect(target).to.have.property('description', 'the sweetest deal ever - testing')

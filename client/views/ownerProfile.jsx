@@ -17,8 +17,14 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    backgroundColor       : '#d3d3d3',
-    zIndex               :  '2'
+    fontFamily            : 'Roboto, sans-serif',
+    fontWeight            : '500',
+    fontSize              : '1.2em',
+    backgroundColor       : '#E0E0E0',
+    background            : '-webkit-linear-gradient(bottom, rgba(255,255,255,1), rgba(224,224,224,1))',
+    background            : '-o-linear-gradient(top,rgba(255,255,255,1),rgba(224,224,224,1))',
+    background            : '-moz-linear-gradient(top,rgba(255,255,255,1),rgba(224,224,224,1))',
+    background            : 'linear-gradient(to top, rgba(255,255,255,1), rgba(224,224,224,1))',
   }
 };
 
@@ -108,15 +114,12 @@ var OwnerProfile = React.createClass({
             </TabPanel>
           </Tabs>
           <br/>
-          <div id='top'>
-            <a className='top' onClick={this.handleClick} >Go to Top of Page</a><br/><br/>
-          </div>
         </div>
       );
     } else {
       return (
         <div>
-          <h1>YOU ARE NOT LOGGED IN AS A RESTAURANT OWNER</h1>
+          <h1 className='text'>YOU ARE NOT LOGGED IN AS A RESTAURANT OWNER</h1>
           <p className='text' >
             If {"you're"} just looking for deals, please <Link to={'/'}>visit our main page here.</Link>
           </p>
@@ -237,17 +240,17 @@ var CreateDeal = React.createClass({
           onRequestClose={this.closeModal}
           style={customStyles} >
           <br/>
-          <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
+          <img src='client/assets/x-sm-gray.png' onClick={this.closeModal} style={{ paddingTop: '1.5em', float: 'right', maxWidth: '10px', cursor: 'pointer' }} />
           <br/>
           <h1>Create a Deal for {this.props.initialData.name}</h1>
           <br/>
           <form onSubmit={this.postDeal} style={{marginLeft: '24%'}}>
             <p>Describe your deal in a few words: </p>
-            <input valueLink={this.linkState('description')} size='33' maxLength='35' />
+            <input valueLink={this.linkState('description')} size='29' maxLength='35' />
             <br/><br/>
             <p>When will your deal expire?</p>
             <Datetime open={true} isValidDate={valid} value={this.state.totalExpiration} onChange={this.chooseDate} />
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <input type='submit' style={{marginLeft: '20%'}} value='Post My Deal!' />
             <br/><br/><br/>
           </form>
@@ -536,7 +539,7 @@ var ExpiredDealList = React.createClass({
       }
       var dateA = +new Date(a.year, a.month-1, a.day, expHourA, expMinA, 59);
       var dateB = +new Date(b.year, b.month-1, b.day, expHourB, expMinB, 59);
-      return dateA-dateB;
+      return dateB-dateA;
     }).map(function(deal) {
       return (
         <Deal 
@@ -668,7 +671,7 @@ var Deal = React.createClass({
             <button onClick={this.expireDeal} className='expireButton'>Expire this deal</button>
           </div>
           <span className='dealExpiration'>
-              Expires: {displayDate} at {displayTime}
+              Expires: <br/>{displayDate} at {displayTime}
           </span> 
           <div>
             {this.props.destination}
@@ -699,7 +702,7 @@ var Deal = React.createClass({
             {this.props.address.split(",", 1)}
           </div>
           <span className='dealExpiration'>
-              Expires: {displayDate} at {displayTime}
+              Expires: <br/>{displayDate} at {displayTime}
           </span> 
           <div>
             {this.props.destination}

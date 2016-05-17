@@ -31,7 +31,6 @@ var CountdownTimer = React.createClass({
       expHour = parseInt(this.props.expiration.toString().substr(0, 1))
       expMin = parseInt(this.props.expiration.toString().slice(-2))
     }
-    console.log('expiration', this.props.expiration)
     //milliseconds of when deal will expire
     var date = +new Date(this.props.year, this.props.month-1, this.props.day, expHour, expMin, 59)
     var todayinMS = Date.now()
@@ -118,7 +117,7 @@ var CountdownTimer = React.createClass({
     	return (
       		<div className='timer'>
         		{this.getFormattedTime(timeRemaining)}
-            <span className='timeLeft'> left</span>
+            <span className='timeLeft'> till expiration</span>
       		</div>
     	);
   }	
