@@ -13,7 +13,7 @@ Deal.all = function() {
     "Feb": 2,
     "Mar": 3,
     "Apr": 4,
-    "Mar": 5,
+    "May": 5,
     "Jun": 6,
     "Jul": 7,
     "Aug": 8,
