@@ -2,8 +2,28 @@ var express = require('express');
 var Deal = require('../models/deal.js');
 var bodyParser = require('body-parser');
 var http = require('https');
+var Yelp = require('yelp');
 var router = express.Router();
 module.exports = router;
+
+router.post('/yelp', function (req, res){
+  var yelp = new Yelp({
+    consumer_key: 'P5JOHbpFp2VWQdxfVxYgiA',
+    consumer_secret: 'aOTQkNccr_r5IW02HQV60aE7gDs',
+    token: 'XWIT44nqMQMkT9K4aS-IteSnIrpTctzh',
+    token_secret: 'lIAtC5G8I3x2oJnaGQbxzaGzyNY',
+  });
+
+  console.log('data from yelp req to backend', req.body);
+  yelp.search({ term: req.body.term, location: req.body.location })
+  .then(function (data) {
+    console.log('data from actual yelp api', data);
+    res.status(200).send(data);
+  })
+  .catch(function (err) {
+    console.error(err);
+  });
+})
 
 //GET ALL DEALS
 //this will grab all of the deals from the database
