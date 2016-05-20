@@ -6,7 +6,7 @@ var knex = require('knex')({
     user: 'eagqukcdyrkmat',
     password: 'zTD1WLZInN_gtjV4775AqCp20o',
     port: 5432,
-    database: 'df5rer6m8ffk07'
+    database: 'df5rer6m8ffk07',
     ssl: true
   },
   pool: {
