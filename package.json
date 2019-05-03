@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Flash deals from restaurants to patrons",
   "engines": {
-    "node": ">=0.10.0"
+    "node": "5.0.0"
   },
   "scripts": {
     "start": "./node_modules/.bin/nodemon server/server.js --ignore node_modules/",
